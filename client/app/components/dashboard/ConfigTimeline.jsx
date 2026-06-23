@@ -2,6 +2,8 @@
 
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
+import { isFYDepartment } from "@/lib/departmentUtils";
+
 export default function ConfigTimeline({
   currentStep,
   onStepClick,

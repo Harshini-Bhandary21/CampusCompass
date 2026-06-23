@@ -20,7 +20,7 @@ import * as XLSX from "xlsx";
 import toast from "react-hot-toast";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { DAYS } from "@/lib/constants";
-// import { isFYDepartment } from '@/lib/departmentUtils'
+import { isFYDepartment } from "@/lib/departmentUtils";
 import {
   getDepartmentTabs,
   createTabNavigator,
@@ -31,6 +31,7 @@ export default function CoordinatorDashboard() {
   const router = useRouter();
   const params = useParams();
   const departmentName = params.department;
+  const actualDepartment = decodeURIComponent(departmentName);
   const [department, setDepartment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -75,7 +76,7 @@ export default function CoordinatorDashboard() {
   const fetchDepartmentData = async () => {
     try {
       const response = await fetch(
-        `/api/coordinators/get-department?department=${departmentName}`,
+        `/api/coordinators/get-department?department=${actualDepartment}`,
       );
       const data = await response.json();
       if (data.success) {
@@ -264,7 +265,7 @@ export default function CoordinatorDashboard() {
     const toastId = toast.loading(`Uploading ${uploadedFile.name}...`);
 
     try {
-      // Extract all sheets for editor FIRST with merged cell handling
+      // ── [unchanged] Extract all sheets for editor ──────────────────────
       const extractAllSheets = () => {
         return new Promise((resolve) => {
           const reader = new FileReader();
@@ -274,42 +275,29 @@ export default function CoordinatorDashboard() {
             const allSheets = {};
             workbook.SheetNames.forEach((sheetName) => {
               const sheet = workbook.Sheets[sheetName];
-              const range = XLSX.utils.decode_range(sheet["!ref"]);
+              XLSX.utils.decode_range(sheet["!ref"]);
               const jsonData = XLSX.utils.sheet_to_json(sheet, {
                 defval: "",
                 raw: false,
               });
 
-              console.log(
-                `Processing sheet: ${sheetName}, rows: ${jsonData.length}`,
-              );
-
-              // Handle merged cells by filling empty cells with value from above
               if (jsonData.length > 0) {
                 const columns = Object.keys(jsonData[0]);
-                console.log(`Columns in ${sheetName}:`, columns);
-
                 columns.forEach((col) => {
                   let lastValue = null;
-                  jsonData.forEach((row, idx) => {
+                  jsonData.forEach((row) => {
                     const cellValue = row[col];
-                    // Check if cell is truly empty (null, undefined, empty string, or whitespace only)
                     const isEmpty =
                       cellValue === null ||
                       cellValue === undefined ||
                       cellValue === "" ||
                       (typeof cellValue === "string" &&
                         cellValue.trim() === "");
-
-                    if (!isEmpty) {
-                      lastValue = cellValue;
-                    } else if (lastValue !== null) {
-                      row[col] = lastValue;
-                    }
+                    if (!isEmpty) lastValue = cellValue;
+                    else if (lastValue !== null) row[col] = lastValue;
                   });
                 });
               }
-
               allSheets[sheetName] = jsonData;
             });
             resolve(allSheets);
@@ -320,7 +308,6 @@ export default function CoordinatorDashboard() {
 
       const sheetsData = await extractAllSheets();
       setExcelSheetData(sheetsData);
-      console.log("Extracted sheets:", Object.keys(sheetsData), sheetsData);
 
       const analyticsData = await parseExcelFile(uploadedFile);
       const extractedSlots = await extractTimeSlotsFromExcel(uploadedFile);
@@ -331,11 +318,12 @@ export default function CoordinatorDashboard() {
         reader.readAsDataURL(uploadedFile);
       });
 
+      // ── [unchanged] Save raw Excel to department ───────────────────────
       const saveResponse = await fetch("/api/coordinators/get-department", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          department: departmentName,
+          department: actualDepartment,
           fileName: uploadedFile.name,
           fileData: fileBase64,
           analytics: analyticsData,
@@ -344,7 +332,6 @@ export default function CoordinatorDashboard() {
       });
 
       const saveData = await saveResponse.json().catch(() => ({}));
-
       if (!saveResponse.ok || !saveData.success) {
         const msg =
           saveData?.error || saveData?.message || `HTTP ${saveResponse.status}`;
@@ -412,7 +399,7 @@ export default function CoordinatorDashboard() {
   };
 
   const handleGenerateTimetable = () => {
-    const isStandard = !isFYDepartment(departmentName);
+    const isStandard = !isFYDepartment(actualDepartment);
     setIsStandardDept(isStandard);
     setShowConfig(true);
     setConfigStep(1);
@@ -425,7 +412,7 @@ export default function CoordinatorDashboard() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        department: departmentName,
+        department: actualDepartment,
         onlineConfig: config,
       }),
     });
@@ -530,11 +517,11 @@ export default function CoordinatorDashboard() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        department: departmentName,
+        department: actualDepartment,
         facultyAvailability: data,
       }),
     });
-    if (isFYDepartment(departmentName)) {
+    if (isFYDepartment(actualDepartment)) {
       setConfigStep(5);
     } else {
       setConfigStep(3);
@@ -602,7 +589,7 @@ export default function CoordinatorDashboard() {
 
   const handlePECConfirm = async () => {
     console.log("🚀 handlePECConfirm called!");
-    console.log("🚀 Department:", departmentName);
+    console.log("🚀 Department:", actualDepartment);
     console.log("🚀 Uploaded file:", uploadedFile?.name);
 
     if (!uploadedFile) {
@@ -618,7 +605,7 @@ export default function CoordinatorDashboard() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          department: departmentName,
+          department: actualDepartment,
           tyPecTheorySlots,
           tyPecLabSlots,
           btechPecTheorySlots,
@@ -628,7 +615,7 @@ export default function CoordinatorDashboard() {
 
       const formData = new FormData();
       formData.append("file", uploadedFile);
-      formData.append("department", departmentName);
+      formData.append("department", actualDepartment);
 
       // For standard departments (SY/TY), pass lunch and MDM slots
       if (instituteConfig?.lunchSlots) {
@@ -673,18 +660,78 @@ export default function CoordinatorDashboard() {
 
       const data = await response.json();
 
-      if (data.success && data.results) {
-        const processedResults = decodeResultsFromAPI(data.results);
+      if (!data.rows || data.rows.length === 0) {
+        throw new Error("Flask returned success but no timetable rows.");
+      }
 
-        if (Object.keys(processedResults).length === 0) {
-          setConsoleOutput("[ERROR] No valid schedules decoded");
-          setResults(null);
-        } else {
-          setResults(processedResults);
-          setRawScheduleData(data.results); // Store raw base64 data
-          setConsoleOutput("Processing completed successfully!");
-          setShowAnalyticsModal(true);
+      console.log("FULL FLASK RESPONSE:", data);
+      console.log("ROWS:", data.rows);
+      console.log("ROWS LENGTH:", data.rows?.length);
+
+      if (data.success) {
+        console.log("FULL FLASK RESPONSE:", data);
+        console.log("ROWS LENGTH BEFORE SAVE:", data.rows?.length);
+
+        if (data.success) {
+          const selectedSchedule = {
+            filename: `Generated_${Date.now()}.xlsx`,
+            scheduleData: data.rows,
+            runId: data.run_id,
+            selectedAt: new Date().toISOString(),
+          };
+
+          const saveResponse = await fetch("/api/coordinators/get-department", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              department: actualDepartment,
+              selectedSchedule,
+            }),
+          });
+
+          const saveResult = await saveResponse.json();
+
+          console.log("SAVE RESPONSE:", saveResult);
+
+          if (!saveResult.success) {
+            throw new Error(saveResult.error);
+          }
+
+          setResults({
+            rows: data.rows,
+            scheduled: data.scheduled,
+            total: data.total,
+            runId: data.run_id,
+          });
+
+          await fetchDepartmentData();
         }
+
+        const saveResult = await saveResponse.json();
+
+        console.log("SAVE RESPONSE:", saveResult);
+        console.log("SAVE STATUS:", saveResponse.status);
+
+        if (!saveResult.success) {
+          throw new Error(
+            saveResult.error || "Failed to save generated timetable",
+          );
+        }
+
+        setResults({
+          rows: data.rows,
+          scheduled: data.scheduled,
+          total: data.total,
+          runId: data.run_id,
+        });
+
+        setConsoleOutput(`Generated ${data.scheduled}/${data.total} sessions`);
+
+        setShowAnalyticsModal(true);
+
+        await fetchDepartmentData();
       } else {
         setConsoleOutput(`Error: ${data.error || "Unknown error"}`);
       }
@@ -726,7 +773,7 @@ export default function CoordinatorDashboard() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          department: departmentName,
+          department: actualDepartment,
           selectedSchedule: {
             scheduleData,
             filename: `schedule_${scheduleId}_${Date.now()}.xlsx`,
@@ -746,7 +793,7 @@ export default function CoordinatorDashboard() {
       toast.success("Schedule deployed!", { id: toastId });
       setResults(null);
       setConsoleOutput("");
-      router.push(`/${departmentName}/schedules`);
+      router.push(`/${actualDepartment}/schedules`);
     } catch (error) {
       if (error.message && !error.message.startsWith("HTTP")) {
         toast.error(`Deploy failed: ${error.message}`, { id: toastId });
@@ -758,18 +805,20 @@ export default function CoordinatorDashboard() {
 
   const convertResultsToScheduleData = () => {
     if (!results) return [];
-    return Object.keys(results).map((key, idx) => ({
-      name: `Schedule ${String.fromCharCode(65 + idx)}`,
-      slots: results[key].map((row) => ({
-        day: row.Day || row.day || "",
-        time: row.Time || row.time || "",
-        batch: row.Batch || row.batch || "",
-        course: row.Course || row.course || row.Subject || row.subject || "",
-        faculty: row.Faculty || row.faculty || "",
-        room: row.Room || row.room || "",
-        type: row.Type || row.type || "",
-      })),
-    }));
+    return Object.keys(results)
+      .filter((key) => Array.isArray(results[key]))
+      .map((key, idx) => ({
+        name: `Schedule ${String.fromCharCode(65 + idx)}`,
+        slots: results[key].map((row) => ({
+          day: row.Day || row.day || "",
+          time: row.Time || row.time || "",
+          batch: row.Batch || row.batch || "",
+          course: row.Course || row.course || row.Subject || row.subject || "",
+          faculty: row.Faculty || row.faculty || "",
+          room: row.Room || row.room || "",
+          type: row.Type || row.type || "",
+        })),
+      }));
   };
 
   if (loading || status === "loading") {
@@ -799,10 +848,10 @@ export default function CoordinatorDashboard() {
 
       <Sidebar
         activeTab="dashboard"
-        setActiveTab={createTabNavigator(router, departmentName)}
+        setActiveTab={createTabNavigator(router, actualDepartment)}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
-        tabs={getDepartmentTabs(departmentName)}
+        tabs={getDepartmentTabs(actualDepartment)}
       />
 
       <div className="flex-1 lg:ml-0">
@@ -845,11 +894,11 @@ export default function CoordinatorDashboard() {
                       currentStep={configStep}
                       onStepClick={setConfigStep}
                       isStandardDept={isStandardDept}
-                      departmentName={departmentName}
+                      departmentName={actualDepartment}
                     />
                     {configStep === 1 && (
                       <OnlineConfigModal
-                        department={departmentName}
+                        department={actualDepartment}
                         onSubmit={handleOnlineConfigSubmit}
                         onCancel={() => setShowConfig(false)}
                       />
@@ -921,7 +970,7 @@ export default function CoordinatorDashboard() {
               isOpen={showExcelEditor}
               onClose={() => setShowExcelEditor(false)}
               excelData={excelSheetData}
-              departmentName={departmentName}
+              departmentName={actualDepartment}
               onSave={async (updatedData) => {
                 try {
                   // Convert updated data back to Excel format with same structure
@@ -956,7 +1005,7 @@ export default function CoordinatorDashboard() {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
-                        department: departmentName,
+                        department: actualDepartment,
                         fileName: file.name,
                         fileData: fileBase64,
                         analytics: analytics,

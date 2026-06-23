@@ -42,8 +42,10 @@ export async function GET(request) {
       })
     }
     
+    const decodedDepartment = decodeURIComponent(departmentName);
+
     const department = university.departments.find(
-      dept => dept.name === departmentName
+      dept => dept.name === decodedDepartment
     )
     
     console.log('Found department:', department ? 'Yes' : 'No')
@@ -191,8 +193,25 @@ export async function POST(request) {
       }
     }
 
+    console.log(
+      "[POST get-department] selectedSchedule received:",
+      !!selectedSchedule
+    );
+
     if (selectedSchedule) {
-      updateData['departments.$.selectedSchedule'] = selectedSchedule
+      console.log(
+        "[POST get-department] schedule rows:",
+        selectedSchedule.scheduleData?.length
+      );
+    }
+
+    if (selectedSchedule) {
+      console.log(
+        "[POST get-department] Saving selectedSchedule rows:",
+        selectedSchedule.scheduleData?.length
+      );
+
+      updateData['departments.$.selectedSchedule'] = selectedSchedule;
     }
 
     if (updateScheduleData) {
