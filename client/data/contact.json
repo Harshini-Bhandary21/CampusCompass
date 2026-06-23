@@ -1,0 +1,29 @@
+{
+  "institution": "MIT Academy of Engineering",
+  "shortName": "MITAOE",
+  "email": "admissions@mitaoe.ac.in",
+  "phones": ["+91-9071123436", "+91-8722100030", "020-30253500"],
+  "address": "MIT Academy of Engineering, Alandi Road, Pune - 412 105, Maharashtra (India)",
+  "website": "https://mitaoe.ac.in",
+  "social": {
+    "facebook": "https://www.facebook.com/mitaoeofficial/",
+    "twitter": "https://x.com/MITAOE",
+    "instagram": "https://www.instagram.com/mitacademyofengineering/",
+    "linkedin": "https://www.linkedin.com/school/mit-academy-of-engineering/",
+    "youtube": "https://www.youtube.com/@MITAcademyOfEngineering"
+  },
+  "clubsOverview": {
+    "description": "At MITAOE, we are committed to fostering an inclusive and dynamic environment where every student has the opportunity to learn, grow, and make a meaningful impact. Our student clubs play a central role in this mission by offering a wide range of engaging activities designed to enhance both personal and academic development.",
+    "extendedDescription": "From hands-on workshops and insightful seminars to lively social events and impactful community outreach programs, MITAOE's student clubs provide an array of experiences that cater to diverse interests. These initiatives are designed to help students cultivate essential skills, expand their knowledge, and build lasting connections.",
+    "goal": "Our goal is to create a safe, healthy, and supportive atmosphere where students can thrive in all aspects of their lives. At MITAOE, we believe in nurturing not just intellectual growth, but also the technical, physical, emotional, and ethical development of our students. By promoting a holistic approach, we aim to help our students become well-rounded individuals who are prepared to contribute meaningfully to society and their communities."
+  },
+  "stats": {
+    "totalClubs": 25,
+    "technicalClubs": 13,
+    "recreationalClubs": 9,
+    "culturalClubs": 3,
+    "totalMembers": 1200,
+    "eventsPerYear": 50,
+    "awardsWon": 75
+  }
+}

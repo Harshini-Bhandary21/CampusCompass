@@ -1,0 +1,22 @@
+[
+  {
+    "id": "faq_1",
+    "question": "Mitr tum club me kaise join karu?",
+    "answer": "You can join a club by clicking the 'Sign Up' button and filling out the registration form. Most clubs have an open registration period at the start of each semester."
+  },
+  {
+    "id": "faq_2",
+    "question": "Can I join multiple clubs?",
+    "answer": "Yes, you can join up to 3 clubs simultaneously. However, we recommend starting with 1 or 2 to effectively manage your time with academics."
+  },
+  {
+    "id": "faq_3",
+    "question": "Are there any membership fees?",
+    "answer": "Most of our clubs are completely free to join! Some specialized technical clubs might require a nominal fee for equipment or materials."
+  },
+  {
+    "id": "faq_4",
+    "question": "What if I want to start a new club?",
+    "answer": "We encourage student initiatives! You can propose a new club by reaching out to the Student Council with a faculty sponsor and a core team of at least 5 members."
+  }
+]

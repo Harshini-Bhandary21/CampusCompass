@@ -1,0 +1,123 @@
+[
+  {
+    "id": "t1",
+    "name": "Mrs. Aswathy MA",
+    "role": "Faculty Advisor",
+    "club": "aalekh",
+    "clubName": "Aalekh",
+    "email": "aswathy.ma@mitaoe.ac.in",
+    "department": "",
+    "type": "faculty",
+    "image": "/assets/team/default-faculty.jpg"
+  },
+  {
+    "id": "t2",
+    "name": "Samruddhi Kakad",
+    "role": "Club President",
+    "club": "aalekh",
+    "clubName": "Aalekh",
+    "email": "shubhampatil@mitaoe.ac.in",
+    "department": "",
+    "type": "student",
+    "image": "/assets/team/default-student.jpg"
+  },
+  {
+    "id": "t3",
+    "name": "Prof. Savita Pawar",
+    "role": "Faculty Coordinator",
+    "club": "aero",
+    "clubName": "Aero",
+    "email": "",
+    "department": "School of Electrical Engineering",
+    "type": "faculty",
+    "image": "/assets/team/default-faculty.jpg"
+  },
+  {
+    "id": "t4",
+    "name": "Ms. Neha Hajare",
+    "role": "Faculty Advisor",
+    "club": "codechef",
+    "clubName": "CodeChef MITAOE Chapter",
+    "email": "",
+    "department": "SCET",
+    "type": "faculty",
+    "image": "/assets/team/default-faculty.jpg"
+  },
+  {
+    "id": "t5",
+    "name": "Chetan Patil",
+    "role": "Club President",
+    "club": "codechef",
+    "clubName": "CodeChef MITAOE Chapter",
+    "email": "",
+    "department": "",
+    "type": "student",
+    "image": "/assets/team/default-student.jpg"
+  },
+  {
+    "id": "t6",
+    "name": "Prof. Satyajit Pangaonkar",
+    "role": "Faculty Advisor",
+    "club": "drama",
+    "clubName": "Drama Club",
+    "email": "",
+    "department": "School of Electrical Engineering",
+    "type": "faculty",
+    "image": "/assets/team/default-faculty.jpg"
+  },
+  {
+    "id": "t7",
+    "name": "Tejas Tulsidas Limbani",
+    "role": "Club President",
+    "club": "drama",
+    "clubName": "Drama Club",
+    "email": "ttlimbani@mitaoe.ac.in",
+    "department": "Chemical Engineering",
+    "type": "student",
+    "image": "/assets/team/default-student.jpg"
+  },
+  {
+    "id": "t8",
+    "name": "Dr. Satyajit Chincholkar",
+    "role": "Faculty Advisor",
+    "club": "robotics",
+    "clubName": "Robotics Club",
+    "email": "",
+    "department": "",
+    "type": "faculty",
+    "image": "/assets/team/default-faculty.jpg"
+  },
+  {
+    "id": "t9",
+    "name": "Tanmay Dnyaneshwar Dhakate",
+    "role": "Club President",
+    "club": "robotics",
+    "clubName": "Robotics Club",
+    "email": "tanmay.dhakate@mitaoe.ac.in",
+    "department": "",
+    "type": "student",
+    "image": "/assets/team/default-student.jpg"
+  },
+  {
+    "id": "t10",
+    "name": "Aaditya Barve",
+    "role": "Former President",
+    "club": "codechef",
+    "clubName": "CodeChef MITAOE Chapter",
+    "email": "",
+    "department": "Computer Engineering",
+    "type": "student",
+    "image": "/assets/team/default-student.jpg"
+  },
+  {
+    "id": "t11",
+    "name": "Neeraj Kumar",
+    "role": "Former Vice President",
+    "club": "codechef",
+    "clubName": "CodeChef MITAOE Chapter",
+    "email": "",
+    "department": "Computer Engineering",
+    "type": "student",
+    "image": "/assets/team/default-student.jpg"
+  }
+]

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "a1",
+    "year": "2023-24",
+    "title": "5★ Rating on CodeChef",
+    "student": "Chetan Patil",
+    "club": "codechef",
+    "description": "Achieved 5-star rating on CodeChef — India top 1000, top 0.5 percentage in India. Global Rank 24 in CodeChef Starters 100.",
+    "category": "technical"
+  },
+  {
+    "id": "a2",
+    "year": "2022-23",
+    "title": "ICPC Regionals Qualification",
+    "student": "Aaditya Barve",
+    "club": "codechef",
+    "description": "Qualified for ICPC Regionals, ranked under top 130. Secured rank under top 100 in Google Kickstart. Received highest placement of 25 LPA.",
+    "category": "technical"
+  },
+  {
+    "id": "a3",
+    "year": "2022-23",
+    "title": "Smart India Hackathon Winner",
+    "student": "Aaditya Barve, Mayur Ghodekar, Pradyumna Gayake",
+    "club": "codechef",
+    "description": "Won the Smart India Hackathon 2022 held at IIT Dhanbad.",
+    "category": "technical"
+  },
+  {
+    "id": "a4",
+    "year": "2022-23",
+    "title": "International Internship — UK & USA",
+    "student": "Neeraj Kumar",
+    "club": "codechef",
+    "description": "Cracked International Internship at NodeShark Hexfork Ltd, UK. Got internship at Carbyne as Data Analyst Intern in USA. Selected for Persistent Martian Summer Internship.",
+    "category": "technical"
+  },
+  {
+    "id": "a5",
+    "year": "2022-23",
+    "title": "Amazon SDE Internship",
+    "student": "Vaishnavi Jadhav",
+    "club": "codechef",
+    "description": "Secured SDE Internship opportunity at Amazon, inspiring fellow girl students.",
+    "category": "technical"
+  },
+  {
+    "id": "a6",
+    "year": "2022",
+    "title": "AIR 10 in Robocon",
+    "student": "Robotics Team",
+    "club": "robotics",
+    "description": "All India Rank 10 in Robocon 2022 national robotics competition.",
+    "category": "technical"
+  },
+  {
+    "id": "a7",
+    "year": "2019",
+    "title": "WSI Medallion of Excellence",
+    "student": "Rohan Hanagi, Omkar Gurav",
+    "club": "robotics",
+    "description": "Won Medallion of Excellence at WorldSkills International 2019, Kazan Russia. Received ₹2,00,000 each from Government of India.",
+    "category": "technical"
+  },
+  {
+    "id": "a8",
+    "year": "2018",
+    "title": "WS Asia 2018 — 1st Rank",
+    "student": "Rohan Hanagi, OM Gourav",
+    "club": "robotics",
+    "description": "Won 1st Rank at WS Asia 2018 Abu Dhabi in Mobile Robotics, representing India.",
+    "category": "technical"
+  },
+  {
+    "id": "a9",
+    "year": "2018",
+    "title": "India Skill National Winner",
+    "student": "Karan Patil, Nihar Das",
+    "club": "robotics",
+    "description": "Won India Skill 2018 National Competition in Mobile Robotics at Aero City, New Delhi. Prize of ₹1,00,000 each.",
+    "category": "technical"
+  },
+  {
+    "id": "a10",
+    "year": "2020",
+    "title": "Best Stop Motion Animation — Firodiya",
+    "student": "Drama Team",
+    "club": "drama",
+    "description": "Award for Best Papercut Stop Motion Animation in Firodiya Karandak 2020 for play 'Sidestand'. Nomination for Best Actor.",
+    "category": "cultural"
+  },
+  {
+    "id": "a11",
+    "year": "2019",
+    "title": "Firodiya Karandak — Innovation Award",
+    "student": "Drama Team",
+    "club": "drama",
+    "description": "Best Stop Motion Animation award for play 'Manzar'. Appreciated as new concept in history of Firodiya Karandak.",
+    "category": "cultural"
+  },
+  {
+    "id": "a12",
+    "year": "2019",
+    "title": "1st Prize Crane-o-Mania IIT Bombay",
+    "student": "Aalekh Team",
+    "club": "aalekh",
+    "description": "Won 1st Prize in Crane-o-Mania event at TechFest IIT Bombay.",
+    "category": "cultural"
+  },
+  {
+    "id": "a13",
+    "year": "2022-23",
+    "title": "Software Engineer Intern — University of Zurich",
+    "student": "Aaditya Barve",
+    "club": "codechef",
+    "description": "Got selected as Software Engineer Intern at University of Zurich, Switzerland. Became Candidate Master on Codeforces.",
+    "category": "technical"
+  },
+  {
+    "id": "a14",
+    "year": "2022-23",
+    "title": "Placement at ZS Associates — 13.65 LPA",
+    "student": "Mayur Ghodekar, Pradyumna Gayake",
+    "club": "codechef",
+    "description": "Got placed at ZS Associates with package of 13.65 LPA.",
+    "category": "technical"
+  }
+]

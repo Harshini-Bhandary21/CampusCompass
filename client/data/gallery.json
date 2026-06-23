@@ -1,0 +1,86 @@
+[
+  {
+    "id": "g1",
+    "title": "Aalekh Art Exhibition - ARTISIA",
+    "club": "aalekh",
+    "category": "cultural",
+    "image": "/assets/gallery/aalekh.jpg"
+  },
+  {
+    "id": "g2",
+    "title": "Aero Design Challenge Flight Test",
+    "club": "aero",
+    "category": "technical",
+    "image": "/assets/gallery/aero.jpg"
+  },
+  {
+    "id": "g3",
+    "title": "SUPRA SAE India Track Event",
+    "club": "autosports",
+    "category": "technical",
+    "image": "/assets/gallery/autosports.jpg"
+  },
+  {
+    "id": "g4",
+    "title": "CodeChef Cook-off Coding Arena",
+    "club": "codechef",
+    "category": "technical",
+    "image": "/assets/gallery/codechef.jpg"
+  },
+  {
+    "id": "g5",
+    "title": "Google Developer Student Clubs Hackathon",
+    "club": "dsc",
+    "category": "technical",
+    "image": "/assets/gallery/dsc.jpg"
+  },
+  {
+    "id": "g6",
+    "title": "Street Play - Nukkad Natak Competition",
+    "club": "drama",
+    "category": "cultural",
+    "image": "/assets/gallery/drama.jpg"
+  },
+  {
+    "id": "g7",
+    "title": "Mozilla Web Development Bootcamp",
+    "club": "mozilla",
+    "category": "technical",
+    "image": "/assets/gallery/mozilla.jpg"
+  },
+  {
+    "id": "g8",
+    "title": "Annual Robotics Championship Arena",
+    "club": "robotics",
+    "category": "technical",
+    "image": "/assets/gallery/robotics.jpg"
+  },
+  {
+    "id": "g9",
+    "title": "Annual Sports Meet Track & Field",
+    "club": "sports",
+    "category": "recreational",
+    "image": "/assets/gallery/sports.jpg"
+  },
+  {
+    "id": "g10",
+    "title": "Goonj Literary Club Poetry Slam",
+    "club": "goonj",
+    "category": "cultural",
+    "image": "/assets/gallery/goonj.jpg"
+  },
+  {
+    "id": "g11",
+    "title": "Menace Dance Crew Live Performance",
+    "club": "menace-dance",
+    "category": "cultural",
+    "image": "/assets/gallery/menace.jpg"
+  },
+  {
+    "id": "g12",
+    "title": "Shutterbugs Photo Exhibition",
+    "club": "shutterbugs",
+    "category": "recreational",
+    "image": "/assets/gallery/shutterbugs.jpg"
+  }
+]
