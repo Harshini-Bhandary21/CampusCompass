@@ -12,15 +12,34 @@ export default function TimetableGrid({
   showLunchBreak = false,
 }) {
   // Monday-Friday scheduler (no Saturday)
-  const days = DAYS;
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  console.log("DAYS CONSTANT:", days);
 
   const slotTimes = {};
   const timeToSlot = {};
+
   timeSlots.forEach((t, idx) => {
     const slotIndex = idx + 1;
-    slotTimes[slotIndex] = t;
-    timeToSlot[t] = slotIndex;
+
+    const normalizedTime = String(t)
+      .replace(/–/g, "-") // en dash → hyphen
+      .replace(/—/g, "-") // em dash → hyphen
+      .trim();
+
+    slotTimes[slotIndex] = normalizedTime;
+    timeToSlot[normalizedTime] = slotIndex;
   });
+
+  console.log("TIMESLOTS:", timeSlots);
+  console.log("TIMETABLE SLOT MAP:", timeToSlot);
 
   const grid = {};
   days.forEach((day) => {
@@ -94,7 +113,10 @@ export default function TimetableGrid({
 
     return {
       day: normalizedDay,
-      time: row.Time || row.time,
+      time: (row.Time || row.time || "")
+        .replace(/–/g, "-")
+        .replace(/—/g, "-")
+        .trim(),
       // ↓ Add 'Div/Batch' here — this is what Flask returns
       batch:
         row["Div/Batch"] || row.Batch || row.batch || row.Group || row.group,
@@ -104,6 +126,9 @@ export default function TimetableGrid({
       type: row.Type || row.type,
     };
   });
+
+  console.log("NORMALIZED SAMPLE:", normalized[0]);
+  console.log("UNIQUE DAYS:", [...new Set(normalized.map((x) => x.day))]);
 
   console.log("TimetableGrid - Schedule items:", schedule.length);
   console.log("TimetableGrid - Normalized items:", normalized.length);
@@ -121,23 +146,68 @@ export default function TimetableGrid({
       return;
     }
 
+    // let times = [];
+    // if (
+    //   typeof slot.time === "string" &&
+    //   (slot.time.includes("&") ||
+    //     slot.time.includes(",") ||
+    //     slot.time.includes("/"))
+    // ) {
+    //   times = slot.time
+    //     .split(/[&,/]/)
+    //     .map((s) => s.trim())
+    //     .filter(Boolean);
+    // } else {
+    //   times = [slot.time];
+    // }
+
     let times = [];
-    if (
-      typeof slot.time === "string" &&
-      (slot.time.includes("&") ||
+
+    if (typeof slot.time === "string") {
+      // Multiple separate slots
+      if (
+        slot.time.includes("&") ||
         slot.time.includes(",") ||
-        slot.time.includes("/"))
-    ) {
-      times = slot.time
-        .split(/[&,/]/)
-        .map((s) => s.trim())
-        .filter(Boolean);
-    } else {
-      times = [slot.time];
+        slot.time.includes("/")
+      ) {
+        times = slot.time
+          .split(/[&,/]/)
+          .map((s) => s.trim())
+          .filter(Boolean);
+      }
+
+      // Continuous merged period
+      else if (!timeToSlot[slot.time]) {
+        const [start, end] = slot.time.split("-");
+
+        times = timeSlots.filter((t) => {
+          const [slotStart, slotEnd] = t.split("-");
+
+          return slotStart >= start && slotEnd <= end;
+        });
+      } else {
+        times = [slot.time];
+      }
     }
 
     const primaryTime = times[0];
+    console.log("TIME MATCH:", primaryTime, "=>", timeToSlot[primaryTime]);
     const slotIndex = timeToSlot[primaryTime];
+
+    console.log("CHECKING SLOT:", {
+      day: slot.day,
+      time: primaryTime,
+      slotIndex,
+      dayExists: !!grid[slot.day],
+    });
+
+    if (!slotIndex) {
+      console.log("TIME NOT FOUND:", primaryTime);
+    }
+
+    if (!grid[slot.day]) {
+      console.log("DAY NOT FOUND:", slot.day);
+    }
 
     if (!slotIndex || !grid[slot.day]) return;
 
