@@ -176,6 +176,30 @@ FY_DIVISIONS: list[str] = [
     div for div in DIVISION_TO_BATCHES if not div.startswith("CT_")
 ]
 
+
+# ══════════════════════════════════════════════════════════════════════
+#  Division-grouping helper (output-layer only — used by extract_solution()
+#  / save_timetable() to add the new "Division" field to timetable rows).
+# ══════════════════════════════════════════════════════════════════════
+#
+# BATCH_TO_DIVISION maps BOTH academic batches (e.g. "C11" → "CS1") AND,
+# after _load_ct_batches_from_faculty() runs, CT track batches (e.g.
+# "AI11" → "CT_AI"). Only the former should ever be collapsed into a
+# division. CT tracks must keep showing their own label unchanged, so we
+# only accept a BATCH_TO_DIVISION hit when the mapped target is a real
+# academic division (i.e. present in FY_DIVISIONS / CT_MATRIX-eligible
+# divisions, not a "CT_*" pseudo-division). Anything else — including
+# already-division-level labels like "CS1" itself, and CT track labels
+# like "AI11", "ROBO2" — is returned unchanged.
+def _batch_to_academic_division(label: str) -> str:
+    """Map an academic batch to its parent division; leave CT tracks,
+    already-division labels, and anything unrecognised unchanged."""
+    div = BATCH_TO_DIVISION.get(label)
+    if div is not None and div in FY_DIVISIONS:
+        return div
+    return label
+
+
 # ══════════════════════════════════════════════════════════════════════
 #  CT_MATRIX  —  Static data-driven CT day allocation  (CT-O)
 # ══════════════════════════════════════════════════════════════════════
@@ -1531,9 +1555,7 @@ class TimetableScheduler:
                 # on_day_bool is already 1 iff placed AND starts on day d —
                 # no new variable required.
                 if d == saturday_idx:
-                    sat_lecture_penalty_terms.append(
-                        SAT_LECTURE_PENALTY * on_day_bool
-                    )
+                    sat_lecture_penalty_terms.append(SAT_LECTURE_PENALTY * on_day_bool)
 
             self.model.Add(day_load[d] == sum(on_day_terms))
 
@@ -1795,7 +1817,7 @@ class TimetableScheduler:
         all_adj_pairs = _adjacent_pairs()
         r1 = 0
         for entity in entity_sessions:
-            for (g1, g2) in all_adj_pairs:
+            for g1, g2 in all_adj_pairs:
                 o1, o2 = occ[(entity, g1)], occ[(entity, g2)]
                 cv1, cv2 = course_var[(entity, g1)], course_var[(entity, g2)]
 
@@ -1816,7 +1838,7 @@ class TimetableScheduler:
         paired_pairs = _adjacent_pairs(slot_filter=set(THEORY_PAIRED_SLOT_STARTS))
         r2 = 0
         for entity in entity_sessions:
-            for (g1, g2) in paired_pairs:
+            for g1, g2 in paired_pairs:
                 o1, o2 = occ[(entity, g1)], occ[(entity, g2)]
                 rv1, rv2 = roomvar_at[(entity, g1)], roomvar_at[(entity, g2)]
 
@@ -1825,12 +1847,12 @@ class TimetableScheduler:
                 self.model.Add(rv1 != rv2).OnlyEnforceIf(same_room.Not())
 
                 violation = self.model.NewBoolVar(f"viol_room_{entity}_{g1}_{g2}")
-                self.model.AddBoolAnd(
-                    [o1, o2, same_room.Not()]
-                ).OnlyEnforceIf(violation)
-                self.model.AddBoolOr(
-                    [o1.Not(), o2.Not(), same_room]
-                ).OnlyEnforceIf(violation.Not())
+                self.model.AddBoolAnd([o1, o2, same_room.Not()]).OnlyEnforceIf(
+                    violation
+                )
+                self.model.AddBoolOr([o1.Not(), o2.Not(), same_room]).OnlyEnforceIf(
+                    violation.Not()
+                )
 
                 penalty_terms.append(HIGH_THEORY_PENALTY * violation)
                 r2 += 1
@@ -1878,9 +1900,9 @@ class TimetableScheduler:
                     sorted(all_theory_dom_set - set(late_globals))
                 )
                 self.model.AddImplication(late_bool, placed_v)
-                self.model.AddLinearExpressionInDomain(
-                    start_v, late_dom
-                ).OnlyEnforceIf(late_bool)
+                self.model.AddLinearExpressionInDomain(start_v, late_dom).OnlyEnforceIf(
+                    late_bool
+                )
                 if rest_dom.size() > 0:
                     self.model.AddLinearExpressionInDomain(
                         start_v, rest_dom
@@ -2722,6 +2744,7 @@ class TimetableScheduler:
                     "Faculty": sess["faculty"],
                     "Course": sess["course"],
                     "Div/Batch": sess["label"],
+                    "Division": _batch_to_academic_division(sess["label"]),
                     "Type": sess["type"],
                     "Room": room,
                     "_day": day,
@@ -2831,6 +2854,7 @@ class TimetableScheduler:
                 "Faculty": "",
                 "Course": "CT",
                 "Div/Batch": division,
+                "Division": division,
                 "Type": "CT",
                 "Room": "",
             }
@@ -2839,8 +2863,30 @@ class TimetableScheduler:
                 {"Day": day_name, "Time": ct_time2, **base},
             ]
 
+        # ── CT-DISP (Overview): inject per-division CT placeholder rows ─────
+        #
+        # The Overview sheet is student/institution-facing at the division
+        # level. For every FY division's CT day, it must show a plain "CT"
+        # block (no CT track/batch name, no faculty, no room) — exactly the
+        # same placeholder used on each division's own E_* sheet. This does
+        # NOT remove or alter any existing row: actual CT track sessions
+        # (e.g. faculty/room detail for batch "AI11") keep appearing in
+        # Overview exactly as before for institutional reference; we are
+        # only adding the missing division-level "CT" rows so divisions are
+        # never silently absent from Overview during their own CT window.
+        overview_ct_rows: list[dict] = []
+        for div in CT_MATRIX:
+            overview_ct_rows.extend(_ct_placeholder_rows(div))
+        df_overview = (
+            pd.concat([df, pd.DataFrame(overview_ct_rows)], ignore_index=True)
+            if overview_ct_rows
+            else df
+        )
+        df_overview = srt(df_overview).reset_index(drop=True)
+        # ─────────────────────────────────────────────────────────────────
+
         with pd.ExcelWriter(out, engine="openpyxl") as w:
-            df.to_excel(w, sheet_name="Overview", index=False)
+            df_overview.to_excel(w, sheet_name="Overview", index=False)
             df_ct.to_excel(w, sheet_name="CT Allocation", index=False)
 
             # ── CT Timetable sheet — separate institutional CT detail sheet.
@@ -2885,12 +2931,12 @@ class TimetableScheduler:
             # non-CT sessions of their own, so their CT-only day still gets
             # a division sheet.
             div_labels = sorted(
-                (set(l for l in df["Div/Batch"].unique() if l != "—"))
+                (set(l for l in df["Division"].unique() if l != "—"))
                 | set(CT_MATRIX.keys())
             )
             for lbl in div_labels:
                 safe_lbl = re.sub(r"[\\/*?:\[\]]", "_", lbl)
-                sub = df[df["Div/Batch"] == lbl]
+                sub = df[df["Division"] == lbl]
                 ct_rows_for_div = _ct_placeholder_rows(lbl)
                 if ct_rows_for_div:
                     sub = pd.concat(

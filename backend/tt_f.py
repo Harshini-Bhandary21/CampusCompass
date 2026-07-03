@@ -138,6 +138,36 @@ BALANCE_WEIGHT = 5  # secondary objective coefficient
 DEV_WEIGHT = 1  # tertiary deviation coefficient
 SAT_PENALTY = 1  # Saturday penalty coefficient
 
+# ── Theory-only soft-constraint penalty weights ──────────────────────────────
+#
+# These are ADDITIONAL penalty terms layered on top of the existing 4-level
+# objective (P1 placement / P2 imbalance / P3 deviation / P4 Saturday).
+# They are intentionally much smaller than BIG_M (≈ n_sessions) so that the
+# solver NEVER drops a session just to satisfy one of these preferences —
+# placement always wins. Internally they keep a strict hierarchy:
+#     HIGH_THEORY_PENALTY >> MEDIUM_THEORY_PENALTY >> LOW_THEORY_PENALTY
+#
+HIGH_THEORY_PENALTY = 50  # (1) same-subject adjacency, (2) different-room pairing
+MEDIUM_THEORY_PENALTY = 10  # (3) early-slot (1 or 2) theory placement
+LOW_THEORY_PENALTY = 2  # (4) late-slot (10 or 11) theory placement
+SAME_DAY_SAME_SUBJECT_PENALTY = 20  # (0) same entity+course twice on same day
+
+# ── Additional per-session soft-constraint penalty weights ────────────────────
+#
+# Layered on top of the existing objective exactly like the theory penalties
+# above — same mechanism (BoolVar x coefficient, summed and subtracted), same
+# guarantee that BIG_M placement always dominates.
+#
+ONLINE_PENALTY = 30  # any session delivered online (medium-to-high)
+SAT_LECTURE_PENALTY = 10  # any session placed on Saturday (medium), per-lecture
+
+# Local (1-based) slot numbers used by the paired-classroom preference (2).
+THEORY_PAIRED_SLOT_STARTS = [1, 3, 6, 8, 10]
+
+# Local (1-based) slot numbers treated as "early" / "late" for rules (3) / (4).
+THEORY_EARLY_SLOTS = {1, 2}
+THEORY_LATE_SLOTS = {10, 11}
+
 # FY divisions that receive a CT day assignment.
 # These are all keys in DIVISION_TO_BATCHES that do NOT start with "CT_".
 # CT_* pseudo-divisions (AI1, AR1, etc.) are the track entities; they are
@@ -1054,6 +1084,9 @@ class TimetableScheduler:
         # Objective terms: weighted placed booleans
         objective_terms: list = []
 
+        # Per-session online penalty terms (ported from final.py)
+        online_penalty_terms: list = []
+
         total_opt = 0
 
         # ── CT-P: Pre-compute CT global slot positions before session loop ──
@@ -1170,6 +1203,9 @@ class TimetableScheduler:
             online_bv = self.model.NewBoolVar(f"s{sid}_ONL")
             self.session_room_bools[sid]["ONLINE"] = online_bv
             room_bools.append(online_bv)
+
+            # Soft penalty: discourage online delivery (ported from final.py)
+            online_penalty_terms.append(ONLINE_PENALTY * online_bv)
 
             # C11: exactly one room iff placed
             self.model.Add(sum(room_bools) == placed)
@@ -1455,6 +1491,10 @@ class TimetableScheduler:
             dload = self.model.NewIntVar(0, len(self.sessions), f"day_load_{d}")
             day_load.append(dload)
 
+        # Per-lecture Saturday penalty terms (ported from final.py)
+        saturday_idx = 5  # index in self.days ("Saturday") — hoisted here
+        sat_lecture_penalty_terms: list = []
+
         for d in range(n_days):
             if not day_slot_sets[d]:
                 self.model.Add(day_load[d] == 0)
@@ -1487,6 +1527,14 @@ class TimetableScheduler:
 
                 on_day_terms.append(on_day_bool)
 
+                # Medium per-lecture penalty for any session on Saturday.
+                # on_day_bool is already 1 iff placed AND starts on day d —
+                # no new variable required.
+                if d == saturday_idx:
+                    sat_lecture_penalty_terms.append(
+                        SAT_LECTURE_PENALTY * on_day_bool
+                    )
+
             self.model.Add(day_load[d] == sum(on_day_terms))
 
         # max and min day load auxiliary variables
@@ -1503,7 +1551,7 @@ class TimetableScheduler:
         self._imbalance_var = imbalance
 
         # saturday_load penalised to discourage overflow onto Saturday
-        saturday_idx = 5  # index in self.days ("Saturday")
+        # (saturday_idx already defined above for sat_lecture_penalty_terms)
         saturday_load = day_load[saturday_idx] if saturday_idx < n_days else None
 
         # dev[d] = |day_load[d] − avg_load| (mean-absolute deviation)
@@ -1520,13 +1568,19 @@ class TimetableScheduler:
 
         self._dev_vars = dev_vars
 
-        # ── Combined multi-level objective (4-level) ──────────────────────
+        # ── Theory-only soft constraints (ported from final.py) ───────────
+        theory_penalty_terms = self._add_theory_soft_constraints()
+
+        # ── Combined multi-level objective (4-level + soft penalties) ────
         #
         # Maximize:
         #   BIG_M × weighted_placed            [P1: placement — dominant]
         #   − BALANCE_WEIGHT × imbalance       [P2: day-load max−min spread]
         #   − DEV_WEIGHT × Σdev[d]             [P3: mean-abs day deviation]
         #   − SAT_PENALTY × saturday_load      [P4: Saturday penalty]
+        #   − Σ theory_penalty_terms           [P5: theory soft constraints]
+        #   − Σ online_penalty_terms           [P6: discourage online]
+        #   − Σ sat_lecture_penalty_terms      [P7: per-lecture Saturday penalty]
 
         weighted_placed = sum(objective_terms)
 
@@ -1534,6 +1588,12 @@ class TimetableScheduler:
         obj = obj - DEV_WEIGHT * sum(dev_vars)
         if saturday_load is not None:
             obj = obj - SAT_PENALTY * saturday_load
+        if theory_penalty_terms:
+            obj = obj - sum(theory_penalty_terms)
+        if online_penalty_terms:
+            obj = obj - sum(online_penalty_terms)
+        if sat_lecture_penalty_terms:
+            obj = obj - sum(sat_lecture_penalty_terms)
 
         self.model.Maximize(obj)
 
@@ -1541,18 +1601,300 @@ class TimetableScheduler:
         sat_desc = (
             f" − {SAT_PENALTY}×saturday_load" if saturday_load is not None else ""
         )
+        theory_desc = (
+            " − Σ(theory soft-constraint penalties)" if theory_penalty_terms else ""
+        )
+        online_desc = (
+            f" − Σ({ONLINE_PENALTY}×online_lecture)" if online_penalty_terms else ""
+        )
+        sat_lecture_desc = (
+            f" − Σ({SAT_LECTURE_PENALTY}×sat_lecture)"
+            if sat_lecture_penalty_terms
+            else ""
+        )
         print(
-            f"  OK Objective (v16, 4-level):\n"
+            f"  OK Objective (v16, 4-level + theory soft constraints "
+            f"+ online/Saturday penalties):\n"
             f"      Maximize  {BIG_M}xweighted_placed\n"
             f"              - {BALANCE_WEIGHT}ximbalance\n"
             f"              - {DEV_WEIGHT}xSum|day_load[d]-{avg_load}|"
-            f"{sat_desc}\n"
+            f"{sat_desc}"
+            f"{theory_desc}"
+            f"{online_desc}"
+            f"{sat_lecture_desc}\n"
             f"    (CT days fixed by CT_MATRIX — no CT balance term)\n"
             f"    (max_weight={total_weight * BIG_M}, "
             f"BIG_M={BIG_M}, BALANCE_WEIGHT={BALANCE_WEIGHT})"
         )
         print(f"  ✓ Model built in {time.time()-t0:.2f}s")
         return True
+
+    # ──────────────────────────────────────────────────────────────
+    # THEORY-ONLY SOFT CONSTRAINTS  (ported from final.py)
+    # ──────────────────────────────────────────────────────────────
+    #
+    # Adds soft preferences for THEORY sessions only, returned as penalty
+    # terms to be subtracted from the Maximize() objective. No hard
+    # constraint is modified by this method.
+    #
+    #   (0) Same entity+course scheduled twice on same day → SAME_DAY_SAME_SUBJECT_PENALTY
+    #   (1) Adjacent theory lectures of same entity, same subject → HIGH_THEORY_PENALTY
+    #   (2) Paired theory slots for same entity placed in different rooms → HIGH_THEORY_PENALTY
+    #   (3) Theory lecture in local slot 1 or 2 (early) → MEDIUM_THEORY_PENALTY
+    #   (4) Theory lecture in local slot 10 or 11 (late) → LOW_THEORY_PENALTY
+    # ──────────────────────────────────────────────────────────────
+    def _add_theory_soft_constraints(self) -> list:
+        penalty_terms: list = []
+
+        theory_sessions = [s for s in self.sessions if s["type"] == "Theory"]
+        if not theory_sessions:
+            print("  ℹ Theory soft constraints: no Theory sessions found, skipping")
+            return penalty_terms
+
+        tspd = self.time_slots_per_day
+        lunch = self.lunch_slot
+
+        # ── Constant id maps (NOT model variables) ───────────────────────
+        course_to_id: dict[str, int] = {}
+        for s in theory_sessions:
+            course_to_id.setdefault(s["course"], len(course_to_id))
+        max_course_id = max(course_to_id.values(), default=0)
+
+        room_names = list(self.theory_rooms) + ["ONLINE"]
+        room_to_id: dict[str, int] = {r: i for i, r in enumerate(room_names)}
+        n_rooms = len(room_names)
+
+        # ── Helper bool: is_at[sid][g] ⟺ (session sid is placed AND starts
+        #    exactly at global slot g) — built once per theory session over
+        #    every valid theory slot.
+        is_at: dict[int, dict[int, cp_model.BoolVar]] = defaultdict(dict)
+        for s in theory_sessions:
+            sid = s["id"]
+            start_v = self.session_starts[sid]
+            placed_v = s["placed_var"]
+            for g in self.allowed_theory_starts:
+                bv = self.model.NewBoolVar(f"th_at_{sid}_{g}")
+                self.model.AddImplication(bv, placed_v)
+                self.model.Add(start_v == g).OnlyEnforceIf(bv)
+                self.model.Add(start_v != g).OnlyEnforceIf([bv.Not(), placed_v])
+                is_at[sid][g] = bv
+
+        # ── Per-session constant-weighted room-id sum (one IntVar/session)
+        roomid_sum: dict[int, cp_model.IntVar] = {}
+        for s in theory_sessions:
+            sid = s["id"]
+            rv = self.model.NewIntVar(0, n_rooms, f"th_roomid_{sid}")
+            terms = [
+                (room_to_id[rname] + 1) * bv
+                for rname, bv in self.session_room_bools[sid].items()
+                if rname in room_to_id
+            ]
+            self.model.Add(rv == sum(terms)) if terms else self.model.Add(rv == 0)
+            roomid_sum[sid] = rv
+
+        # ── Group theory sessions by owning entity (division/batch) ─────
+        entity_sessions: dict[str, list[dict]] = defaultdict(list)
+        for s in theory_sessions:
+            entity_sessions[s["entity"]].append(s)
+
+        # ── Per (entity, g): occupancy bool / course-id var / room-id var ─
+        occ: dict[tuple, cp_model.BoolVar] = {}
+        course_var: dict[tuple, cp_model.IntVar] = {}
+        roomvar_at: dict[tuple, cp_model.IntVar] = {}
+
+        for entity, sess_list in entity_sessions.items():
+            sids = [s["id"] for s in sess_list]
+            for g in self.allowed_theory_starts:
+                bvs = [is_at[sid][g] for sid in sids]
+
+                occ_bv = self.model.NewBoolVar(f"occ_{entity}_{g}")
+                self.model.Add(occ_bv == sum(bvs))
+                occ[(entity, g)] = occ_bv
+
+                cvar = self.model.NewIntVar(-1, max_course_id, f"cvar_{entity}_{g}")
+                cterms = [
+                    (course_to_id[s["course"]] + 1) * is_at[s["id"]][g]
+                    for s in sess_list
+                ]
+                self.model.Add(cvar == sum(cterms) - 1)
+                course_var[(entity, g)] = cvar
+
+                rvar = self.model.NewIntVar(0, n_rooms, f"rvar_{entity}_{g}")
+                y_terms = []
+                for sid in sids:
+                    b = is_at[sid][g]
+                    y = self.model.NewIntVar(0, n_rooms, f"y_{sid}_{g}")
+                    self.model.Add(y <= roomid_sum[sid])
+                    self.model.Add(y <= n_rooms * b)
+                    self.model.Add(y >= roomid_sum[sid] - n_rooms * (1 - b))
+                    y_terms.append(y)
+                self.model.Add(rvar == sum(y_terms))
+                roomvar_at[(entity, g)] = rvar
+
+        # ── Adjacent global-slot pairs within the same day ───────────────
+        def _adjacent_pairs(slot_filter=None):
+            pairs = []
+            for day in range(len(self.days)):
+                for s1 in sorted(self.time_slots):
+                    s2 = s1 + 1
+                    if s2 not in self.time_slots:
+                        continue
+                    if s1 == lunch or s2 == lunch:
+                        continue
+                    if slot_filter is not None and s1 not in slot_filter:
+                        continue
+                    g1 = day * tspd + (s1 - 1)
+                    g2 = day * tspd + (s2 - 1)
+                    if (
+                        g1 in self.allowed_theory_starts
+                        and g2 in self.allowed_theory_starts
+                    ):
+                        pairs.append((g1, g2))
+            return pairs
+
+        # ═══ Rule (0): same entity+course, same day, >= 2 times → penalty ═══
+        r0 = 0
+        for entity, sess_list in entity_sessions.items():
+            by_course: dict[str, list] = defaultdict(list)
+            for s in sess_list:
+                by_course[s["course"]].append(s)
+
+            for course, c_sessions in by_course.items():
+                if len(c_sessions) < 2:
+                    continue
+                sids = [s["id"] for s in c_sessions]
+
+                for day in range(len(self.days)):
+                    day_globals = [
+                        g
+                        for g in self.allowed_theory_starts
+                        if self.global_to_day_slot[g][0] == day
+                    ]
+                    if not day_globals:
+                        continue
+
+                    bvs = [is_at[sid][g] for sid in sids for g in day_globals]
+                    if not bvs:
+                        continue
+
+                    count_var = self.model.NewIntVar(
+                        0, len(bvs), f"sdsj_count_{entity}_{course}_{day}"
+                    )
+                    self.model.Add(count_var == sum(bvs))
+
+                    violation = self.model.NewBoolVar(
+                        f"sdsj_viol_{entity}_{course}_{day}"
+                    )
+                    self.model.Add(count_var >= 2).OnlyEnforceIf(violation)
+                    self.model.Add(count_var <= 1).OnlyEnforceIf(violation.Not())
+
+                    penalty_terms.append(SAME_DAY_SAME_SUBJECT_PENALTY * violation)
+                    r0 += 1
+
+        # ═══ Rule (1): adjacent theory lectures, same entity, same subject → HIGH penalty ═══
+        all_adj_pairs = _adjacent_pairs()
+        r1 = 0
+        for entity in entity_sessions:
+            for (g1, g2) in all_adj_pairs:
+                o1, o2 = occ[(entity, g1)], occ[(entity, g2)]
+                cv1, cv2 = course_var[(entity, g1)], course_var[(entity, g2)]
+
+                same_course = self.model.NewBoolVar(f"samecourse_{entity}_{g1}_{g2}")
+                self.model.Add(cv1 == cv2).OnlyEnforceIf(same_course)
+                self.model.Add(cv1 != cv2).OnlyEnforceIf(same_course.Not())
+
+                violation = self.model.NewBoolVar(f"viol_subj_{entity}_{g1}_{g2}")
+                self.model.AddBoolAnd([o1, o2, same_course]).OnlyEnforceIf(violation)
+                self.model.AddBoolOr(
+                    [o1.Not(), o2.Not(), same_course.Not()]
+                ).OnlyEnforceIf(violation.Not())
+
+                penalty_terms.append(HIGH_THEORY_PENALTY * violation)
+                r1 += 1
+
+        # ═══ Rule (2): paired theory slots, same entity, different rooms → HIGH penalty ═══
+        paired_pairs = _adjacent_pairs(slot_filter=set(THEORY_PAIRED_SLOT_STARTS))
+        r2 = 0
+        for entity in entity_sessions:
+            for (g1, g2) in paired_pairs:
+                o1, o2 = occ[(entity, g1)], occ[(entity, g2)]
+                rv1, rv2 = roomvar_at[(entity, g1)], roomvar_at[(entity, g2)]
+
+                same_room = self.model.NewBoolVar(f"sameroom_{entity}_{g1}_{g2}")
+                self.model.Add(rv1 == rv2).OnlyEnforceIf(same_room)
+                self.model.Add(rv1 != rv2).OnlyEnforceIf(same_room.Not())
+
+                violation = self.model.NewBoolVar(f"viol_room_{entity}_{g1}_{g2}")
+                self.model.AddBoolAnd(
+                    [o1, o2, same_room.Not()]
+                ).OnlyEnforceIf(violation)
+                self.model.AddBoolOr(
+                    [o1.Not(), o2.Not(), same_room]
+                ).OnlyEnforceIf(violation.Not())
+
+                penalty_terms.append(HIGH_THEORY_PENALTY * violation)
+                r2 += 1
+
+        # ═══ Rules (3) / (4): early-slot / late-slot theory penalties ═══
+        all_theory_dom_set = set(self.allowed_theory_starts)
+        r3 = r4 = 0
+        for s in theory_sessions:
+            sid = s["id"]
+            start_v = self.session_starts[sid]
+            placed_v = s["placed_var"]
+
+            early_globals = [
+                g
+                for g in self.allowed_theory_starts
+                if self.global_to_day_slot[g][1] in THEORY_EARLY_SLOTS
+            ]
+            late_globals = [
+                g
+                for g in self.allowed_theory_starts
+                if self.global_to_day_slot[g][1] in THEORY_LATE_SLOTS
+            ]
+
+            if early_globals:
+                early_bool = self.model.NewBoolVar(f"early_{sid}")
+                early_dom = cp_model.Domain.FromValues(early_globals)
+                rest_dom = cp_model.Domain.FromValues(
+                    sorted(all_theory_dom_set - set(early_globals))
+                )
+                self.model.AddImplication(early_bool, placed_v)
+                self.model.AddLinearExpressionInDomain(
+                    start_v, early_dom
+                ).OnlyEnforceIf(early_bool)
+                if rest_dom.size() > 0:
+                    self.model.AddLinearExpressionInDomain(
+                        start_v, rest_dom
+                    ).OnlyEnforceIf([early_bool.Not(), placed_v])
+                penalty_terms.append(MEDIUM_THEORY_PENALTY * early_bool)
+                r3 += 1
+
+            if late_globals:
+                late_bool = self.model.NewBoolVar(f"late_{sid}")
+                late_dom = cp_model.Domain.FromValues(late_globals)
+                rest_dom = cp_model.Domain.FromValues(
+                    sorted(all_theory_dom_set - set(late_globals))
+                )
+                self.model.AddImplication(late_bool, placed_v)
+                self.model.AddLinearExpressionInDomain(
+                    start_v, late_dom
+                ).OnlyEnforceIf(late_bool)
+                if rest_dom.size() > 0:
+                    self.model.AddLinearExpressionInDomain(
+                        start_v, rest_dom
+                    ).OnlyEnforceIf([late_bool.Not(), placed_v])
+                penalty_terms.append(LOW_THEORY_PENALTY * late_bool)
+                r4 += 1
+
+        print(
+            f"  ✓ Theory soft constraints: "
+            f"same-day-same-subject={r0}, "
+            f"subject-adjacency={r1}, room-pairing={r2}, "
+            f"early-slot={r3}, late-slot={r4}"
+        )
+        return penalty_terms
 
     # ──────────────────────────────────────────────────────────────
     # STEP 4b — Greedy warm-start hints
@@ -2497,27 +2839,59 @@ class TimetableScheduler:
                 {"Day": day_name, "Time": ct_time2, **base},
             ]
 
+        # ── CT-DISP (Overview): inject per-division CT placeholder rows ─────
+        #
+        # The Overview sheet is student/institution-facing at the division
+        # level. For every FY division's CT day, it must show a plain "CT"
+        # block (no CT track/batch name, no faculty, no room) — exactly the
+        # same placeholder used on each division's own E_* sheet. This does
+        # NOT remove or alter any existing row: actual CT track sessions
+        # (e.g. faculty/room detail for batch "AI11") keep appearing in
+        # Overview exactly as before for institutional reference; we are
+        # only adding the missing division-level "CT" rows so divisions are
+        # never silently absent from Overview during their own CT window.
+        overview_ct_rows: list[dict] = []
+        for div in CT_MATRIX:
+            overview_ct_rows.extend(_ct_placeholder_rows(div))
+        df_overview = (
+            pd.concat([df, pd.DataFrame(overview_ct_rows)], ignore_index=True)
+            if overview_ct_rows
+            else df
+        )
+        df_overview = srt(df_overview).reset_index(drop=True)
+        # ─────────────────────────────────────────────────────────────────
+
         with pd.ExcelWriter(out, engine="openpyxl") as w:
-            df.to_excel(w, sheet_name="Overview", index=False)
+            df_overview.to_excel(w, sheet_name="Overview", index=False)
             df_ct.to_excel(w, sheet_name="CT Allocation", index=False)
 
-            # ── CT Schedule sheet (CT-SCHED) — master CT allocation sheet.
-            # One row per CT session, sourced from the actual solved CT batch
-            # sessions (Course == "CT"), which already carry the real faculty
-            # and dedicated room assigned by the solver. Division names are
-            # intentionally excluded — this is the track-level master sheet.
+            # ── CT Timetable sheet — separate institutional CT detail sheet.
+            #
+            # Contains one row per CT batch session (Course == "CT") from the
+            # solver output, which already carries the real faculty and dedicated
+            # room assigned by the solver.  Division names are intentionally
+            # excluded — this sheet is track-level only.
+            #
+            # Columns: Day | Time | CT Track / Batch | Faculty | Room / Laboratory
+            #
+            # The division (E_*) sheets show only "CT" with no faculty/room/track.
+            # Faculty (F_*) and Room (R_*) sheets continue to show full CT detail
+            # because the underlying solver rows are unchanged.
             ct_sched_mask = df["Course"].astype(str).str.strip().str.upper() == "CT"
             df_ct_sched_src = df[ct_sched_mask]
-            df_ct_sched = (
+            df_ct_timetable = (
                 df_ct_sched_src.rename(
-                    columns={"Div/Batch": "CT Track", "Room": "Room/Lab"}
-                )[["Day", "Time", "CT Track", "Faculty", "Room/Lab"]]
+                    columns={
+                        "Div/Batch": "CT Track / Batch",
+                        "Room": "Room / Laboratory",
+                    }
+                )[["Day", "Time", "CT Track / Batch", "Faculty", "Room / Laboratory"]]
                 .pipe(lambda s: s.assign(_o=s["Day"].map(day_ord)))
-                .sort_values(["_o", "Time", "CT Track"])
+                .sort_values(["_o", "Time", "CT Track / Batch"])
                 .drop(columns=["_o"])
                 .reset_index(drop=True)
             )
-            df_ct_sched.to_excel(w, sheet_name="CT Schedule", index=False)
+            df_ct_timetable.to_excel(w, sheet_name="CT Timetable", index=False)
 
             if unscheduled_rows:
                 pd.DataFrame(unscheduled_rows).to_excel(
@@ -2555,8 +2929,8 @@ class TimetableScheduler:
 
         n = (
             1  # Overview
-            + 1  # CT Allocation (CT-S)
-            + 1  # CT Schedule (CT-SCHED)
+            + 1  # CT Allocation
+            + 1  # CT Timetable
             + (1 if unscheduled_rows else 0)
             + df["Faculty"].nunique()
             + len(div_labels)
