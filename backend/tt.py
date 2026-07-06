@@ -2521,7 +2521,7 @@ class TimetableScheduler:
         self.solver.parameters.log_search_progress = True
         self.solver.parameters.random_seed = 42
         self.solver.parameters.cp_model_presolve = True
-        self.solver.parameters.num_search_workers = 8
+        self.solver.parameters.num_search_workers = 2
         self.solver.parameters.linearization_level = 1
         self.solver.parameters.cp_model_probing_level = 0
         self.solver.parameters.interleave_search = True
@@ -2758,6 +2758,86 @@ class TimetableScheduler:
         print(f"  ✓ {len(rows)} sessions placed")
         return rows
 
+    # ────────────────────────────────────────────────────────────────────
+    #  Display-schedule helpers (CT-DISP)
+    #
+    #  These three methods are the *only* place that decides how the raw
+    #  solver output (extract_solution() rows) gets turned into the
+    #  timetable representation that humans see — whether that's an Excel
+    #  sheet or a JSON payload handed to Flask/MongoDB/the website.
+    #
+    #  They are pure post-processing over already-placed sessions: no
+    #  solver state, constraint, or objective is touched, and nothing here
+    #  can change which sessions get scheduled or how many are left
+    #  unscheduled.
+    # ────────────────────────────────────────────────────────────────────
+    def _ct_slot_label(self, local_idx: int) -> str:
+        """Format a local time-slot index as an en-dash 'HH:MM–HH:MM' label."""
+        raw = self.time_slots.get(local_idx, "")
+        parts = raw.split("-")
+        if len(parts) == 2:
+            return f"{parts[0].strip()}–{parts[1].strip()}"
+        return raw
+
+    def _ct_placeholder_rows(self, division: str) -> list[dict]:
+        """Build the generic 'CT' placeholder rows shown for *division*.
+
+        Division-level views (Excel E_* sheets, website division view) must
+        show CT as a plain institution-wide block — Course/Type "CT", no
+        Faculty, no Room — never the underlying CT track/faculty/room.
+        Returns [] for anything not in CT_MATRIX (CT track groups, etc.),
+        so it can never affect scheduling or the unscheduled count.
+        """
+        day_idx = get_ct_day(division)
+        if day_idx is None or day_idx >= len(self.days):
+            return []
+        day_name = self.days[day_idx]
+        ct_time1 = self._ct_slot_label(self.ct_fixed_slot)
+        ct_time2 = self._ct_slot_label(self.ct_fixed_slot2)
+        base = {
+            "Faculty": "",
+            "Course": "CT",
+            "Div/Batch": division,
+            "Division": division,
+            "Type": "CT",
+            "Room": "",
+        }
+        return [
+            {"Day": day_name, "Time": ct_time1, **base},
+            {"Day": day_name, "Time": ct_time2, **base},
+        ]
+
+    def _sort_display_rows(self, rows: list[dict]) -> list[dict]:
+        """Sort rows by day order then time label — same ordering save_timetable
+        has always used (day_ord + Time), just applied to a list of dicts
+        instead of a DataFrame so it works equally well for the Flask response.
+        """
+        day_ord = {d: i for i, d in enumerate(self.days)}
+        return sorted(
+            rows,
+            key=lambda r: (day_ord.get(r.get("Day"), len(self.days)), r.get("Time", "")),
+        )
+
+    def build_display_schedule(self, solution: list[dict]) -> list[dict]:
+        """Single source of truth for the timetable shown to users.
+
+        Takes the raw solver output (extract_solution() rows) and returns
+        the exact processed representation previously built *only* inside
+        save_timetable() for the Excel Overview / per-division sheets:
+        every scheduled session, plus the generic CT placeholder rows for
+        each FY division in CT_MATRIX, sorted by Day then Time.
+
+        save_timetable() (Excel) and generate_timetable() (Flask API /
+        MongoDB payload) both call this function, so the website and the
+        Excel file always render identical data. All existing fields
+        (Day, Time, Faculty, Course, Room, Type, Div/Batch, Division) are
+        preserved as-is; nothing is removed or renamed.
+        """
+        display_rows = [dict(r) for r in solution]  # copy — never mutate solution
+        for div in CT_MATRIX:
+            display_rows.extend(self._ct_placeholder_rows(div))
+        return self._sort_display_rows(display_rows)
+
     def save_timetable(self, solution: list[dict], out: str):
         unscheduled = [
             s for s in self.sessions if self.solver.Value(s["placed_var"]) == 0
@@ -2822,67 +2902,20 @@ class TimetableScheduler:
             )
         )
 
-        # ── CT-DISP: Generic "CT" placeholder rows for division timetables ──
+        # ── CT-DISP: single canonical display schedule ──────────────────────
         #
-        # Division-level (E_<division>) sheets must show CT as a plain,
-        # institution-wide block — "Course: CT, Type: CT, Faculty: '',
-        # Room: ''" — never the underlying CT track/faculty/room. These two
-        # rows (15:10–16:00 and 16:00–16:50) are injected ONLY into the
-        # division's own sheet; they are derived purely from CT_MATRIX /
-        # self.ct_allocation, not from any solver session, so they cannot
-        # affect scheduling or the "zero unscheduled" guarantee.
-        #
-        # The two CT slot time-labels are read from the same Time-sheet
-        # strings used everywhere else (self.time_slots), so they always
-        # match whatever the workbook defines for 15:10 / 16:00.
-        def _ct_slot_label(local_idx: int) -> str:
-            raw = self.time_slots.get(local_idx, "")
-            parts = raw.split("-")
-            if len(parts) == 2:
-                return f"{parts[0].strip()}–{parts[1].strip()}"
-            return raw
-
-        ct_time1 = _ct_slot_label(self.ct_fixed_slot)
-        ct_time2 = _ct_slot_label(self.ct_fixed_slot2)
-
-        def _ct_placeholder_rows(division: str) -> list[dict]:
-            day_idx = get_ct_day(division)
-            if day_idx is None or day_idx >= len(self.days):
-                return []
-            day_name = self.days[day_idx]
-            base = {
-                "Faculty": "",
-                "Course": "CT",
-                "Div/Batch": division,
-                "Division": division,
-                "Type": "CT",
-                "Room": "",
-            }
-            return [
-                {"Day": day_name, "Time": ct_time1, **base},
-                {"Day": day_name, "Time": ct_time2, **base},
-            ]
-
-        # ── CT-DISP (Overview): inject per-division CT placeholder rows ─────
-        #
-        # The Overview sheet is student/institution-facing at the division
-        # level. For every FY division's CT day, it must show a plain "CT"
-        # block (no CT track/batch name, no faculty, no room) — exactly the
-        # same placeholder used on each division's own E_* sheet. This does
-        # NOT remove or alter any existing row: actual CT track sessions
-        # (e.g. faculty/room detail for batch "AI11") keep appearing in
-        # Overview exactly as before for institutional reference; we are
-        # only adding the missing division-level "CT" rows so divisions are
-        # never silently absent from Overview during their own CT window.
-        overview_ct_rows: list[dict] = []
-        for div in CT_MATRIX:
-            overview_ct_rows.extend(_ct_placeholder_rows(div))
-        df_overview = (
-            pd.concat([df, pd.DataFrame(overview_ct_rows)], ignore_index=True)
-            if overview_ct_rows
-            else df
-        )
-        df_overview = srt(df_overview).reset_index(drop=True)
+        # build_display_schedule() is the one place that adds the generic
+        # "CT" placeholder rows (Course/Type "CT", no Faculty, no Room) for
+        # every FY division in CT_MATRIX — the same rows previously built
+        # inline here twice (once for Overview, once per E_* sheet). It is
+        # also what generate_timetable() now calls for the Flask/website
+        # response, so Excel and the website always render identical data.
+        # This does NOT remove or alter any existing row: actual CT track
+        # sessions (e.g. faculty/room detail for batch "AI11") keep
+        # appearing exactly as before; we are only adding the missing
+        # division-level "CT" rows so divisions are never silently absent
+        # from Overview / their own sheet during their own CT window.
+        df_overview = pd.DataFrame(self.build_display_schedule(solution))
         # ─────────────────────────────────────────────────────────────────
 
         with pd.ExcelWriter(out, engine="openpyxl") as w:
@@ -2936,12 +2969,10 @@ class TimetableScheduler:
             )
             for lbl in div_labels:
                 safe_lbl = re.sub(r"[\\/*?:\[\]]", "_", lbl)
-                sub = df[df["Division"] == lbl]
-                ct_rows_for_div = _ct_placeholder_rows(lbl)
-                if ct_rows_for_div:
-                    sub = pd.concat(
-                        [sub, pd.DataFrame(ct_rows_for_div)], ignore_index=True
-                    )
+                # df_overview already contains this division's CT placeholder
+                # rows (from build_display_schedule), so no separate
+                # concat is needed here anymore.
+                sub = df_overview[df_overview["Division"] == lbl]
                 if sub.empty:
                     continue
                 srt(sub).to_excel(w, sheet_name=f"E_{safe_lbl}"[:31], index=False)
@@ -3116,6 +3147,15 @@ def generate_timetable(excel_path: str, output_path: str = None) -> dict:
     if output_path:
         s.save_timetable(solution, output_path)
 
+    # ── CT-DISP: single canonical display schedule ──────────────────────
+    # build_display_schedule() is the same function save_timetable() uses
+    # to build the Excel Overview / E_* sheets (raw sessions + generic CT
+    # placeholder rows for every FY division). Using it here too means the
+    # payload returned to Flask — and whatever gets persisted to MongoDB
+    # from it — is byte-for-byte the same processed timetable as the Excel
+    # file, so the website and the Excel never diverge again.
+    display_schedule = s.build_display_schedule(solution)
+
     # Build unscheduled list for the response
     unscheduled = [
         {
@@ -3132,7 +3172,7 @@ def generate_timetable(excel_path: str, output_path: str = None) -> dict:
         "success": True,
         "scheduled": len(solution),
         "total": len(s.sessions),
-        "rows": solution,  # list of dicts: Day, Time, Faculty, Course, ...
+        "rows": display_schedule,  # list of dicts: Day, Time, Faculty, Course, ... — same processed schedule as the Excel Overview sheet
         "unscheduled": unscheduled,
     }
 
