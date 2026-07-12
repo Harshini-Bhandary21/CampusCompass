@@ -42,3 +42,8 @@ Thumbs.db
 notepad/
 
 extras/
+
+# Python backend runtime artifacts (uploaded/generated files + persisted JSON)
+python/storage/
+__pycache__/
+*.pyc

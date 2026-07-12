@@ -5,33 +5,29 @@ import { auth } from '@/auth'
 export async function GET(request) {
   try {
     const session = await auth()
-    
+
     if (!session || session.user.role !== 'admin') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-    
+
     const { searchParams } = new URL(request.url)
     const departmentName = searchParams.get('department')
-    
+
     console.log('Fetching department:', departmentName, 'for user:', session.user.email)
-    
+
     const client = await clientPromise
     const db = client.db()
-    
-    // First, let's check if any universities exist
-    const universityCount = await db.collection('universities').countDocuments()
-    console.log('Total universities in DB:', universityCount)
-    
+
     const university = await db.collection('universities').findOne({
       'departments.coordinator.email': session.user.email
     })
-    
+
     console.log('Found university:', university ? 'Yes' : 'No')
-    
+
     if (!university) {
       // Return a default department structure for development
-      return NextResponse.json({ 
-        success: true, 
+      return NextResponse.json({
+        success: true,
         department: {
           name: departmentName,
           stats: { students: 0, faculty: 0, courses: 0 },
@@ -40,19 +36,19 @@ export async function GET(request) {
         }
       })
     }
-    
-    const decodedDepartment = decodeURIComponent(departmentName);
+
+    const decodedDepartment = decodeURIComponent(departmentName)
 
     const department = university.departments.find(
       dept => dept.name === decodedDepartment
     )
-    
+
     console.log('Found department:', department ? 'Yes' : 'No')
-    
+
     if (!department) {
       // Return a default department structure
-      return NextResponse.json({ 
-        success: true, 
+      return NextResponse.json({
+        success: true,
         department: {
           name: departmentName,
           stats: { students: 0, faculty: 0, courses: 0 },
@@ -61,9 +57,9 @@ export async function GET(request) {
         }
       })
     }
-    
-    return NextResponse.json({ 
-      success: true, 
+
+    return NextResponse.json({
+      success: true,
       department: {
         name: department.name,
         stats: department.stats || { students: 0, faculty: 0, courses: 0 },
@@ -181,22 +177,14 @@ export async function POST(request) {
     console.log(
       "[POST get-department] selectedSchedule received:",
       !!selectedSchedule
-    );
+    )
 
     if (selectedSchedule) {
       console.log(
         "[POST get-department] schedule rows:",
         selectedSchedule.scheduleData?.length
-      );
-    }
-
-    if (selectedSchedule) {
-      console.log(
-        "[POST get-department] Saving selectedSchedule rows:",
-        selectedSchedule.scheduleData?.length
-      );
-
-      updateData['departments.$.selectedSchedule'] = selectedSchedule;
+      )
+      updateData['departments.$.selectedSchedule'] = selectedSchedule
     }
 
     if (updateScheduleData) {

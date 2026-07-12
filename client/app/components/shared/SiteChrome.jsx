@@ -2,23 +2,13 @@
 
 import { usePathname } from "next/navigation";
 import Header from "../landing/Header";
-import Footer from "../landing/Footer";
 
-// Marketing/content routes that share the site-wide Header + Footer.
-// Dashboard-style routes (auth, admin, student, [department]/*) keep their
-// own separate shell and are intentionally excluded here.
-const CHROME_ROUTES = ["/", "/clubs", "/events", "/achievements", "/gallery", "/contact"];
-
-function isChromeRoute(pathname) {
-  return CHROME_ROUTES.some(
-    (route) => pathname === route || (route !== "/" && pathname.startsWith(`${route}/`))
-  );
-}
-
+// Only the site root shares the site-wide Header. Dashboard-style routes
+// (auth, student, firstyear/*) keep their own separate shell.
 export default function SiteChrome({ children }) {
   const pathname = usePathname();
 
-  if (!isChromeRoute(pathname)) {
+  if (pathname !== "/") {
     return <>{children}</>;
   }
 
@@ -26,7 +16,6 @@ export default function SiteChrome({ children }) {
     <>
       <Header />
       {children}
-      <Footer />
     </>
   );
 }

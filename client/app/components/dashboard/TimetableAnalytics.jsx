@@ -5,7 +5,7 @@ import { ChartBarIcon, AcademicCapIcon, BuildingOfficeIcon, UserGroupIcon } from
 
 export default function TimetableAnalytics({ analytics, onEditExcel }) {
   const [activeTab, setActiveTab] = useState('overview')
-  
+
   if (!analytics) return null
 
   const { faculty, batches, rooms, totalClasses } = analytics
@@ -14,7 +14,7 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
   const maxHours = Math.max(...(faculty?.map(f => parseFloat(f.hours)) || [0]))
   const theoryRooms = rooms?.filter(r => r.type === 'Theory').length || 0
   const labRooms = rooms?.filter(r => r.type === 'Lab').length || 0
-  
+
   const facultyByHours = [...(faculty || [])].sort((a, b) => parseFloat(b.hours) - parseFloat(a.hours))
   const avgFacultyHours = faculty?.length ? (faculty.reduce((sum, f) => sum + parseFloat(f.hours), 0) / faculty.length).toFixed(1) : 0
 
@@ -27,7 +27,7 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
         <div className="flex items-center space-x-3">
           <button
             onClick={onEditExcel}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg"
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -35,12 +35,12 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
             <span className="font-semibold">Edit Excel Virtually</span>
           </button>
           <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
             <span className="text-sm text-gray-600">Live Data</span>
           </div>
         </div>
       </div>
-      
+
       {/* Tab Navigation */}
       <div className="flex space-x-2 border-b border-gray-300">
         <button
@@ -88,32 +88,32 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
           Rooms
         </button>
       </div>
-      
+
       {activeTab === 'overview' && (
       <>
       <div className="grid grid-cols-4 gap-3">
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white shadow-lg transform hover:scale-105 transition-transform relative overflow-hidden">
+        <div className="bg-primary rounded-xl p-4 text-white shadow-lg transform hover:scale-105 transition-transform relative overflow-hidden">
           <svg className="absolute top-2 right-2 w-10 h-10 opacity-20" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
           </svg>
           <div className="text-3xl font-bold">{faculty?.length || 0}</div>
           <p className="text-sm opacity-90 mt-1">Faculty Members</p>
         </div>
-        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 text-white shadow-lg transform hover:scale-105 transition-transform relative overflow-hidden">
+        <div className="bg-primary rounded-xl p-4 text-white shadow-lg transform hover:scale-105 transition-transform relative overflow-hidden">
           <svg className="absolute top-2 right-2 w-10 h-10 opacity-20" fill="currentColor" viewBox="0 0 20 20">
             <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
           </svg>
           <div className="text-3xl font-bold">{batches?.length || 0}</div>
           <p className="text-sm opacity-90 mt-1">Total Batches</p>
         </div>
-        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 text-white shadow-lg transform hover:scale-105 transition-transform relative overflow-hidden">
+        <div className="bg-primary rounded-xl p-4 text-white shadow-lg transform hover:scale-105 transition-transform relative overflow-hidden">
           <svg className="absolute top-2 right-2 w-10 h-10 opacity-20" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />
           </svg>
           <div className="text-3xl font-bold">{rooms?.length || 0}</div>
           <p className="text-sm opacity-90 mt-1">Available Rooms</p>
         </div>
-        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 text-white shadow-lg transform hover:scale-105 transition-transform relative overflow-hidden">
+        <div className="bg-primary rounded-xl p-4 text-white shadow-lg transform hover:scale-105 transition-transform relative overflow-hidden">
           <svg className="absolute top-2 right-2 w-10 h-10 opacity-20" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
           </svg>
@@ -125,7 +125,7 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
           <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center">
-            <div className="w-1 h-5 bg-gradient-to-b from-blue-500 to-purple-500 rounded mr-2"></div>
+            <div className="w-1 h-5 bg-primary rounded mr-2"></div>
             Faculty Workload Distribution
           </h3>
           <div className="space-y-3 max-h-56 overflow-y-auto pr-2">
@@ -133,11 +133,11 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
               <div key={idx} className="group">
                 <div className="flex justify-between text-sm mb-1.5">
                   <span className="text-gray-900 font-medium truncate">{f.name}</span>
-                  <span className="text-blue-600 font-bold">{f.hours}h</span>
+                  <span className="text-primary font-bold">{f.hours}h</span>
                 </div>
                 <div className="relative w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
-                  <div 
-                    className="absolute h-2.5 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 transition-all duration-500 group-hover:from-blue-500 group-hover:to-purple-600" 
+                  <div
+                    className="absolute h-2.5 rounded-full bg-primary transition-all duration-500"
                     style={{ width: `${(parseFloat(f.hours) / maxHours * 100)}%` }}
                   />
                 </div>
@@ -148,40 +148,30 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
 
         <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
           <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center">
-            <div className="w-1 h-5 bg-gradient-to-b from-green-500 to-blue-500 rounded mr-2"></div>
+            <div className="w-1 h-5 bg-primary rounded mr-2"></div>
             Class Type Distribution
           </h3>
           <div className="flex items-center justify-center h-48">
             <div className="relative w-40 h-40">
               <svg viewBox="0 0 100 100" className="transform -rotate-90">
                 <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" strokeWidth="20"/>
-                <circle 
-                  cx="50" cy="50" r="40" 
-                  fill="none" 
-                  stroke="url(#theoryGradient)" 
+                <circle
+                  cx="50" cy="50" r="40"
+                  fill="none"
+                  stroke="var(--primary)"
                   strokeWidth="20"
-                  strokeDasharray={`${(theoryCount / (theoryCount + labCount)) * 251.2} 251.2`}
+                  strokeDasharray={`${(theoryCount / (theoryCount + labCount || 1)) * 251.2} 251.2`}
                   className="transition-all duration-500"
                 />
-                <circle 
-                  cx="50" cy="50" r="40" 
-                  fill="none" 
-                  stroke="url(#labGradient)" 
+                <circle
+                  cx="50" cy="50" r="40"
+                  fill="none"
+                  stroke="#f59e0b"
                   strokeWidth="20"
-                  strokeDasharray={`${(labCount / (theoryCount + labCount)) * 251.2} 251.2`}
-                  strokeDashoffset={`-${(theoryCount / (theoryCount + labCount)) * 251.2}`}
+                  strokeDasharray={`${(labCount / (theoryCount + labCount || 1)) * 251.2} 251.2`}
+                  strokeDashoffset={`-${(theoryCount / (theoryCount + labCount || 1)) * 251.2}`}
                   className="transition-all duration-500"
                 />
-                <defs>
-                  <linearGradient id="theoryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#3b82f6" />
-                    <stop offset="100%" stopColor="#8b5cf6" />
-                  </linearGradient>
-                  <linearGradient id="labGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#10b981" />
-                    <stop offset="100%" stopColor="#06b6d4" />
-                  </linearGradient>
-                </defs>
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
@@ -192,14 +182,14 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
             </div>
             <div className="ml-6 space-y-3">
               <div className="flex items-center space-x-2">
-                <div className="w-5 h-5 rounded bg-gradient-to-br from-blue-500 to-purple-500"></div>
+                <div className="w-5 h-5 rounded bg-primary"></div>
                 <div>
                   <div className="text-sm text-gray-600">Theory</div>
                   <div className="text-xl font-bold text-gray-900">{theoryCount}</div>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-5 h-5 rounded bg-gradient-to-br from-green-500 to-cyan-500"></div>
+                <div className="w-5 h-5 rounded bg-amber-500"></div>
                 <div>
                   <div className="text-sm text-gray-600">Lab</div>
                   <div className="text-xl font-bold text-gray-900">{labCount}</div>
@@ -211,18 +201,18 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
 
         <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
           <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center">
-            <div className="w-1 h-5 bg-gradient-to-b from-orange-500 to-red-500 rounded mr-2"></div>
+            <div className="w-1 h-5 bg-primary rounded mr-2"></div>
             Room Allocation
           </h3>
           <div className="space-y-4">
             <div>
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm text-gray-600">Theory Rooms</span>
-                <span className="text-base font-bold text-orange-600">{theoryRooms}</span>
+                <span className="text-base font-bold text-primary">{theoryRooms}</span>
               </div>
               <div className="relative w-full bg-gray-200 rounded-full h-3.5 overflow-hidden">
-                <div 
-                  className="absolute h-3.5 rounded-full bg-gradient-to-r from-orange-400 to-red-500" 
+                <div
+                  className="absolute h-3.5 rounded-full bg-primary"
                   style={{ width: `${(theoryRooms / rooms?.length * 100)}%` }}
                 />
               </div>
@@ -230,11 +220,11 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
             <div>
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm text-gray-600">Lab Rooms</span>
-                <span className="text-base font-bold text-cyan-600">{labRooms}</span>
+                <span className="text-base font-bold text-amber-600">{labRooms}</span>
               </div>
               <div className="relative w-full bg-gray-200 rounded-full h-3.5 overflow-hidden">
-                <div 
-                  className="absolute h-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" 
+                <div
+                  className="absolute h-3.5 rounded-full bg-amber-500"
                   style={{ width: `${(labRooms / rooms?.length * 100)}%` }}
                 />
               </div>
@@ -244,22 +234,22 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
 
         <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
           <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center">
-            <div className="w-1 h-5 bg-gradient-to-b from-pink-500 to-purple-500 rounded mr-2"></div>
+            <div className="w-1 h-5 bg-primary rounded mr-2"></div>
             Batch Overview
           </h3>
           <div className="grid grid-cols-2 gap-2 max-h-56 overflow-y-auto">
             {batches?.slice(0, 12).map((batch, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className={`p-2.5 rounded-lg border-2 ${
-                  batch.type === 'Lab' 
-                    ? 'bg-green-50 border-green-300' 
-                    : 'bg-blue-50 border-blue-300'
+                  batch.type === 'Lab'
+                    ? 'bg-amber-50 border-amber-300'
+                    : 'bg-primary/10 border-primary/30'
                 }`}
               >
                 <div className="text-sm font-bold text-gray-900 truncate">{batch.name}</div>
                 <div className={`text-xs font-semibold mt-1 ${
-                  batch.type === 'Lab' ? 'text-green-600' : 'text-blue-600'
+                  batch.type === 'Lab' ? 'text-amber-600' : 'text-primary'
                 }`}>
                   {batch.type}
                 </div>
@@ -270,19 +260,19 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
       </div>
       </>
       )}
-      
+
       {activeTab === 'faculty' && (
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white">
+            <div className="bg-primary rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{faculty?.length || 0}</div>
               <p className="text-sm opacity-90">Total Faculty</p>
             </div>
-            <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 text-white">
+            <div className="bg-primary rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{avgFacultyHours}</div>
               <p className="text-sm opacity-90">Avg Hours/Faculty</p>
             </div>
-            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 text-white">
+            <div className="bg-primary rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{maxHours}</div>
               <p className="text-sm opacity-90">Max Hours</p>
             </div>
@@ -292,21 +282,18 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {facultyByHours.map((f, idx) => (
                 <div key={idx} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">
                     {idx + 1}
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-between mb-1">
                       <span className="text-gray-900 font-medium">{f.name}</span>
-                      <span className="text-blue-600 font-bold">{f.hours}h</span>
+                      <span className="text-primary font-bold">{f.hours}h</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className="h-2 rounded-full"
-                        style={{ 
-                          width: `${(parseFloat(f.hours) / maxHours * 100)}%`,
-                          background: `linear-gradient(90deg, ${['#10b981', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4'][idx % 5]}, ${['#059669', '#d97706', '#7c3aed', '#dc2626', '#0891b2'][idx % 5]})`
-                        }}
+                      <div
+                        className="h-2 rounded-full bg-primary"
+                        style={{ width: `${(parseFloat(f.hours) / maxHours * 100)}%` }}
                       />
                     </div>
                   </div>
@@ -316,19 +303,19 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
           </div>
         </div>
       )}
-      
+
       {activeTab === 'batches' && (
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
-            <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 text-white">
+            <div className="bg-primary rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{batches?.length || 0}</div>
               <p className="text-sm opacity-90">Total Batches</p>
             </div>
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white">
+            <div className="bg-primary rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{theoryCount}</div>
               <p className="text-sm opacity-90">Theory Batches</p>
             </div>
-            <div className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl p-4 text-white">
+            <div className="bg-amber-500 rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{labCount}</div>
               <p className="text-sm opacity-90">Lab Batches</p>
             </div>
@@ -337,17 +324,17 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
             <h3 className="text-base font-bold text-gray-900 mb-4">All Batches</h3>
             <div className="grid grid-cols-3 gap-3 max-h-96 overflow-y-auto">
               {batches?.map((batch, idx) => (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   className={`p-3 rounded-lg border-2 ${
-                    batch.type === 'Lab' 
-                      ? 'bg-cyan-50 border-cyan-300' 
-                      : 'bg-purple-50 border-purple-300'
+                    batch.type === 'Lab'
+                      ? 'bg-amber-50 border-amber-300'
+                      : 'bg-primary/10 border-primary/30'
                   }`}
                 >
                   <div className="text-sm font-bold text-gray-900 truncate">{batch.name}</div>
                   <div className={`text-xs font-semibold mt-1 ${
-                    batch.type === 'Lab' ? 'text-cyan-600' : 'text-purple-600'
+                    batch.type === 'Lab' ? 'text-amber-600' : 'text-primary'
                   }`}>
                     {batch.type}
                   </div>
@@ -357,19 +344,19 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
           </div>
         </div>
       )}
-      
+
       {activeTab === 'rooms' && (
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
-            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 text-white">
+            <div className="bg-primary rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{rooms?.length || 0}</div>
               <p className="text-sm opacity-90">Total Rooms</p>
             </div>
-            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 text-white">
+            <div className="bg-primary rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{theoryRooms}</div>
               <p className="text-sm opacity-90">Theory Rooms</p>
             </div>
-            <div className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl p-4 text-white">
+            <div className="bg-amber-500 rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{labRooms}</div>
               <p className="text-sm opacity-90">Lab Rooms</p>
             </div>
@@ -379,9 +366,9 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
               <h3 className="text-base font-bold text-gray-900 mb-4">Theory Rooms</h3>
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {rooms?.filter(r => r.type === 'Theory').map((room, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-2 bg-orange-50 border border-orange-300 rounded-lg">
+                  <div key={idx} className="flex items-center justify-between p-2 bg-primary/10 border border-primary/30 rounded-lg">
                     <span className="text-gray-900 font-medium">{room.name}</span>
-                    <span className="px-2 py-1 bg-orange-500 text-white rounded text-xs font-bold">Theory</span>
+                    <span className="px-2 py-1 bg-primary text-white rounded text-xs font-bold">Theory</span>
                   </div>
                 ))}
               </div>
@@ -390,9 +377,9 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
               <h3 className="text-base font-bold text-gray-900 mb-4">Lab Rooms</h3>
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {rooms?.filter(r => r.type === 'Lab').map((room, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-2 bg-cyan-50 border border-cyan-300 rounded-lg">
+                  <div key={idx} className="flex items-center justify-between p-2 bg-amber-50 border border-amber-300 rounded-lg">
                     <span className="text-gray-900 font-medium">{room.name}</span>
-                    <span className="px-2 py-1 bg-cyan-500 text-white rounded text-xs font-bold">Lab</span>
+                    <span className="px-2 py-1 bg-amber-500 text-white rounded text-xs font-bold">Lab</span>
                   </div>
                 ))}
               </div>

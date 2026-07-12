@@ -76,17 +76,17 @@ const departmentTabs = defaultTabs
 
 export { getDepartmentTabs, departmentTabs }
 
-export const createTabNavigator = (router, departmentName) => (tab) => {
+export const createTabNavigator = (router) => (tab) => {
   const routes = {
-    dashboard: `/${departmentName}/dashboard`,
-    schedules: `/${departmentName}/schedules`,
-    faculty: `/${departmentName}/faculty`,
-    rooms: `/${departmentName}/rooms`,
-    division: `/${departmentName}/division`,
-    activities: `/${departmentName}/activities`,
-    notify: `/${departmentName}/notify`
+    dashboard: `/firstyear/dashboard`,
+    schedules: `/firstyear/schedules`,
+    faculty: `/firstyear/faculty`,
+    rooms: `/firstyear/rooms`,
+    division: `/firstyear/division`,
+    activities: `/firstyear/activities`,
+    notify: `/firstyear/notify`
   }
-  
+
   if (routes[tab]) {
     router.push(routes[tab])
   }

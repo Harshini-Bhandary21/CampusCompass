@@ -1,0 +1,266 @@
+1. 
+Test Department Department
+Test University
+
+3
+test-admin
+admin
+T
+Instead of test it should be First Year 
+
+
+2. Input Data Analytics
+
+Edit Excel Virtually
+Live Data
+Overview
+Faculty
+Batches
+Rooms
+152
+Faculty Members
+
+0
+Total Batches
+
+34
+Available Rooms
+
+161
+Total Classes
+
+Faculty Workload Distribution
+Dr. Puja Verma
+0.0h
+Mr. Manish Khare
+0.0h
+Dr. Ashish Itolikar
+0.0h
+Dr. Madhuri D.R.
+0.0h
+Dr. Swapnil Doke
+0.0h
+Dr. Abhay Dashrath
+0.0h
+TOTAL PHYSICS LOAD
+0.0h
+Mrs. Asha Abhilash
+0.0h
+Mr. Azhar Shaikh
+0.0h
+Mrs. Sini Ronson
+0.0h
+Class Type Distribution
+0
+Classes
+Theory
+0
+Lab
+0
+Room Allocation
+Theory Rooms
+8
+Lab Rooms
+26
+Batch Overview
+
+This UI uses multiple colours which makes it very difficult 
+and not able to make the professionalism and aestheticness 
+also there are multiple font sizes on the department need to
+fix that as well
+
+3.
+ {
+    Create the complete timetable generation workflow using FastAPI (Python) as the backend.
+
+Requirements:
+
+1. Frontend Flow
+
+The user should:
+
+- Upload an Excel file from the frontend.
+- Click the "Configure" button.
+- Configure the required timetable generation settings.
+- Click the "Generate" button.
+
+After clicking Generate:
+
+- The Excel file and configuration data should be sent to the FastAPI backend.
+- Timetable generation should start on the backend.
+- Once generation is completed, the generated timetable Excel file should be returned to the frontend.
+- The user should be able to download the generated Excel file directly.
+
+2. Backend Technology
+
+Backend must be implemented using:
+
+- FastAPI
+- Python
+
+The application entry point should be:
+
+main.py
+
+3. API Flow
+
+Frontend → Upload Excel
+
+Backend should:
+
+- Receive the Excel file.
+- Validate the uploaded file.
+- Process the Excel data.
+- Run the timetable generation logic.
+- Generate the final timetable.
+- Export the timetable as an Excel file.
+- Return the generated Excel file to the frontend for download.
+
+4. JSON Storage
+
+Along with timetable generation:
+
+- Extract the uploaded Excel data.
+- Convert the required data into structured JSON format.
+- Store the JSON data on the backend.
+
+The JSON should be saved automatically during the processing workflow.
+
+5. Response Handling
+
+After successful generation:
+
+- Return the generated Excel file.
+- Enable direct download from the frontend.
+- Ensure the correct filename is provided in the response.
+
+6. Error Handling
+
+Handle cases such as:
+
+- Missing file
+- Invalid Excel file
+- Processing failure
+- Timetable generation failure
+- File export failure
+
+Return appropriate API responses for each scenario.
+
+7. Architecture
+
+The workflow should follow:
+
+Upload Excel
+    →
+FastAPI Backend
+    →
+Validate File
+    →
+Store Data as JSON
+    →
+Run Timetable Generation
+    →
+Generate Output Excel
+    →
+Return Excel File
+    →
+Frontend Download
+
+8. Data Persistence
+
+The uploaded data converted into JSON should be stored on the backend and remain available for future use.
+
+Generated timetable Excel files should be created from the processed data and returned to the user after successful generation.
+
+The implementation should ensure that the uploaded Excel file, generated JSON data, and generated timetable output are handled through a proper backend workflow using FastAPI.
+ } 
+
+4. /firstyear/faculty should show faculty-wise timetable grid the data should be fetched from database 
+/firstyear/rooms should show room-wise timetable grid the data should be fetched from database 
+/firstyear/division should show the division-wise timetable grid the data should be fetched from database
+These routes are already been created on the client folder just need to implement it properly
+
+5. Home
+Clubs
+Events
+Gallery
+Achievements
+Contact
+
+please remove all these pages from frontend which are there on navbar,
+keep navbar there without these fields, keep the data in json file but please remove these all
+
+6. Explore Campus Life
+Discover clubs, events, and the people behind CampusCompass.
+
+Clubs
+Explore student-led communities
+
+Events
+Hackathons, fests & meets
+
+Gallery
+Moments from campus life
+
+Student
+Your dashboard & timetable
+
+3D Campus
+Explore campus in 3D
+
+remove these from frontend
+
+7. Frequently Asked Questions
+Find answers to common questions about the platform.
+
+
+Mitr tum club me kaise join karu?
++
+
+Can I join multiple clubs?
++
+
+Are there any membership fees?
++
+
+What if I want to start a new club?
++
+Didn't find your answer?
+Ask your question and we'll add it to our FAQ in future updates.
+
+Your Name
+Your Email
+Type your question here...
+Submit Question
+MIT
+Academy of
+Engineering
+Fostering an inclusive, dynamic environment for physical, emotional, technical, and ethical development.
+
+Quick Links
+About Clubs Portal
+Browse All Clubs
+Upcoming & Past Events
+Moments Gallery
+Achievements Board
+Coordinators Team
+Contact Us
+MIT Academy of Engineering, Alandi Road, Pune - 412 105, Maharashtra (India)
++91-9071123436
+admissions@mitaoe.ac.in
+College Info
+Visit our primary college portal for academic syllabus, admissions, departments, and other campus facilities.
+
+remove this from frontend as well 
+
+8. Student Portal remove this label from navbar
+
+9. why package.json and package-lock.json exists in the root directory if they are not relevant please delete them
+
+10. dont make the department route dynamic as this particular project is only for one department 
+so there is no extra stuffs like one university and different departments 
+there can be multiple universities but the department for each should be one that is firstyear
+
+11. delete all mdm, pec and vsec regarding information as this is no longer for SY or TY and remove the deadcode
+
+Note: Dont create any plan, direct implement these i will approve it step by step 

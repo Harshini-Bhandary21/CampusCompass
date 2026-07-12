@@ -14,7 +14,7 @@ class SolveMixin:
             self._add_solution_hints()
 
         self.solver.parameters.max_time_in_seconds = time_limit
-        self.solver.parameters.log_search_progress = True
+        self.solver.parameters.log_search_progress = False
         self.solver.parameters.random_seed = 42
         self.solver.parameters.cp_model_presolve = True
         self.solver.parameters.num_search_workers = 2

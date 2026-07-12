@@ -4,18 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sparkles, Compass, Calendar, Image, Trophy, Users, Phone } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const NAV_ITEMS = [
-  { label: "Home", href: "/", icon: Compass },
-  { label: "Clubs", href: "/clubs", icon: Sparkles },
-  { label: "Events", href: "/events", icon: Calendar },
-  { label: "Gallery", href: "/gallery", icon: Image },
-  { label: "Achievements", href: "/achievements", icon: Trophy },
-  // { label: "Team", href: "/team", icon: Users },
-  { label: "Contact", href: "/contact", icon: Phone },
-];
+const NAV_ITEMS = [];
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,9 +46,6 @@ export default function Header() {
                   Engineering
                 </span>
               </div>
-              <span className="ml-3 px-2 py-0.5 rounded-md bg-[#0f2a4a]/10 text-[#0f2a4a] font-bold text-[8px] uppercase tracking-widest hidden sm:inline-block">
-                Student Portal
-              </span>
             </div>
           </Link>
 

@@ -8,10 +8,10 @@ require('dotenv').config()
 const { MongoClient } = require('mongodb')
 const bcrypt = require('bcryptjs')
 
-const TEST_EMAIL = 'test-admin@campuscompass.local'
-const TEST_PASSWORD = 'TestAdmin123!'
-const TEST_UNIVERSITY = 'Test University'
-const TEST_DEPARTMENT = 'Test Department'
+const TEST_EMAIL = 'firstyearcrazy@gmail.com'
+const TEST_PASSWORD = 'firstyearcrazy'
+const TEST_UNIVERSITY = 'MIT Academy of Engineering'
+const TEST_DEPARTMENT = 'First Year'
 
 async function seed() {
   const uri = process.env.MONGODB_URI
@@ -48,15 +48,15 @@ async function seed() {
         departments: [
           {
             name: TEST_DEPARTMENT,
-            code: 'TEST',
+            code: 'FY',
             coordinator: {
               email: TEST_EMAIL,
               passwordHash,
               plainPassword: TEST_PASSWORD,
             },
             stats: { students: 0, faculty: 0, classes: 0 },
-            vision: 'Test department vision',
-            mission: 'Test department mission',
+            vision: 'First Year department vision',
+            mission: 'First Year department mission',
             createdAt: new Date(),
             updatedAt: new Date(),
           },

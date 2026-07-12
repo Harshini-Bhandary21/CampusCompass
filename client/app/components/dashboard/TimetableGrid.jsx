@@ -222,138 +222,134 @@ export default function TimetableGrid({
     }
   });
 
+  const slotIndexes = Array.from({ length: timeSlots.length }, (_, i) => i + 1);
+
+  const renderCell = (day, index) => {
+    const cells = grid[day]?.[index];
+    if (!cells || cells.length === 0) {
+      return (
+        <td
+          key={`${day}-${index}`}
+          className="border timetable-border p-2 timetable-cell w-40"
+        >
+          <div className="text-center text-gray-500 text-xs h-full flex items-center justify-center">
+            -
+          </div>
+        </td>
+      );
+    }
+
+    const starters = cells.filter((s) => s.spanStart);
+    if (starters.length === 0) {
+      return null;
+    }
+
+    const first = starters[0];
+    const colSpan = first.rowSpan || 1;
+
+    return (
+      <td
+        key={`${day}-${index}`}
+        className="border timetable-border p-2 timetable-cell w-40"
+        colSpan={colSpan}
+      >
+        <div
+          className="grid gap-1 h-full"
+          style={{
+            gridTemplateColumns: `repeat(${Math.min(starters.length, 2)}, 1fr)`,
+          }}
+        >
+          {starters.map((slot, idx) => {
+            const colorScheme = getColorForSlot
+              ? getColorForSlot(slot)
+              : { slot: "slot-amber", tag: "slot-tag-amber" };
+            return (
+              <div
+                key={idx}
+                onClick={() => onSlotClick?.(slot, day, slot.time)}
+                className={`text-xs p-1 rounded border ${colorScheme.slot} ${onSlotClick ? "cursor-pointer hover:opacity-80" : ""} transition-opacity flex flex-col justify-center`}
+              >
+                {slot.batch && (
+                  <div className="font-semibold text-[10px]">
+                    {slot.batch}
+                  </div>
+                )}
+                <div
+                  className={
+                    slot.batch
+                      ? "mt-0.5 text-[10px]"
+                      : "font-semibold text-[10px]"
+                  }
+                >
+                  {slot.course}
+                </div>
+                {slot.faculty && (
+                  <div className="mt-0.5 text-[9px]">{slot.faculty}</div>
+                )}
+                {slot.room && (
+                  <div className="mt-0.5 text-[9px]">{slot.room}</div>
+                )}
+                <span
+                  className={`px-1 py-0.5 rounded text-[8px] font-medium ${colorScheme.tag} mt-0.5`}
+                >
+                  {slot.type}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </td>
+    );
+  };
+
   return (
-    <table className="w-full border-collapse min-w-[800px] timetable-grid">
+    <table className="w-full border-collapse min-w-[1400px] timetable-grid">
       <thead>
         <tr className="bg-gradient-primary">
           <th className="border timetable-border p-2 text-white font-semibold text-sm w-24">
-            Time
+            Day
           </th>
-          {days.map((day) => (
-            <th
-              key={day}
-              className="border timetable-border p-2 text-white font-semibold text-sm"
-              style={{ width: `${100 / 6}%` }}
-            >
-              {day}
-            </th>
-          ))}
+          {slotIndexes.map((index) =>
+            index === lunchBreakSlot && showLunchBreak ? (
+              <th
+                key={index}
+                className="border timetable-border p-2 text-white font-semibold text-xs w-40 bg-amber-500"
+              >
+                🍽️ {slotTimes[index]}
+              </th>
+            ) : (
+              <th
+                key={index}
+                className="border timetable-border p-2 text-white font-semibold text-xs w-40"
+              >
+                {slotTimes[index]}
+              </th>
+            ),
+          )}
         </tr>
       </thead>
       <tbody>
-        {Array.from({ length: timeSlots.length }, (_, i) => i + 1).map(
-          (index) => {
-            if (index === lunchBreakSlot && showLunchBreak) {
-              return (
-                <tr key={`lunch-${index}`} className="h-16 bg-amber-50">
-                  <td className="border timetable-border p-2 timetable-header font-medium text-xs timetable-text w-24">
-                    {slotTimes[index]}
-                  </td>
-                  <td
-                    colSpan={6}
-                    className="border timetable-border p-2 text-center"
-                  >
-                    <div className="bg-gradient-to-r from-amber-100 to-orange-100 rounded-lg p-2 font-semibold text-amber-800 shadow-sm">
-                      🍽️ LUNCH BREAK
-                    </div>
-                  </td>
-                </tr>
-              );
-            }
-
-            return (
-              <tr key={index} className="h-16">
-                <td className="border timetable-border p-2 timetable-header font-medium text-xs timetable-text w-24">
-                  {slotTimes[index]}
+        {days.map((day) => (
+          <tr key={day} className="h-16">
+            <td className="border timetable-border p-2 timetable-header font-medium text-xs timetable-text w-24">
+              {day}
+            </td>
+            {slotIndexes.map((index) =>
+              index === lunchBreakSlot && showLunchBreak ? (
+                <td
+                  key={`${day}-${index}`}
+                  className="border timetable-border p-2 text-center bg-amber-50 w-40"
+                >
+                  <div className="bg-gradient-to-r from-amber-100 to-orange-100 rounded-lg p-2 font-semibold text-amber-800 shadow-sm text-xs">
+                    LUNCH
+                  </div>
                 </td>
-                {days.map((day) => {
-                  const cells = grid[day]?.[index];
-                  if (!cells || cells.length === 0) {
-                    return (
-                      <td
-                        key={`${day}-${index}`}
-                        className="border timetable-border p-2 timetable-cell h-16"
-                      >
-                        <div className="text-center text-gray-500 text-xs h-full flex items-center justify-center">
-                          -
-                        </div>
-                      </td>
-                    );
-                  }
-
-                  const starters = cells.filter((s) => s.spanStart);
-                  if (starters.length === 0) {
-                    return null;
-                  }
-
-                  const first = starters[0];
-                  const lab = first.isLab;
-                  const span = first.rowSpan || 1;
-
-                  return (
-                    <td
-                      key={`${day}-${index}`}
-                      className="border timetable-border p-2 timetable-cell h-16"
-                      rowSpan={span}
-                    >
-                      <div
-                        className="grid gap-1 h-full"
-                        style={{
-                          gridTemplateColumns: `repeat(${Math.min(starters.length, 2)}, 1fr)`,
-                        }}
-                      >
-                        {starters.map((slot, idx) => {
-                          const colorScheme = getColorForSlot
-                            ? getColorForSlot(slot)
-                            : { slot: "slot-amber", tag: "slot-tag-amber" };
-                          return (
-                            <div
-                              key={idx}
-                              onClick={() =>
-                                onSlotClick?.(slot, day, slot.time)
-                              }
-                              className={`text-xs p-1 rounded border ${colorScheme.slot} ${onSlotClick ? "cursor-pointer hover:opacity-80" : ""} transition-opacity flex flex-col justify-center`}
-                            >
-                              {slot.batch && (
-                                <div className="font-semibold text-[10px]">
-                                  {slot.batch}
-                                </div>
-                              )}
-                              <div
-                                className={
-                                  slot.batch
-                                    ? "mt-0.5 text-[10px]"
-                                    : "font-semibold text-[10px]"
-                                }
-                              >
-                                {slot.course}
-                              </div>
-                              {slot.faculty && (
-                                <div className="mt-0.5 text-[9px]">
-                                  {slot.faculty}
-                                </div>
-                              )}
-                              {slot.room && (
-                                <div className="mt-0.5 text-[9px]">
-                                  {slot.room}
-                                </div>
-                              )}
-                              <span
-                                className={`px-1 py-0.5 rounded text-[8px] font-medium ${colorScheme.tag} mt-0.5`}
-                              >
-                                {slot.type}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          },
-        )}
+              ) : (
+                renderCell(day, index)
+              ),
+            )}
+          </tr>
+        ))}
       </tbody>
     </table>
   );

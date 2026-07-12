@@ -49,7 +49,7 @@ export default function SignIn() {
     }
 
     if (session.user.role === 'admin') {
-      router.push(`/${session.user.department}/dashboard`)
+      router.push('/firstyear/dashboard')
     } else if (session.user.role === 'teacher') {
       router.push('/teacher/dashboard')
     } else if (session.user.role === 'student') {
