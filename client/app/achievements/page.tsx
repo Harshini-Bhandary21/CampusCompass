@@ -1,5 +1,5 @@
-import SectionHeader from "@/components/SectionHeader";
-import TimelineItem from "@/components/TimelineItem";
+import SectionHeader from "@/app/components/shared/SectionHeader";
+import TimelineItem from "@/app/components/landing/TimelineItem";
 import achievementsData from "@/data/achievements.json";
 import { Achievement } from "@/lib/types";
 

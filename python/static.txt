@@ -1,0 +1,208 @@
+HARDCODED / STATIC VALUES IN python/
+=====================================
+Audit of literal values baked into the code (not read from the Excel
+workbook or CLI flags). Log/print message text is excluded — this is
+about values that affect scheduling behaviour or data structure.
+
+
+1. config/divisions.py
+-----------------------
+- DIVISION_TO_BATCHES: 18 hardcoded divisions (AL1, AL2, CS1..CS4, IT1,
+  IT2, ET1, ET2, SE1, SE2, ME1, ME2, DS1, DS2, CV, CH), each mapped to a
+  fixed list of batch codes (e.g. "CS1" -> C11..C15).
+- FY_DIVISIONS: derived from the above (any key not prefixed "CT_").
+
+
+2. config/rooms.py
+-------------------
+- COURSE_LAB_MAP: 15 hardcoded course-name -> lab-room-name mappings
+  (e.g. "engineering physics" -> "Engineering Physics Lab").
+- COURSE_LAB_ABBREV_EXACT: 11 hardcoded abbreviation -> lab-room mappings
+  (e.g. "am" -> "Applied Mechanics Lab", "dee", "lsa", "foc", "ep", "son").
+- CT_ROOM_MAPPING: 14 hardcoded CT-track keywords (ai, iot, robo, robot,
+  cc, cloud, ev, drone, ar, vr, bct, pe, zeb, aece), all currently mapped
+  to empty room lists (fallback to all_lab_rooms until populated).
+
+
+3. config/weights.py
+----------------------
+- SESSION_WEIGHTS: Lab=3, Tutorial=2, Theory=1
+- BALANCE_WEIGHT = 5
+- DEV_WEIGHT = 1
+- SAT_PENALTY = 1
+- HIGH_THEORY_PENALTY = 50
+- MEDIUM_THEORY_PENALTY = 10
+- LOW_THEORY_PENALTY = 2
+- SAME_DAY_SAME_SUBJECT_PENALTY = 20
+- ONLINE_PENALTY = 30
+- SAT_LECTURE_PENALTY = 10
+- THEORY_PAIRED_SLOT_STARTS = [1, 3, 6, 8, 10]  (1-based local slot numbers)
+- THEORY_EARLY_SLOTS = {1, 2}
+- THEORY_LATE_SLOTS = {10, 11}
+
+
+4. config/ct_matrix.py
+------------------------
+- CT_MATRIX: 18 divisions, each a hardcoded 7-element Mon-Sun binary
+  vector fixing exactly which single weekday that division's CT slot
+  falls on (e.g. AL1 -> Monday, CS3 -> Wednesday). Validated at import
+  time to require exactly 7 columns and exactly one "1" per row.
+
+
+5. core/scheduler.py (TimetableScheduler.__init__)
+-----------------------------------------------------
+- self.time_slots_per_day = 9        (default, overwritten by load_data)
+- self.lunch_slot = 5                 (default, overwritten by load_data)
+- self.days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+  "Saturday"]                          (hardcoded 6-day week, no Sunday)
+- self.online_days = [0, 0, 0, 0, 0, 1]   (Saturday hardcoded as the
+  only online day)
+
+
+6. core/model_builder.py
+---------------------------
+- preferred = [1, 3, 6, 8, 10]   (preferred lab start slots — duplicates
+  the same values as config/weights.py:THEORY_PAIRED_SLOT_STARTS, but
+  is a separate hardcoded list, not shared)
+
+
+7. core/day_load.py
+----------------------
+- saturday_idx = 5   (assumes Saturday is always index 5 in self.days)
+
+
+8. core/hints.py
+-------------------
+- HINT_UTIL_THRESHOLD = 0.85   (skip greedy hints for lab pools >85% utilised)
+- lab_cap_per_room = 4 * len(self.days)   (hardcoded "4 lab slots/day/room"
+  capacity assumption)
+
+
+9. core/data_loader.py
+--------------------------
+- Excel sheet names: "Faculty", "Rooms", "Time", "CT_Rooms"
+- Column names read: "Index", "Slot", "Rooms", "Type", "Subject", "Batch",
+  "Room"
+- Default room type when "Type" column is blank: "Theory"
+- Lunch-slot fallback: uses slot index 5 if present, else the middle slot
+
+
+10. core/session_parser.py / core/lab_session_parser.py
+-----------------------------------------------------------
+- Column names read: "Name of Faculty", "Course Name", "TH", "PR/TU",
+  "Division", "Batch"
+- "TOTAL" sentinel string — rows whose faculty/course name starts with
+  this are skipped (Excel summary rows)
+- "CT" sentinel string (case-insensitive) — identifies CT rows in three
+  separate places: session_parser (skip CT theory rows), lab_session_parser
+  (tag CT batch sessions), core/excel_export.py (CT Timetable sheet filter)
+- Synthetic entity-id prefixes: "_fth{sid}" (theory w/ no division),
+  "_ftu{sid}" (tutorial w/ no batch)
+
+
+11. core/excel_export.py
+----------------------------
+- Sheet names: "Overview", "CT Allocation", "CT Timetable", "Unscheduled"
+- Sheet name prefixes: "F_" (faculty), "E_" (division), "R_" (room)
+- Excel sheet-name truncation to 31 characters (`[:31]`) — Excel's hard
+  sheet-name length limit
+- Division-label sanitising regex: r"[\\/*?:\[\]]" -> "_"
+- Console preview: first 30 rows of the final DataFrame (`df.head(30)`)
+
+
+12. core/validation.py
+--------------------------
+- Lab capacity formula uses hardcoded "4" (lab sessions/room/day) in two
+  places, same assumption as core/hints.py's lab_cap_per_room
+- `usable = self.time_slots_per_day - 1` (assumes exactly one lunch slot
+  is subtracted from the usable slot count)
+
+
+13. schedulers/ct/rooms.py
+------------------------------
+- CT slot discovery matches the literal string "15:10" against each Time
+  sheet row's start time to find slot 1; slot 2 is "the next row", with a
+  "+1" fallback if the Time sheet is malformed
+
+
+14. schedulers/ct/model_pins.py
+------------------------------------
+- CT batch-to-day suffix rule: last digit of batch number 1-4 -> day
+  index 0-3 (Mon-Thu), hardcoded via `if 0 <= _ct_day_idx <= 3`
+- `min(4, len(self.days))` when printing the CT slot announcement
+  (assumes CT only ever runs Mon-Thu)
+
+
+15. schedulers/ct/batch_loader.py
+--------------------------------------
+- CHUNK = 4   (CT batches are grouped into chunks of at most 4 per
+  synthetic CT_<PREFIX><N> group)
+- Batch token-splitting regex: r"[,;\s]+"
+- Alphabetic-prefix regex: r"^([A-Za-z]+)"
+- Numeric-suffix regex: r"(\d+)$"
+- "NAN" sentinel string (treated as an empty batch cell)
+
+
+16. schedulers/labs.py
+--------------------------
+- Lab-name normalisation strips the literal substrings " lab" and
+  " laboratory" when fuzzy-matching a course to a subject
+- Fuzzy-match word-length filter: only words longer than 3 characters
+  are considered (`len(w) > 3`)
+
+
+17. schedulers/repair/lns.py
+---------------------------------
+- Neighbourhood-scoring weights (hardcoded, not in config/):
+    same faculty as unscheduled session   -> +4.0
+    same entity/division                  -> +3.0
+    same div_family                       -> +2.0
+    overlapping room pool                 -> up to +2.0 (scaled by overlap)
+    same day as unscheduled sessions      -> +1.0
+    random tiebreak                       -> +0.0 to +0.1
+- Diagnostics preview limited to `min(5, n_movable)` sessions
+
+
+18. schedulers/repair/loop.py / core/solve.py defaults
+-----------------------------------------------------------
+- iterative_repair() defaults: max_iterations=5, time_limit=600,
+  lns_freeze_ratio=0.95, lns_start_pass=3
+- solve() CP-SAT solver parameters (all hardcoded, not exposed via CLI):
+    random_seed = 42
+    num_search_workers = 2   (overridden later by --workers / Flask default)
+    linearization_level = 1
+    cp_model_probing_level = 0
+    shared_tree_num_workers = 2
+    cp_model_presolve, log_search_progress, interleave_search,
+    share_binary_clauses, diversify_lns_params = True
+    use_lns_only = False
+
+
+19. cli.py
+-------------
+- CLI argument defaults: --time-limit 600, --workers 8, --input "FY.xlsx",
+  --output "FY_TT.xlsx", --max-iterations 5, --lns-freeze-ratio 0.95,
+  --lns-start-pass 3
+
+
+20. main.py (generate_timetable — Flask entry point)
+-----------------------------------------------------------
+- online_days = [0, 0, 0, 0, 0, 1]   (duplicates the same default as
+  core/scheduler.py's __init__)
+- num_search_workers = 8   (duplicates the CLI default, but hardcoded
+  separately here)
+- iterative_repair() called with: max_iterations=5, time_limit=300
+  (NOTE: differs from the CLI default of 600 — a shorter cap "to keep
+  the Flask request alive"), use_hints=True, lns_freeze_ratio=0.95,
+  lns_start_pass=3
+
+
+NOTES
+-----
+- Items 6 vs 3 (THEORY_PAIRED_SLOT_STARTS) and items 8/12 (the "4 labs
+  per room per day" constant) are duplicated hardcodes living in two
+  places each — worth consolidating into config/ if they should always
+  move together.
+- Item 20 vs 18/19: the Flask entry point's time_limit (300s) and worker
+  count (8, hardcoded) silently diverge from the CLI defaults — anyone
+  changing one probably needs to check the other.

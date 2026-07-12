@@ -1,5 +1,5 @@
-import SectionHeader from "@/components/SectionHeader";
-import GalleryGrid from "@/components/GalleryGrid";
+import SectionHeader from "@/app/components/shared/SectionHeader";
+import GalleryGrid from "@/app/components/landing/GalleryGrid";
 import galleryData from "@/data/gallery.json";
 import { GalleryItem } from "@/lib/types";
 

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, SlidersHorizontal, Grid, X } from "lucide-react";
-import SectionHeader from "@/components/SectionHeader";
-import ClubCard from "@/components/ClubCard";
+import SectionHeader from "@/app/components/shared/SectionHeader";
+import ClubCard from "@/app/components/landing/ClubCard";
 import clubsData from "@/data/clubs.json";
 import { Club } from "@/lib/types";
 

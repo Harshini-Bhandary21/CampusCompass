@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
-import SectionHeader from "@/components/SectionHeader";
+import SectionHeader from "@/app/components/shared/SectionHeader";
 import contactData from "@/data/contact.json";
 import clubsData from "@/data/clubs.json";
 import { Club } from "@/lib/types";

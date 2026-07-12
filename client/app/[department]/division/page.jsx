@@ -110,20 +110,6 @@ export default function DivisionPage() {
         row.Group ||
         row.group;
 
-      // console.log("Division/Batch:", batch, "Row:", row);
-      // if (!batch) return;
-
-      // const parts = batch.split(/[-_]/);
-      // let parent = batch;
-      // if (parts.length === 2) {
-      //   const suffix = parts[1];
-      //   if (/\d/.test(suffix)) {
-      //     parent = `${parts[0]}_${suffix.replace(/\d+$/, "")}`;
-      //   } else if (suffix.length === 1 && /^[A-Z]$/.test(suffix)) {
-      //     parent = parts[0];
-      //   }
-      // }
-
       const parent = row.Division || row.division || batch;
 
       if (!parentMap[parent]) {

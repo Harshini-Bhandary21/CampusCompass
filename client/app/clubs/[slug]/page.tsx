@@ -5,7 +5,7 @@ import clubsData from "@/data/clubs.json";
 import eventsData from "@/data/events.json";
 import { Club, Event } from "@/lib/types";
 import { generateFallbackSVG, getClubImage } from "@/lib/imageMap";
-import FallbackImage from "@/components/FallbackImage";
+import FallbackImage from "@/app/components/shared/FallbackImage";
 
 interface PageProps {
   params: Promise<{ slug: string }>;

@@ -1,21 +1,20 @@
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  devIndicators: {
-    buildActivity: false,
-    appIsrStatus: false,
-    buildActivityPosition: 'bottom-right',
+  turbopack: {
+    root: __dirname,
   },
+  devIndicators: false,
   reactStrictMode: false,
   experimental: {
     serverActions: {
       bodySizeLimit: '10mb'
     }
   },
-  api: {
-    bodyParser: {
-      sizeLimit: '10mb'
-    }
-  }
 }
 
 export default nextConfig

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Filter } from "lucide-react";
-import SectionHeader from "@/components/SectionHeader";
-import EventCard from "@/components/EventCard";
+import SectionHeader from "@/app/components/shared/SectionHeader";
+import EventCard from "@/app/components/landing/EventCard";
 import eventsData from "@/data/events.json";
 import { Event } from "@/lib/types";
 

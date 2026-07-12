@@ -146,21 +146,6 @@ export default function TimetableGrid({
       return;
     }
 
-    // let times = [];
-    // if (
-    //   typeof slot.time === "string" &&
-    //   (slot.time.includes("&") ||
-    //     slot.time.includes(",") ||
-    //     slot.time.includes("/"))
-    // ) {
-    //   times = slot.time
-    //     .split(/[&,/]/)
-    //     .map((s) => s.trim())
-    //     .filter(Boolean);
-    // } else {
-    //   times = [slot.time];
-    // }
-
     let times = [];
 
     if (typeof slot.time === "string") {

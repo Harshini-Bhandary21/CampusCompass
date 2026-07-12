@@ -355,6 +355,8 @@ def _load_ct_batches_from_faculty(faculty_df: "pd.DataFrame") -> None:
     # Each prefix gets its batches chunked into groups of up to 4
     # (matching the original structure where each group had 4 batches).
     # If a prefix has fewer than 4 batches, they all go in one group.
+    # This needs to be fix (Interface is one of the options)
+    # ["AI1", "AI2", "AI3"]
     CHUNK = 4
     added_groups = 0
     for prefix, batches in sorted(prefix_groups.items()):
