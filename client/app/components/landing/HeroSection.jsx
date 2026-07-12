@@ -77,7 +77,7 @@ export default function HeroSection() {
         </svg>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-16">
+      <div className="relative max-w-[1600px] mx-auto px-6 md:px-12 pt-20 sm:pt-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
           <div className="space-y-6 text-center lg:text-left animate-fade-up">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">

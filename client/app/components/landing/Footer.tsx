@@ -52,7 +52,7 @@ export default function Footer() {
       {/* Background soft glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-[150px] bg-purple-500/5 rounded-full blur-[80px] -z-10 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-slate-200">
           {/* Brand Col */}
           <div className="flex flex-col gap-4">

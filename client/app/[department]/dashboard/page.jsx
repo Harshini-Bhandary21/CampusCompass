@@ -7,7 +7,6 @@ import DashboardNav from "@/app/components/shared/DashboardNav";
 import Sidebar from "@/app/components/shared/Sidebar";
 import FileUploadSection from "@/app/components/dashboard/FileUploadSection";
 import TimetableAnalytics from "@/app/components/dashboard/TimetableAnalytics";
-import PECSlotConfig from "@/app/components/scheduler/PECSlotConfig";
 import ScheduleComparison from "@/app/components/dashboard/ScheduleComparison";
 import LoadingSpinner from "@/app/components/shared/LoadingSpinner";
 import WaitingRoom from "@/app/components/auth/WaitingRoom";
@@ -19,8 +18,6 @@ import VirtualExcelEditor from "@/app/components/dashboard/VirtualExcelEditor";
 import * as XLSX from "xlsx";
 import toast from "react-hot-toast";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { DAYS } from "@/lib/constants";
-import { isFYDepartment } from "@/lib/departmentUtils";
 import {
   getDepartmentTabs,
   createTabNavigator,
@@ -45,12 +42,6 @@ export default function CoordinatorDashboard() {
   const [showConfig, setShowConfig] = useState(false);
   const [configStep, setConfigStep] = useState(1);
   const [facultyAvailability, setFacultyAvailability] = useState({});
-  const [isStandardDept, setIsStandardDept] = useState(true);
-  const [tyPecTheorySlots, setTyPecTheorySlots] = useState({});
-  const [tyPecLabSlots, setTyPecLabSlots] = useState({});
-  const [btechPecTheorySlots, setBtechPecTheorySlots] = useState({});
-  const [btechPecLabSlots, setBtechPecLabSlots] = useState({});
-  const [instituteConfig, setInstituteConfig] = useState(null);
   const [timeSlots, setTimeSlots] = useState([]);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [showAnalyticsModal, setShowAnalyticsModal] = useState(false);
@@ -118,14 +109,6 @@ export default function CoordinatorDashboard() {
           }
         }
 
-        // Load saved PEC configuration if exists
-        if (data.department.pecConfig) {
-          setTyPecTheorySlots(data.department.pecConfig.TY?.theory || {});
-          setTyPecLabSlots(data.department.pecConfig.TY?.lab || {});
-          setBtechPecTheorySlots(data.department.pecConfig.BTech?.theory || {});
-          setBtechPecLabSlots(data.department.pecConfig.BTech?.lab || {});
-        }
-
         // Load saved online configuration if exists
         if (data.department.onlineConfig) {
           setOnlineConfig(data.department.onlineConfig);
@@ -135,17 +118,6 @@ export default function CoordinatorDashboard() {
         if (data.department.facultyAvailability) {
           setFacultyAvailability(data.department.facultyAvailability);
         }
-      }
-
-      // Fetch institute configuration
-      const configRes = await fetch("/api/admin/get-university", {
-        credentials: "include",
-      });
-      const configData = await configRes.json();
-      if (configData.success && configData.university) {
-        const config =
-          configData.university.configuration || configData.university;
-        setInstituteConfig(config);
       }
     } catch (error) {
       console.error("Error fetching department data:", error);
@@ -399,8 +371,6 @@ export default function CoordinatorDashboard() {
   };
 
   const handleGenerateTimetable = () => {
-    const isStandard = !isFYDepartment(actualDepartment);
-    setIsStandardDept(isStandard);
     setShowConfig(true);
     setConfigStep(1);
   };
@@ -419,98 +389,6 @@ export default function CoordinatorDashboard() {
     setConfigStep(2);
   };
 
-  const getTYLockedSlotsByDay = () => {
-    if (!instituteConfig) return {};
-
-    const lockedByDay = {};
-    const days = DAYS;
-
-    const lunchSlots =
-      instituteConfig.lunchSlots?.TY &&
-      Array.isArray(instituteConfig.lunchSlots.TY)
-        ? instituteConfig.lunchSlots.TY.map((slot) => slot - 1)
-        : [];
-
-    days.forEach((day) => {
-      lockedByDay[day] = [...lunchSlots];
-    });
-
-    const tyMdmData = instituteConfig.mdmSlots?.TY?.mdmData?.mdmData;
-    if (tyMdmData) {
-      Object.keys(tyMdmData).forEach((day) => {
-        const dayData = tyMdmData[day];
-        if (dayData && lockedByDay[day]) {
-          if (Array.isArray(dayData.lab) && dayData.lab.length > 0) {
-            dayData.lab.forEach((labIndex) => {
-              const idx = labIndex - 1;
-              lockedByDay[day].push(idx, idx + 1);
-            });
-          }
-          if (Array.isArray(dayData.theory) && dayData.theory.length > 0) {
-            dayData.theory.forEach((theoryIndex) => {
-              lockedByDay[day].push(theoryIndex - 1);
-            });
-          }
-          lockedByDay[day] = [...new Set(lockedByDay[day])];
-        }
-      });
-    }
-
-    return lockedByDay;
-  };
-
-  const getBTechLockedSlotsByDay = () => {
-    if (!instituteConfig) return {};
-
-    const lockedByDay = {};
-    const days = DAYS;
-
-    const lunchSlots =
-      instituteConfig.lunchSlots?.BTech &&
-      Array.isArray(instituteConfig.lunchSlots.BTech)
-        ? instituteConfig.lunchSlots.BTech.map((slot) => slot - 1)
-        : [];
-
-    days.forEach((day) => {
-      lockedByDay[day] = [...lunchSlots];
-    });
-
-    const btechMdmData = instituteConfig.mdmSlots?.BTech?.mdmData?.mdmData;
-    if (btechMdmData) {
-      Object.keys(btechMdmData).forEach((day) => {
-        const dayData = btechMdmData[day];
-        if (dayData && lockedByDay[day]) {
-          if (Array.isArray(dayData.lab) && dayData.lab.length > 0) {
-            dayData.lab.forEach((labIndex) => {
-              const idx = labIndex - 1;
-              lockedByDay[day].push(idx, idx + 1);
-            });
-          }
-          if (Array.isArray(dayData.theory) && dayData.theory.length > 0) {
-            dayData.theory.forEach((theoryIndex) => {
-              lockedByDay[day].push(theoryIndex - 1);
-            });
-          }
-          lockedByDay[day] = [...new Set(lockedByDay[day])];
-        }
-      });
-    }
-
-    return lockedByDay;
-  };
-
-  const handleTYPECNext = (theoryData, labData) => {
-    setTyPecTheorySlots(theoryData);
-    setTyPecLabSlots(labData);
-    setConfigStep(4);
-  };
-
-  const handleBTechPECNext = (theoryData, labData) => {
-    setBtechPecTheorySlots(theoryData);
-    setBtechPecLabSlots(labData);
-    setConfigStep(5);
-  };
-
   const handleFacultyAvailabilityNext = async (data) => {
     setFacultyAvailability(data);
     await fetch("/api/coordinators/get-department", {
@@ -521,11 +399,7 @@ export default function CoordinatorDashboard() {
         facultyAvailability: data,
       }),
     });
-    if (isFYDepartment(actualDepartment)) {
-      setConfigStep(5);
-    } else {
-      setConfigStep(3);
-    }
+    setConfigStep(3);
   };
 
   const decodeResultsFromAPI = (resultsObj) => {
@@ -601,39 +475,9 @@ export default function CoordinatorDashboard() {
     setShowConfig(false);
 
     try {
-      await fetch("/api/coordinators/get-department", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          department: actualDepartment,
-          tyPecTheorySlots,
-          tyPecLabSlots,
-          btechPecTheorySlots,
-          btechPecLabSlots,
-        }),
-      });
-
       const formData = new FormData();
       formData.append("file", uploadedFile);
       formData.append("department", actualDepartment);
-
-      // For standard departments (SY/TY), pass lunch and MDM slots
-      if (instituteConfig?.lunchSlots) {
-        formData.append(
-          "lunchSlots",
-          JSON.stringify(instituteConfig.lunchSlots),
-        );
-      }
-      if (instituteConfig?.mdmSlots) {
-        formData.append("mdmSlots", JSON.stringify(instituteConfig.mdmSlots));
-      }
-      formData.append("tyPecTheorySlots", JSON.stringify(tyPecTheorySlots));
-      formData.append("tyPecLabSlots", JSON.stringify(tyPecLabSlots));
-      formData.append(
-        "btechPecTheorySlots",
-        JSON.stringify(btechPecTheorySlots),
-      );
-      formData.append("btechPecLabSlots", JSON.stringify(btechPecLabSlots));
       formData.append("onlineConfig", JSON.stringify(onlineConfig));
       formData.append(
         "facultyAvailability",
@@ -893,12 +737,9 @@ export default function CoordinatorDashboard() {
                     <ConfigTimeline
                       currentStep={configStep}
                       onStepClick={setConfigStep}
-                      isStandardDept={isStandardDept}
-                      departmentName={actualDepartment}
                     />
                     {configStep === 1 && (
                       <OnlineConfigModal
-                        department={actualDepartment}
                         onSubmit={handleOnlineConfigSubmit}
                         onCancel={() => setShowConfig(false)}
                       />
@@ -911,46 +752,12 @@ export default function CoordinatorDashboard() {
                         timeSlots={timeSlots}
                       />
                     )}
-                    {isStandardDept && configStep === 3 && (
-                      <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border border-blue-200 p-4">
-                        <h3 className="text-sm font-bold text-blue-600 mb-3">
-                          TY PEC Configuration
-                        </h3>
-                        <PECSlotConfig
-                          timeSlots={timeSlots}
-                          lockedSlotsByDay={getTYLockedSlotsByDay()}
-                          onNext={handleTYPECNext}
-                          initialTheory={tyPecTheorySlots}
-                          initialLab={tyPecLabSlots}
-                        />
-                      </div>
-                    )}
-                    {isStandardDept && configStep === 4 && (
-                      <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border border-purple-200 p-4">
-                        <h3 className="text-sm font-bold text-purple-600 mb-3">
-                          BTech PEC Configuration
-                        </h3>
-                        <PECSlotConfig
-                          timeSlots={timeSlots}
-                          lockedSlotsByDay={getBTechLockedSlotsByDay()}
-                          onNext={handleBTechPECNext}
-                          initialTheory={btechPecTheorySlots}
-                          initialLab={btechPecLabSlots}
-                        />
-                      </div>
-                    )}
-                    {configStep === 5 && (
+                    {configStep === 3 && (
                       <ConfigReview
                         onlineConfig={onlineConfig}
                         facultyAvailability={facultyAvailability}
-                        tyTheorySlots={tyPecTheorySlots}
-                        tyLabSlots={tyPecLabSlots}
-                        btechTheorySlots={btechPecTheorySlots}
-                        btechLabSlots={btechPecLabSlots}
-                        timeSlots={timeSlots}
                         onConfirm={handlePECConfirm}
-                        onBack={() => setConfigStep(isStandardDept ? 4 : 2)}
-                        isStandardDept={isStandardDept}
+                        onBack={() => setConfigStep(2)}
                       />
                     )}
                   </>

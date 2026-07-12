@@ -1,11 +1,19 @@
-import { Inter } from 'next/font/google'
+import { Inter, Sora } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
+import SiteChrome from './components/shared/SiteChrome'
 import './globals.css'
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+})
+
+const sora = Sora({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['600', '700', '800'],
+  variable: '--font-display-sora',
 })
 
 export const metadata = {
@@ -24,7 +32,6 @@ export const metadata = {
     'department timetable',
     'constraint optimization',
     'academic scheduling',
-    'MDM PEC VSEC',
     'CampusCompass',
   ],
   authors: [{ name: 'CampusCompass' }],
@@ -65,9 +72,9 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} ${sora.variable}`}>
       <body className="font-sans antialiased">
-        {children}
+        <SiteChrome>{children}</SiteChrome>
         <Toaster
           position="top-right"
           toastOptions={{

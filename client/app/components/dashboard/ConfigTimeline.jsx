@@ -2,33 +2,12 @@
 
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
-import { isFYDepartment } from "@/lib/departmentUtils";
-
-export default function ConfigTimeline({
-  currentStep,
-  onStepClick,
-  isStandardDept,
-  departmentName,
-}) {
-  // FY department: only online config + faculty availability + review.
-  const isSimpleDept = isFYDepartment(departmentName);
-
-  // Always use the same step IDs across FY and standard flows so
-  // `currentStep` values from the parent match. FY simply omits 3 and 4.
-  const steps =
-    isSimpleDept || !isStandardDept
-      ? [
-          { id: 1, label: "Online Config" },
-          { id: 2, label: "Faculty" },
-          { id: 5, label: "Review" },
-        ]
-      : [
-          { id: 1, label: "Online Config" },
-          { id: 2, label: "Faculty" },
-          { id: 3, label: "TY PEC" },
-          { id: 4, label: "BTech PEC" },
-          { id: 5, label: "Review" },
-        ];
+export default function ConfigTimeline({ currentStep, onStepClick }) {
+  const steps = [
+    { id: 1, label: "Online Config" },
+    { id: 2, label: "Faculty" },
+    { id: 3, label: "Review" },
+  ];
 
   const currentIndex = steps.findIndex((s) => s.id === currentStep);
   const displayStep = currentIndex >= 0 ? currentIndex + 1 : 1;

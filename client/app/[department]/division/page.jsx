@@ -63,7 +63,7 @@ export default function DivisionPage() {
         setConfiguration(dept.configuration || {});
 
         if (dept?.selectedSchedule?.scheduleData) {
-          parseDivisionSchedules(dept.selectedSchedule.scheduleData, dept);
+          parseDivisionSchedules(dept.selectedSchedule.scheduleData);
         }
       }
     } catch (error) {
@@ -73,29 +73,8 @@ export default function DivisionPage() {
     }
   };
 
-  const parseDivisionSchedules = (scheduleData, dept) => {
+  const parseDivisionSchedules = (scheduleData) => {
     const parentMap = {};
-    const mdmCfg =
-      dept?.configuration?.extractedData?.mdmSlots ||
-      dept?.configuration?.mdmSlots ||
-      {};
-
-    const isMdmSlotForDivision = (divKey, day, time) => {
-      if (!mdmCfg) return false;
-      const def =
-        mdmCfg[divKey] ||
-        mdmCfg[divKey?.toUpperCase()] ||
-        mdmCfg[divKey?.toLowerCase()];
-      if (!def) return false;
-      if (Array.isArray(def)) return def.includes(time);
-      if (typeof def === "string") return def === time;
-      if (typeof def === "object") {
-        if (def[day] && def[day] === time) return true;
-        const vals = Object.values(def).flat();
-        return vals.includes(time);
-      }
-      return false;
-    };
 
     scheduleData.forEach((row) => {
       if (!row.Division && !row.division) {
@@ -116,14 +95,7 @@ export default function DivisionPage() {
         parentMap[parent] = [];
       }
 
-      let rowType = row.Type || row.type || "";
-      const divKey = parent; //.split(/[-_]/)[0];
-      if (
-        isMdmSlotForDivision(divKey, row.Day || row.day, row.Time || row.time)
-      ) {
-        if ((rowType || "").toLowerCase().includes("lab")) rowType = "MDM-LAB";
-        else rowType = "MDM-TH";
-      }
+      const rowType = row.Type || row.type || "";
 
       parentMap[parent].push({
         day: row.Day || row.day,

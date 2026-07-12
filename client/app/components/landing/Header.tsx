@@ -38,7 +38,7 @@ export default function Header() {
           scrolled ? "glass-nav py-3" : "bg-transparent py-5"
         )}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="flex items-center">
@@ -55,7 +55,7 @@ export default function Header() {
                 </span>
               </div>
               <span className="ml-3 px-2 py-0.5 rounded-md bg-[#0f2a4a]/10 text-[#0f2a4a] font-bold text-[8px] uppercase tracking-widest hidden sm:inline-block">
-                Stdent Portal
+                Student Portal
               </span>
             </div>
           </Link>

@@ -70,7 +70,6 @@ export async function GET(request) {
         vision: department.vision || 'Department vision not set',
         mission: department.mission || 'Department mission not set',
         timetableData: department.timetableData || null,
-        pecConfig: department.pecConfig || null,
         selectedSchedule: department.selectedSchedule || null,
         onlineConfig: department.onlineConfig || null,
         facultyAvailability: department.facultyAvailability || null
@@ -93,10 +92,6 @@ export async function POST(request) {
     const body = await request.json()
     const {
       department,
-      tyPecTheorySlots,
-      tyPecLabSlots,
-      btechPecTheorySlots,
-      btechPecLabSlots,
       fileName,
       fileData,
       analytics,
@@ -115,7 +110,6 @@ export async function POST(request) {
       hasFile: !!(fileName && fileData),
       fileName,
       fileSizeBytes: fileBytes,
-      hasPec: tyPecTheorySlots !== undefined,
       hasSelectedSchedule: !!selectedSchedule,
       hasOnlineConfig: onlineConfig !== undefined,
       hasFacultyAvailability: facultyAvailability !== undefined,
@@ -173,14 +167,6 @@ export async function POST(request) {
     }
 
     const updateData = {}
-
-    if (tyPecTheorySlots !== undefined) {
-      updateData['departments.$.pecConfig'] = {
-        TY: { theory: tyPecTheorySlots, lab: tyPecLabSlots },
-        BTech: { theory: btechPecTheorySlots, lab: btechPecLabSlots },
-        updatedAt: new Date(),
-      }
-    }
 
     if (fileName && fileData) {
       updateData['departments.$.timetableData'] = {

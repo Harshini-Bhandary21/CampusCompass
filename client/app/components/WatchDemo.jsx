@@ -3,7 +3,7 @@ import videos from '../../data/videos.json'
 export default function WatchDemo() {
   return (
     <section className="py-16 bg-white/60 backdrop-blur-sm border-t border-teal-100">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12">
 
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-teal-800 mb-3">

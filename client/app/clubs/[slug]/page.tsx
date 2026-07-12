@@ -32,7 +32,7 @@ export default async function ClubDetailPage({ params }: PageProps) {
   const fallbackSVG = generateFallbackSVG(club.name, club.category);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 flex flex-col gap-12">
+    <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-28 pb-12 flex flex-col gap-12">
       {/* Back button */}
       <div>
         <Link
@@ -154,7 +154,7 @@ export default async function ClubDetailPage({ params }: PageProps) {
             {/* Faculty Advisor */}
             {club.facultyAdvisor && club.facultyAdvisor.name && (
               <div className="p-5 rounded-xl bg-slate-50 border border-slate-200">
-                <div className="flex items-center gap-2 text-[10px] font-extrabold tracking-widest text-blu-600 uppercase mb-2">
+                <div className="flex items-center gap-2 text-[10px] font-extrabold tracking-widest text-blue-600 uppercase mb-2">
                   <Star className="w-3.5 h-3.5 fill-blue-600/10" />
                   Faculty Advisor
                 </div>
@@ -218,7 +218,7 @@ export default async function ClubDetailPage({ params }: PageProps) {
                 {clubEvents.map((evt) => (
                   <div key={evt.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 relative group">
                     <span className={`absolute top-4 right-4 px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${
-                      evt.status === "upcoming" ? "bg-black-50 text-black-700 border border-purple-200" : "bg-slate-100 text-slate-500 border border-slate-200"
+                      evt.status === "upcoming" ? "bg-purple-50 text-purple-700 border border-purple-200" : "bg-slate-100 text-slate-500 border border-slate-200"
                     }`}>
                       {evt.status}
                     </span>

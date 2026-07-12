@@ -15,7 +15,8 @@ const [question, setQuestion] = useState('')
 
   return (
     <section className="py-20 bg-white border-t border-teal-100">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+      <div className="max-w-4xl mx-auto">
 
         {/* Heading */}
         <div className="text-center mb-12">
@@ -119,6 +120,7 @@ const [question, setQuestion] = useState('')
   </form>
 </div>
 
+      </div>
       </div>
     </section>
   )

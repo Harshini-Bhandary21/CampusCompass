@@ -34,7 +34,7 @@ export default function SectionHeader({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="px-3.5 py-1 text-[10px] font-extrabold tracking-widest uppercase rounded-full bg-blue-500/10 border border-slate-500/20 text-black-300 mb-4"
+          className="px-3.5 py-1 text-[10px] font-extrabold tracking-widest uppercase rounded-full bg-blue-500/10 border border-slate-500/20 text-blue-700 mb-4"
         >
           {badge}
         </motion.span>

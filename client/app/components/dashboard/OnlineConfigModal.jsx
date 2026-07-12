@@ -2,16 +2,12 @@
 import { useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
-export default function OnlineConfigModal({ department, onSubmit, onCancel }) {
+export default function OnlineConfigModal({ onSubmit, onCancel }) {
   const [config, setConfig] = useState({
     FY: [0, 0, 0, 0, 0, 0],
-    SY: [0, 0, 0, 0, 0],
-    TY: [0, 0, 0, 0, 0],
-    BTECH: [0, 0, 0, 0, 0]
   });
 
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const daysWeekday = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
   const toggleDay = (year, dayIndex) => {
     setConfig(prev => ({
@@ -20,21 +16,7 @@ export default function OnlineConfigModal({ department, onSubmit, onCancel }) {
     }));
   };
 
-  const getYearsForDepartment = () => {
-    const deptOriginal = department.toUpperCase();
-    const deptUpper = deptOriginal.replace(/\./g, '').replace(/\s+/g, '').replace(/-/g, '').replace(/_/g, '');
-
-    if (deptUpper.includes('FY') || deptUpper.includes('FIRST')) {
-      return [{ key: 'FY', label: 'First Year', days: days }];
-    }
-    // Standard departments (SY/TY)
-    return [
-      { key: 'SY', label: 'Second Year (SY)', days: daysWeekday },
-      { key: 'TY', label: 'Third Year (TY)', days: daysWeekday }
-    ];
-  };
-
-  const years = getYearsForDepartment();
+  const years = [{ key: 'FY', label: 'First Year', days: days }];
 
   if (years.length === 0) {
     onSubmit({});

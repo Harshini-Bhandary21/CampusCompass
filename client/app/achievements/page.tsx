@@ -12,7 +12,7 @@ export default function AchievementsPage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 flex flex-col gap-12">
+    <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-28 pb-12 flex flex-col gap-12">
       {/* Header */}
       <SectionHeader
         badge="Accolades"
@@ -22,7 +22,7 @@ export default function AchievementsPage() {
       />
 
       {/* Timeline Grid */}
-      <div className="relative w-full max-w-5xl mx-auto py-12">
+      <div className="relative w-full max-w-6xl mx-auto py-12">
         {sortedAchievements.map((achievement, idx) => (
           <TimelineItem
             key={achievement.id}
