@@ -39,7 +39,6 @@ export default function NotifyPage() {
       const data = await response.json()
       if (data.success) setDepartment(data.department)
     } catch (error) {
-      console.error('Error fetching department data:', error)
     } finally {
       setLoading(false)
     }
@@ -51,7 +50,6 @@ export default function NotifyPage() {
       const data = await response.json()
       if (data.success) setNotifications(data.notifications || [])
     } catch (error) {
-      console.error('Error fetching notifications:', error)
     }
   }
 

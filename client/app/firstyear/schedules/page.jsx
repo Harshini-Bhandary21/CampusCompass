@@ -37,7 +37,6 @@ export default function SchedulesPage() {
       const data = await response.json()
       if (data.success) setDepartment(data.department)
     } catch (error) {
-      console.error('Error fetching department data:', error)
     } finally {
       setLoading(false)
     }

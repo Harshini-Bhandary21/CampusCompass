@@ -44,8 +44,6 @@ export default function ScheduleComparison({ schedulesData = [], isOpen, onClose
   const [selectedSchedule, setSelectedSchedule] = useState(null)
   const [showAnalytics, setShowAnalytics] = useState(null)
   const [deployingId, setDeployingId] = useState(null)
-  
-  console.log('ScheduleComparison render:', { isOpen, schedulesDataLength: schedulesData.length, rawResults })
 
   const schedules = useMemo(() => {
     if (!schedulesData.length) return []
@@ -109,17 +107,13 @@ export default function ScheduleComparison({ schedulesData = [], isOpen, onClose
       XLSX.utils.book_append_sheet(wb, ws, 'Schedule')
       XLSX.writeFile(wb, `${schedule.name.replace(/\s+/g, '_')}.xlsx`)
     } catch (error) {
-      console.error('Download error:', error)
       alert('Download failed: ' + error.message)
     }
   }
 
   if (!isOpen) {
-    console.log('Modal is closed, not rendering')
     return null
   }
-  
-  console.log('Modal is OPEN, rendering with', schedules.length, 'schedules')
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -292,7 +286,6 @@ export default function ScheduleComparison({ schedulesData = [], isOpen, onClose
                         onClose()
                       } catch (err) {
                         // Error already toasted in parent; keep modal open so user can retry.
-                        console.error('Deploy failed:', err)
                       } finally {
                         setDeployingId(null)
                       }

@@ -66,7 +66,6 @@ export default function DivisionPage() {
         }
       }
     } catch (error) {
-      console.error("Error fetching department data:", error);
     } finally {
       setLoading(false);
     }
@@ -77,7 +76,6 @@ export default function DivisionPage() {
 
     scheduleData.forEach((row) => {
       if (!row.Division && !row.division) {
-        console.log("Missing Division:", row);
       }
 
       const batch =
@@ -107,15 +105,6 @@ export default function DivisionPage() {
       });
     });
 
-    console.log("CS1 Schedule");
-    console.table(parentMap["CS1"]);
-
-    console.log("Original rows:", scheduleData.length);
-
-    console.log(
-      "Division rows:",
-      Object.values(parentMap).reduce((a, b) => a + b.length, 0),
-    );
     const divisionList = Object.keys(parentMap).map((name) => ({
       name,
       schedule: parentMap[name],

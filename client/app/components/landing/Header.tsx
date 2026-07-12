@@ -4,10 +4,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LayoutGrid, Workflow, GraduationCap, PlayCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const NAV_ITEMS = [];
+const NAV_ITEMS = [
+  { href: "/#features", label: "Features", icon: LayoutGrid },
+  { href: "/#how-it-works", label: "How It Works", icon: Workflow },
+  { href: "/student/facultyinfo", label: "Faculty", icon: GraduationCap },
+  { href: "/videos", label: "Videos", icon: PlayCircle },
+];
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -81,44 +86,9 @@ export default function Header() {
           {/* CTA Link */}
           <div className="hidden lg:flex items-center">
 
-            <Link
-  href="/auth/signin"
-   className="
-    px-5 py-2.5
-    rounded-xl
-    text-sm font-semibold
-    text-white
-
-    bg-gradient-to-r
-    from-blue-900/90
-    via-blue-800/85
-    to-blue-900/90
-
-    backdrop-blur-lg
-    border border-blue-300/20
-
-    shadow-lg
-    shadow-blue-900/40
-
-    hover:from-blue-800
-    hover:via-blue-700
-    hover:to-blue-800
-
-    hover:shadow-xl
-    hover:shadow-blue-700/40
-    hover:scale-105
-
-    transition-all duration-300
-  "
->
-  Sign In
-</Link>
-            {/* <Link
-              href="/clubs"
-              className="px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-purple-600 hover:bg-purple-700 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-            >
-              Explore Clubs
-            </Link> */}
+            <Link href="/auth/signin" className="btn-primary !px-5 !py-2.5">
+              Sign In
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}

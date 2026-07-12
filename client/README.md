@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CampusCompass — client
 
-## Getting Started
+Next.js 16 (App Router, JavaScript) frontend for CampusCompass. Auth, MongoDB persistence, and the coordinator dashboard for FY timetable generation. See the [root README](../README.md) for how this fits together with the `python/` generator service.
 
-First, run the development server:
+## Setup
 
 ```bash
+npm install
+cp .env.example .env   # then fill in the real values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Runs at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Required environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See `.env.example` for the full list with descriptions. At minimum you need `MONGODB_URI`, `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, and `NEXT_PUBLIC_API_URL`/`FLASK_URL` pointing at the running `python/` service (default `http://localhost:5000`).
 
-## Learn More
+## Architecture notes
 
-To learn more about Next.js, take a look at the following resources:
+- **Auth**: NextAuth v5 (`auth.js`), credentials-based, three roles — `admin` (department coordinator, despite the role name), `teacher`, `student`. Session/JWT carries `role`, `department`, `university`.
+- **Routing**: `app/firstyear/*` is a static route tree (not a dynamic `[department]` segment) — this project is scoped to a single department, "First Year". Don't reintroduce dynamic department routing without discussing it first; `app/components/dashboard/DepartmentSidebarConfig.jsx` hardcodes the `/firstyear/*` paths.
+- **Schedule generation flow**: the dashboard (`app/firstyear/dashboard/page.jsx`) uploads an Excel file directly to the `python/` FastAPI service (`NEXT_PUBLIC_API_URL`/schedule), then POSTs the returned JSON to `/api/coordinators/get-department` to persist it in MongoDB, then downloads the generated Excel from the Python service's `/download/{run_id}`. `client/`'s own API routes never talk to the Python service on the generation path except by proxying — the browser calls Python directly.
+- **Data model**: a single `universities` collection in MongoDB. Each university document has a `departments` array; each department has a `coordinator` sub-object (the login identity) and holds `selectedSchedule`, `timetableData`, `onlineConfig`, `facultyAvailability`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Testing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Vitest + React Testing Library. Run with:
 
-## Deploy on Vercel
+```bash
+npm test
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Tests are co-located next to the code they cover (`*.test.js`/`*.test.jsx`/`*.test.ts`), not in a separate `__tests__/` tree. Coverage is intentionally minimal right now (this is the first pass at adding tests to a codebase that had none) — see `lib/utils.test.ts` and `app/components/dashboard/TimetableGrid.test.jsx`. Add tests alongside new features rather than treating this as done.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Known issues / TODO
+
+- `app/videos/page.tsx` has a pre-existing type mismatch between the component and `data/videos.json` (component expects `{id, url}`, data has `{title, file}`) — not yet fixed.
+- Several planned features (3D campus view, pre-course survey, completion tracking, faculty leave handling, teacher dashboard, LMS calendar) are not built — see the root README's "Project status" section.

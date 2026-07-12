@@ -118,7 +118,6 @@ export default function CoordinatorDashboard() {
         }
       }
     } catch (error) {
-      console.error("Error fetching department data:", error);
     } finally {
       setLoading(false);
     }
@@ -306,7 +305,6 @@ export default function CoordinatorDashboard() {
       setUploadedFile(uploadedFile);
       toast.success(`Uploaded & saved: ${uploadedFile.name}`, { id: toastId });
     } catch (error) {
-      console.error("Upload error:", error);
       setConsoleOutput(`Error: ${error.message}`);
       toast.error(`Upload failed: ${error.message}`, { id: toastId });
     } finally {
@@ -401,7 +399,6 @@ export default function CoordinatorDashboard() {
         const base64Data = typeof value === "string" ? value : value?.data;
 
         if (!base64Data) {
-          console.warn(`No base64 data for ${key}`);
           continue;
         }
 
@@ -414,7 +411,6 @@ export default function CoordinatorDashboard() {
         const workbook = XLSX.read(bytes, { type: "array" });
 
         if (!workbook?.SheetNames?.length) {
-          console.warn(`No sheets for ${key}`);
           continue;
         }
 
@@ -430,7 +426,6 @@ export default function CoordinatorDashboard() {
 
         const worksheet = workbook.Sheets[sheetName];
         if (!worksheet) {
-          console.warn(`Worksheet missing for ${key}`);
           continue;
         }
 
@@ -445,7 +440,6 @@ export default function CoordinatorDashboard() {
           processedResults[key] = excelData;
         }
       } catch (err) {
-        console.error(`Error processing ${key}:`, err);
       }
     }
 
@@ -453,10 +447,6 @@ export default function CoordinatorDashboard() {
   };
 
   const handlePECConfirm = async () => {
-    console.log("🚀 handlePECConfirm called!");
-    console.log("🚀 Department:", actualDepartment);
-    console.log("🚀 Uploaded file:", uploadedFile?.name);
-
     if (!uploadedFile) {
       alert("No file uploaded!");
       return;
@@ -499,14 +489,7 @@ export default function CoordinatorDashboard() {
         throw new Error("Flask returned success but no timetable rows.");
       }
 
-      console.log("FULL FLASK RESPONSE:", data);
-      console.log("ROWS:", data.rows);
-      console.log("ROWS LENGTH:", data.rows?.length);
-
       if (data.success) {
-        console.log("FULL FLASK RESPONSE:", data);
-        console.log("ROWS LENGTH BEFORE SAVE:", data.rows?.length);
-
         if (data.success) {
           const selectedSchedule = {
             filename: `Generated_${Date.now()}.xlsx`,
@@ -528,8 +511,6 @@ export default function CoordinatorDashboard() {
 
           const saveResult = await saveResponse.json();
 
-          console.log("SAVE RESPONSE:", saveResult);
-
           if (!saveResult.success) {
             throw new Error(saveResult.error);
           }
@@ -545,9 +526,6 @@ export default function CoordinatorDashboard() {
         }
 
         const saveResult = await saveResponse.json();
-
-        console.log("SAVE RESPONSE:", saveResult);
-        console.log("SAVE STATUS:", saveResponse.status);
 
         if (!saveResult.success) {
           throw new Error(
@@ -633,7 +611,6 @@ export default function CoordinatorDashboard() {
       if (error.message && !error.message.startsWith("HTTP")) {
         toast.error(`Deploy failed: ${error.message}`, { id: toastId });
       }
-      console.error("Error selecting schedule:", error);
       throw error;
     }
   };
@@ -821,7 +798,6 @@ export default function CoordinatorDashboard() {
                     throw new Error("Failed to save to database");
                   }
                 } catch (error) {
-                  console.error("Error saving Excel data:", error);
                   alert("Failed to save changes: " + error.message);
                 }
               }}

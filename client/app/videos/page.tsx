@@ -1,5 +1,11 @@
 import videosData from "@/data/videos.json";
 
+export const metadata = {
+  title: "Video Gallery",
+  description: "Watch the latest highlights and event videos from our campus.",
+  alternates: { canonical: "/videos" },
+};
+
 /**
  * Converts any YouTube URL format into an embeddable URL.
  * Supports:

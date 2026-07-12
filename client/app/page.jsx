@@ -1,19 +1,26 @@
-'use client'
+import HomeContent from './components/landing/HomeContent'
 
-import { useScrollAnimationMultiple } from '../lib/useScrollAnimation'
-import HeroSection from './components/landing/HeroSection'
-import WatchDemo from './components/WatchDemo'
+export const metadata = {
+  alternates: { canonical: '/' },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'CampusCompass',
+  description:
+    'CampusCompass automates university timetable generation for FY and department scheduling using constraint-based optimization aligned with NEP 2020.',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+}
 
 export default function Home() {
-  useScrollAnimationMultiple(0.1)
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50">
-      <HeroSection />
-
-      <div id="watch-demo">
-        <WatchDemo />
-      </div>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <HomeContent />
+    </>
   )
 }

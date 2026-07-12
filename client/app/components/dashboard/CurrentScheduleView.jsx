@@ -36,20 +36,8 @@ export default function CurrentScheduleView({ department, departmentName }) {
       );
       const data = await response.json();
 
-      console.log("CURRENT SCHEDULE:", data.department?.selectedSchedule);
-
-      console.log(
-        "SCHEDULE DATA:",
-        data.department?.selectedSchedule?.scheduleData,
-      );
-
-      console.log(
-        "SCHEDULE ROW COUNT:",
-        data.department?.selectedSchedule?.scheduleData?.length,
-      );
       setCurrentSchedule(data.department?.selectedSchedule || null);
     } catch (error) {
-      console.error("Error fetching current schedule:", error);
       setCurrentSchedule(null);
     } finally {
       setLoading(false);
@@ -82,7 +70,6 @@ export default function CurrentScheduleView({ department, departmentName }) {
           return;
         }
       } catch (e) {
-        console.warn("Flask download failed, falling back to client-side:", e);
       }
     }
 

@@ -21,8 +21,6 @@ export default function TimetableGrid({
     "Saturday",
   ];
 
-  console.log("DAYS CONSTANT:", days);
-
   const slotTimes = {};
   const timeToSlot = {};
 
@@ -37,9 +35,6 @@ export default function TimetableGrid({
     slotTimes[slotIndex] = normalizedTime;
     timeToSlot[normalizedTime] = slotIndex;
   });
-
-  console.log("TIMESLOTS:", timeSlots);
-  console.log("TIMETABLE SLOT MAP:", timeToSlot);
 
   const grid = {};
   days.forEach((day) => {
@@ -127,13 +122,6 @@ export default function TimetableGrid({
     };
   });
 
-  console.log("NORMALIZED SAMPLE:", normalized[0]);
-  console.log("UNIQUE DAYS:", [...new Set(normalized.map((x) => x.day))]);
-
-  console.log("TimetableGrid - Schedule items:", schedule.length);
-  console.log("TimetableGrid - Normalized items:", normalized.length);
-  console.log("TimetableGrid - Sample normalized:", normalized[0]);
-
   normalized.forEach((slot) => {
     if (!slot || !slot.day || !slot.time) return;
 
@@ -176,22 +164,12 @@ export default function TimetableGrid({
     }
 
     const primaryTime = times[0];
-    console.log("TIME MATCH:", primaryTime, "=>", timeToSlot[primaryTime]);
     const slotIndex = timeToSlot[primaryTime];
 
-    console.log("CHECKING SLOT:", {
-      day: slot.day,
-      time: primaryTime,
-      slotIndex,
-      dayExists: !!grid[slot.day],
-    });
-
     if (!slotIndex) {
-      console.log("TIME NOT FOUND:", primaryTime);
     }
 
     if (!grid[slot.day]) {
-      console.log("DAY NOT FOUND:", slot.day);
     }
 
     if (!slotIndex || !grid[slot.day]) return;

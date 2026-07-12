@@ -13,16 +13,12 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url)
     const departmentName = searchParams.get('department')
 
-    console.log('Fetching department:', departmentName, 'for user:', session.user.email)
-
     const client = await clientPromise
     const db = client.db()
 
     const university = await db.collection('universities').findOne({
       'departments.coordinator.email': session.user.email
     })
-
-    console.log('Found university:', university ? 'Yes' : 'No')
 
     if (!university) {
       // Return a default department structure for development
@@ -42,8 +38,6 @@ export async function GET(request) {
     const department = university.departments.find(
       dept => dept.name === decodedDepartment
     )
-
-    console.log('Found department:', department ? 'Yes' : 'No')
 
     if (!department) {
       // Return a default department structure
@@ -72,7 +66,6 @@ export async function GET(request) {
       }
     })
   } catch (error) {
-    console.error('Department fetch error:', error)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -100,16 +93,6 @@ export async function POST(request) {
 
     // Log which fields were sent + approximate size (helps diagnose Mongo 16MB limit).
     const fileBytes = fileData ? Math.round((fileData.length * 3) / 4) : 0
-    console.log('[POST get-department]', {
-      coordinator: session.user.email,
-      department,
-      hasFile: !!(fileName && fileData),
-      fileName,
-      fileSizeBytes: fileBytes,
-      hasSelectedSchedule: !!selectedSchedule,
-      hasOnlineConfig: onlineConfig !== undefined,
-      hasFacultyAvailability: facultyAvailability !== undefined,
-    })
 
     // Reject files that would blow past MongoDB's 16MB document size limit.
     // Leave ~2MB of headroom for the rest of the university document.
@@ -135,7 +118,6 @@ export async function POST(request) {
     })
 
     if (!university) {
-      console.error('[POST get-department] no university for coordinator', session.user.email)
       return NextResponse.json(
         { success: false, error: `No university found for coordinator ${session.user.email}` },
         { status: 404 }
@@ -156,10 +138,6 @@ export async function POST(request) {
     // the original silent-save bug. We still proceed using the coordinator's
     // real department so the save actually happens.
     if (department && department !== matchedDept.name) {
-      console.warn(
-        '[POST get-department] department slug mismatch — saving to coordinator-owned department',
-        { urlSlug: department, storedName: matchedDept.name }
-      )
     }
 
     const updateData = {}
@@ -174,16 +152,7 @@ export async function POST(request) {
       }
     }
 
-    console.log(
-      "[POST get-department] selectedSchedule received:",
-      !!selectedSchedule
-    )
-
     if (selectedSchedule) {
-      console.log(
-        "[POST get-department] schedule rows:",
-        selectedSchedule.scheduleData?.length
-      )
       updateData['departments.$.selectedSchedule'] = selectedSchedule
     }
 
@@ -216,12 +185,6 @@ export async function POST(request) {
       { $set: updateData }
     )
 
-    console.log('[POST get-department] updateOne result', {
-      matchedCount: result.matchedCount,
-      modifiedCount: result.modifiedCount,
-      upsertedCount: result.upsertedCount,
-    })
-
     if (result.matchedCount === 0) {
       return NextResponse.json(
         {
@@ -239,7 +202,6 @@ export async function POST(request) {
       updated: Object.keys(updateData),
     })
   } catch (error) {
-    console.error('[POST get-department] error:', error)
     return NextResponse.json(
       { success: false, error: error.message || 'Server error' },
       { status: 500 }

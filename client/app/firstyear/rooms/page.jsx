@@ -73,7 +73,6 @@ export default function RoomsPage() {
         }
       }
     } catch (error) {
-      console.error("Error fetching department data:", error);
     } finally {
       setLoading(false);
     }
@@ -101,12 +100,6 @@ export default function RoomsPage() {
       });
     });
 
-    console.log("Original rows:", scheduleData.length);
-
-    console.log(
-      "Room rows:",
-      Object.values(roomMap).reduce((a, b) => a + b.length, 0),
-    );
     return Object.keys(roomMap).map((name) => ({
       name,
       schedule: roomMap[name],
@@ -136,11 +129,6 @@ export default function RoomsPage() {
 
   const handleReschedule = async (type, value, isPermanent = true) => {
     try {
-      console.log("=== RESCHEDULE DEBUG ===");
-      console.log("Selected slot:", selectedSlot);
-      console.log("Type:", type, "Value:", value);
-      console.log("Total schedule data rows:", allScheduleData.length);
-
       let matchCount = 0;
       const updatedScheduleData = allScheduleData.map((row) => {
         const matchesSlot =
@@ -152,7 +140,6 @@ export default function RoomsPage() {
 
         if (matchesSlot) {
           matchCount++;
-          console.log("MATCH FOUND! Row:", row);
           if (type === "room") {
             return { ...row, Room: value, room: value };
           } else if (type === "faculty") {
@@ -169,9 +156,6 @@ export default function RoomsPage() {
         return row;
       });
 
-      console.log("Total matches found:", matchCount);
-      console.log("Sending update to API...");
-
       const response = await fetch(`/api/coordinators/get-department`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -182,10 +166,8 @@ export default function RoomsPage() {
       });
 
       const result = await response.json();
-      console.log("API Response:", result);
 
       if (result.success) {
-        console.log("Update successful, refreshing data...");
         setAllScheduleData(updatedScheduleData);
         const newRoomSchedules =
           parseRoomSchedulesAndReturn(updatedScheduleData);
@@ -212,7 +194,6 @@ export default function RoomsPage() {
         toast.error("Failed to update schedule");
       }
     } catch (error) {
-      console.error("Error rescheduling:", error);
       toast.error("Error updating schedule");
     }
   };
@@ -222,9 +203,6 @@ export default function RoomsPage() {
   }
 
   if (selectedRoom) {
-    console.log("SELECTED ROOM:", selectedRoom);
-    console.log("ROOM SCHEDULE:", selectedRoom.schedule);
-    console.log("ROOM ROWS:", selectedRoom.schedule?.length);
   }
 
   return (

@@ -1,0 +1,1058 @@
+[
+  {
+    "id": "aalekh",
+    "name": "Aalekh",
+    "fullName": "Aalekh — Art Elated Club",
+    "slug": "aalekh",
+    "category": "cultural",
+    "icon": "Palette",
+    "established": "2017",
+    "shortDescription": "Introduces students to the world's finer arts and raises awareness of creative expression through diverse cultural activities.",
+    "description": "AALEKH- Art Elated Club's goal is to introduce students to the world's finer arts and raise their awareness of them. An important aspect of the club's mission is to help its members develop their creative and critical thinking abilities in a safe environment.\n\nThe club hosts a variety of entertaining activities that not only amuse us but also help us gain a better knowledge of the diverse cultures and customs that exist around the world.",
+    "image": "/assets/clubs/aalekh.jpg",
+    "facultyAdvisor": {
+      "name": "Mrs. Aswathy MA",
+      "email": "aswathy.ma@mitaoe.ac.in",
+      "department": ""
+    },
+    "president": {
+      "name": "Samruddhi Kakad",
+      "email": "shubhampatil@mitaoe.ac.in",
+      "phone": "9561894479"
+    },
+    "achievements": [
+      "Ajeya Bhattacharya received 2nd prize in Colour Splash — Monochromatic Painting",
+      "Won 1st Prize in Crane-o-Mania event at TechFest IIT Bombay",
+      "Won 1st prize in Impressions 2k18 at COEP",
+      "Won 1st prize in Paper Décor Competition Melange 2k19 at VIT, Pune",
+      "Won 2nd Prize in MECHTRIX competition MindSpark 2k19 at COEP"
+    ],
+    "eventsParticipated": [
+      "Impressions 2021 — organized by COEP",
+      "Inter college Event Impressions 2k19 at COEP",
+      "RIVIERA Cultural fest at VIT",
+      "Various Art and Craft workshops",
+      "Online certificate courses"
+    ],
+    "eventsOrganized": [
+      "ARTISIA 2k20 virtually on various social media platforms",
+      "Inter college event ARTISIA 2k19",
+      "Workshop on Painting and Sketching",
+      "म मराठीचा competition to celebrate Marathi Bhasha week"
+    ],
+    "salientFeatures": [
+      "Organizes Inter college event ARTISIA to celebrate WORLD ART DAY",
+      "Decorates the entire college campus during annual gathering NAKSHTRA",
+      "Organizes exhibitions showcasing sketches, paintings, sculptures & crafts"
+    ],
+    "memberCount": 60
+  },
+  {
+    "id": "aero",
+    "name": "Aero",
+    "fullName": "MITAOE Aero — Aeromodelling Club",
+    "slug": "aero",
+    "category": "technical",
+    "icon": "Plane",
+    "established": "2018",
+    "shortDescription": "MITAOE's first aeromodelling club, building and flying model aircraft while learning aerodynamics and engineering design.",
+    "description": "MITAOE Aero is MITAOE's first ever Aeromodelling club established in 2018 by Faculty Coordinator Prof. Savita Pawar, SEE and Student Coordinators. The club focuses on designing, building, and flying model aircraft while educating members about aerodynamics, propulsion, and control systems.",
+    "image": "/assets/clubs/aero.jpg",
+    "facultyAdvisor": {
+      "name": "Prof. Savita Pawar",
+      "email": "",
+      "department": "School of Electrical Engineering"
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Successfully designed and flew multiple model aircraft",
+      "Participated in national-level aeromodelling competitions"
+    ],
+    "eventsParticipated": [
+      "National level aeromodelling competitions",
+      "Technical workshops and seminars"
+    ],
+    "eventsOrganized": [
+      "Aeromodelling workshops for beginners",
+      "Flying demonstrations during college festivals"
+    ],
+    "salientFeatures": [
+      "Hands-on experience in aircraft design and construction",
+      "Training in aerodynamics and flight principles",
+      "Participation in national competitions"
+    ],
+    "memberCount": 40
+  },
+  {
+    "id": "autosports",
+    "name": "Autosports",
+    "fullName": "Autosports — Team Niyudrath Racing",
+    "slug": "autosports",
+    "category": "technical",
+    "icon": "Car",
+    "established": "2015",
+    "shortDescription": "Designs, manufactures and tests ATVs to participate in various national level competitions, embodying engineering excellence.",
+    "description": "Team Niyudrath Racing, a club under the Autosports club, aims at designing, manufacturing and testing an ATV to participate in various national level competitions. The club provides students hands-on experience in automotive engineering, from concept design to manufacturing.",
+    "image": "/assets/clubs/autosports.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": "School of Mechanical Engineering"
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Successfully built and raced ATVs in national competitions",
+      "Multiple podium finishes in BAJA SAE events"
+    ],
+    "eventsParticipated": [
+      "BAJA SAE India",
+      "National level ATV racing competitions"
+    ],
+    "eventsOrganized": [
+      "Automotive workshops",
+      "Vehicle design seminars"
+    ],
+    "salientFeatures": [
+      "End-to-end ATV design and manufacturing",
+      "National level racing participation",
+      "Real-world engineering problem solving"
+    ],
+    "memberCount": 45
+  },
+  {
+    "id": "codechef",
+    "name": "CodeChef MITAOE Chapter",
+    "fullName": "CodeChef MITAOE Campus Chapter",
+    "slug": "codechef-campus-chapter",
+    "category": "technical",
+    "icon": "Code",
+    "established": "2019",
+    "shortDescription": "Programming club run by official MITAOE Chapter representatives, mentored by CodeChef to promote competitive programming.",
+    "description": "CodeChef MITAOE Chapter are the programming clubs that are run and maintained by the official MITAOE Chapter representatives and are mentored by CodeChef. MITAOE Chapter aims at promoting competitive programming in various colleges and schools around the world and helps students become better problem solvers.",
+    "image": "/assets/clubs/codechef.jpg",
+    "facultyAdvisor": {
+      "name": "Ms. Neha Hajare",
+      "email": "",
+      "department": "SCET"
+    },
+    "president": {
+      "name": "Chetan Patil",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Aaditya Barve qualified for ICPC Regionals, ranked under top 130",
+      "Aaditya Barve secured rank under top 100 in Google Kickstart",
+      "Received highest placement package from college of 25 LPA",
+      "Won Smart India Hackathon 2022 at IIT Dhanbad",
+      "Chetan Patil achieved 5★ rating on Codechef — India top 1000",
+      "Global Rank 24 in CodeChef Starters 100 Division 2",
+      "Neeraj Kumar cracked International Internship at NodeShark Hexfork Ltd, UK",
+      "Vaishnavi Jadhav secured SDE Internship at Amazon",
+      "Yashodhan Ghule won first prize awarded by Vice President of India"
+    ],
+    "eventsParticipated": [
+      "ICPC Regionals",
+      "Google Kickstart",
+      "Smart India Hackathon",
+      "Citi Code Challenge"
+    ],
+    "eventsOrganized": [
+      "CodeSprint coding competition",
+      "Codebytes competitive programming workshop",
+      "CodeChef Club Hiring Challenge",
+      "Code Velocity Challenge"
+    ],
+    "salientFeatures": [
+      "Promoting competitive programming and enhancing coding culture",
+      "Hosting contests and competitions",
+      "Organizing workshops and doubt-sessions",
+      "Helping kids learn programming through school outreach"
+    ],
+    "memberCount": 80
+  },
+  {
+    "id": "dsc",
+    "name": "Developer Student Club",
+    "fullName": "Developer Student Club — Google Developers",
+    "slug": "developer-student",
+    "category": "technical",
+    "icon": "Laptop",
+    "established": "2019",
+    "shortDescription": "A Google Developers program for university students to learn mobile and web development skills, design thinking, and leadership.",
+    "description": "Developer Student Clubs is a Google Developers program for university students to learn mobile and web development skills, design thinking and leadership skills. The club provides a peer-to-peer learning environment for students interested in Google developer technologies.",
+    "image": "/assets/clubs/dsc.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": "SCET"
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Multiple Google Solution Challenge participations",
+      "Students placed at top tech companies"
+    ],
+    "eventsParticipated": [
+      "Google Solution Challenge",
+      "Google Developer events"
+    ],
+    "eventsOrganized": [
+      "Android development workshops",
+      "Web development bootcamps",
+      "Flutter study jams",
+      "Hackathons"
+    ],
+    "salientFeatures": [
+      "Backed by Google Developers program",
+      "Focus on mobile and web development",
+      "Design thinking workshops",
+      "Leadership skill development"
+    ],
+    "memberCount": 70
+  },
+  {
+    "id": "digital-design",
+    "name": "Digital Design Club",
+    "fullName": "Digital Design Club",
+    "slug": "digital-design",
+    "category": "technical",
+    "icon": "Figma",
+    "established": "2018",
+    "shortDescription": "Empowers students with digital design skills including graphic design, UI/UX, and multimedia content creation.",
+    "description": "The Digital Design Club is formed keeping in mind the growing importance of digital media and design in today's world. The club focuses on teaching students graphic design, UI/UX design, video editing, and other digital creation skills.",
+    "image": "/assets/clubs/digital-design.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Designed official posters and branding for college events",
+      "Students won design competitions at inter-college level"
+    ],
+    "eventsParticipated": [
+      "Inter-college design competitions",
+      "National design challenges"
+    ],
+    "eventsOrganized": [
+      "Graphic design workshops",
+      "UI/UX bootcamps",
+      "Design thinking sessions"
+    ],
+    "salientFeatures": [
+      "Training in industry-standard design tools",
+      "Portfolio building opportunities",
+      "Real-world design project experience"
+    ],
+    "memberCount": 50
+  },
+  {
+    "id": "drama",
+    "name": "Drama Club",
+    "fullName": "Drama Club",
+    "slug": "drama",
+    "category": "cultural",
+    "icon": "Theater",
+    "established": "2015",
+    "shortDescription": "Ignites acting skills and promotes script writing, stage management, drama, skits, plays, and street plays.",
+    "description": "DRAMA Club aims to ignite the skill of acting, skill to represent themselves in various situations in real life as well. The club also promotes students in writing scripts and management of various events like drama, skits, plays, street plays etc. Through the club, students represent the institute at various state level and national level drama and acting competitions.\n\nDifferent events in the institute under the banner of Art Circle, various cultural events and other occasions prove a real entertainment and enjoyment to everyone. The students with proper professional training learn skills that help them grow throughout their life.",
+    "image": "/assets/clubs/drama.jpg",
+    "facultyAdvisor": {
+      "name": "Prof. Satyajit Pangaonkar",
+      "email": "",
+      "department": "School of Electrical Engineering"
+    },
+    "president": {
+      "name": "Tejas Tulsidas Limbani",
+      "email": "ttlimbani@mitaoe.ac.in",
+      "phone": "7040171148"
+    },
+    "achievements": [
+      "Won Prize in ON Sport Prop Making at Firodiya 2023",
+      "Shortlisted in first 20 rank at Firodiya Karandak",
+      "Award for Best Papercut Stop Motion Animation in Firodiya Karandak 2020 for play 'Sidestand'",
+      "Nomination for Best Actor to Mr. Kiran Pawar in Firodiya Karandak 2020",
+      "Best Stop Motion Animation award in Firodiya Karandak 2019 for play 'Manzar'",
+      "Appreciated as new concept of Stop Motion Animation in history of Firodiya Karandak 2019",
+      "Best Actor & Best Team Management award at Osmanabad drama competition 2018",
+      "Award for Best Culture and Best Actor for play 'WhyNot' at Firodiya Karandak 2017",
+      "Best Actor & Actress award in Firodiya Karandak 2016 for play 'Baari'"
+    ],
+    "eventsParticipated": [
+      "Firodiya Karandak 2020 — play 'Sidestand'",
+      "Firodiya Karandak 2019 — play 'Manzar'",
+      "State level Drama Competition at Osmanabad 2018",
+      "Firodiya Karandak 2018",
+      "Firodiya Karandak 2017",
+      "Firodiya Karandak 2016 — play 'Baari'"
+    ],
+    "eventsOrganized": [
+      "Workshop for Drama club students for acting skillsets and theater essentials (Oct 2019)",
+      "Drama show for college students and faculties (Feb 2019)"
+    ],
+    "salientFeatures": [
+      "Five key pillars: Acting, Art, Music, Dance, and Management",
+      "Society's current situations and problems-based presentation during Firodiya Karandak",
+      "Consistent award-winning performance in various competitions",
+      "Excellent team work and dedication"
+    ],
+    "memberCount": 55
+  },
+  {
+    "id": "foreign-language",
+    "name": "Foreign Language Club",
+    "fullName": "Foreign Language Club",
+    "slug": "foreign-language",
+    "category": "recreational",
+    "icon": "Globe",
+    "established": "2017",
+    "shortDescription": "Creates awareness about foreign languages to help students in their professional careers and global interactions.",
+    "description": "The Foreign Language Club aims to create awareness among the students about foreign languages which will help them in their professional career and global interactions. The club conducts sessions in Japanese, German, French, and other international languages.",
+    "image": "/assets/clubs/foreign-language.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Students cleared international language certification exams",
+      "Cultural exchange events with international students"
+    ],
+    "eventsParticipated": [
+      "Language proficiency competitions",
+      "Cultural exchange programs"
+    ],
+    "eventsOrganized": [
+      "Japanese language workshops",
+      "German language sessions",
+      "French language basics",
+      "International culture festivals"
+    ],
+    "salientFeatures": [
+      "Multi-language training programs",
+      "Professional career enhancement",
+      "Cultural awareness development",
+      "International certification preparation"
+    ],
+    "memberCount": 45
+  },
+  {
+    "id": "girlscript",
+    "name": "GirlScript",
+    "fullName": "GirlScript MITAOE Chapter",
+    "slug": "girlscript",
+    "category": "technical",
+    "icon": "Users",
+    "established": "2020",
+    "shortDescription": "A technical community, section-8 company registered under Government of India, present in 36 cities and 3 international chapters.",
+    "description": "GirlScript is a technical community, section-8 company registered under Government of India in 36 cities of India and 3 international chapters. The MITAOE chapter focuses on promoting technical education and encouraging participation from all students regardless of gender.",
+    "image": "/assets/clubs/girlscript.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Successfully organized Code Velocity Challenge",
+      "Active participation in GirlScript Summer of Code"
+    ],
+    "eventsParticipated": [
+      "GirlScript Summer of Code",
+      "National technical events"
+    ],
+    "eventsOrganized": [
+      "Code Velocity Challenge",
+      "Technical workshops",
+      "Coding bootcamps"
+    ],
+    "salientFeatures": [
+      "Government registered technical community",
+      "Pan-India and international presence",
+      "Inclusive technical education",
+      "Open-source contribution programs"
+    ],
+    "memberCount": 60
+  },
+  {
+    "id": "goonj",
+    "name": "Goonj",
+    "fullName": "Goonj — Music Club",
+    "slug": "goonj",
+    "category": "cultural",
+    "icon": "Music",
+    "established": "2014",
+    "shortDescription": "A place where students jam, learn, and create music from a variety of genres with wide-ranging event participation.",
+    "description": "GOONJ is a place where students may jam, learn, and create music from a variety of genres. Club members participate in a wide range of events including live performances, music competitions, and cultural festivals. The club nurtures musical talent and provides a creative outlet for students.",
+    "image": "/assets/clubs/goonj.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Won music competitions at inter-college festivals",
+      "Regular performances at college annual gatherings"
+    ],
+    "eventsParticipated": [
+      "Inter-college music competitions",
+      "College cultural festivals",
+      "Battle of Bands events"
+    ],
+    "eventsOrganized": [
+      "Open mic nights",
+      "Music workshops",
+      "Jam sessions",
+      "Annual music festival"
+    ],
+    "salientFeatures": [
+      "Multi-genre music exploration",
+      "Live performance opportunities",
+      "Instrument training sessions",
+      "Vocal training workshops"
+    ],
+    "memberCount": 50
+  },
+  {
+    "id": "ignited-minds",
+    "name": "Ignited Minds",
+    "fullName": "Ignited Minds Social Club",
+    "slug": "ignited-minds",
+    "category": "recreational",
+    "icon": "Heart",
+    "established": "2013",
+    "shortDescription": "Established to serve the nation through social activity, fostering social responsibility among engineering students.",
+    "description": "Ignited Minds student club was established by the students of MITAoE during the year 2013. The main objective of this club is to serve the nation through social activity. The club organizes various outreach programs, community service events, and awareness campaigns.",
+    "image": "/assets/clubs/ignited-minds.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Successfully conducted multiple social outreach programs",
+      "Blood donation drives with significant participation",
+      "Environmental awareness campaigns"
+    ],
+    "eventsParticipated": [
+      "Community service events",
+      "Social awareness campaigns",
+      "Environmental initiatives"
+    ],
+    "eventsOrganized": [
+      "Blood donation camps",
+      "Tree plantation drives",
+      "Village development programs",
+      "Social awareness rallies"
+    ],
+    "salientFeatures": [
+      "Focus on social service and community development",
+      "Active community outreach programs",
+      "Environmental sustainability initiatives",
+      "Student-led social impact projects"
+    ],
+    "memberCount": 65
+  },
+  {
+    "id": "menace-dance",
+    "name": "Menace Dance Club",
+    "fullName": "Menace Dance Club",
+    "slug": "menace-dance",
+    "category": "recreational",
+    "icon": "Music2",
+    "established": "2017",
+    "shortDescription": "One of the most active clubs, established to promote dance culture and provide a platform for creative expression through movement.",
+    "description": "Menace Dance Club was formed in the year 2017. It is one of the most active and hardworking clubs of our college. It was established in order to promote dance culture and provide students a platform for creative expression through various dance forms.",
+    "image": "/assets/clubs/menace-dance.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Won prizes at inter-college dance competitions",
+      "Performed at college annual gathering NAKSHTRA"
+    ],
+    "eventsParticipated": [
+      "Inter-college dance competitions",
+      "College cultural festivals",
+      "Flash mob events"
+    ],
+    "eventsOrganized": [
+      "Dance workshops",
+      "Choreography sessions",
+      "Flash mob events",
+      "Annual dance showcase"
+    ],
+    "salientFeatures": [
+      "Multi-genre dance training",
+      "Inter-college competition participation",
+      "Annual gathering performances",
+      "Choreography workshops"
+    ],
+    "memberCount": 55
+  },
+  {
+    "id": "mozilla",
+    "name": "Mozilla Club",
+    "fullName": "Mozilla Campus Club",
+    "slug": "mozilla",
+    "category": "technical",
+    "icon": "Globe2",
+    "established": "2017",
+    "shortDescription": "Conducts enjoyable events that entertain and enrich understanding of open-source technologies and web development.",
+    "description": "Various enjoyable events are conducted under the club which not only entertains but also enriches our understanding of various open-source technologies and web development concepts. The Mozilla Club promotes open-source culture and web literacy among students.",
+    "image": "/assets/clubs/mozilla.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Active contribution to Mozilla open-source projects",
+      "Students recognized as Mozilla community leaders"
+    ],
+    "eventsParticipated": [
+      "Mozilla Festival",
+      "Open-source contribution events"
+    ],
+    "eventsOrganized": [
+      "Web development workshops",
+      "Open-source contribution drives",
+      "Firefox extension development",
+      "Web literacy campaigns"
+    ],
+    "salientFeatures": [
+      "Open-source technology promotion",
+      "Web development training",
+      "Community-driven learning",
+      "Firefox and Mozilla project contributions"
+    ],
+    "memberCount": 40
+  },
+  {
+    "id": "prakruti",
+    "name": "Prakruti",
+    "fullName": "Prakruti — Nature & Adventure Club",
+    "slug": "prakruti",
+    "category": "recreational",
+    "icon": "TreePine",
+    "established": "2014",
+    "shortDescription": "Provides members opportunities to keep physically fit and mentally alert through nature activities and adventure sports.",
+    "description": "The club aims at providing the members with opportunity to keep physically fit and mentally alert, allowing members to determine their own level of involvement in nature and adventure activities. Prakruti organizes treks, nature walks, and environmental awareness programs.",
+    "image": "/assets/clubs/prakruti.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Successfully organized multiple trekking expeditions",
+      "Environmental awareness campaigns reaching hundreds of students"
+    ],
+    "eventsParticipated": [
+      "State-level trekking events",
+      "Environmental conferences"
+    ],
+    "eventsOrganized": [
+      "Mountain trekking expeditions",
+      "Nature photography contests",
+      "Tree plantation drives",
+      "Environmental awareness workshops"
+    ],
+    "salientFeatures": [
+      "Regular trekking and adventure activities",
+      "Environmental conservation focus",
+      "Physical fitness programs",
+      "Nature photography events"
+    ],
+    "memberCount": 50
+  },
+  {
+    "id": "robotics",
+    "name": "Robotics Club",
+    "fullName": "Robotics Club",
+    "slug": "robotics",
+    "category": "technical",
+    "icon": "Bot",
+    "established": "2014",
+    "shortDescription": "Provides opportunities to benchmark robotics skills, train students for national and international competitions like Robocon.",
+    "description": "The primary aim of the Robotics Club is to provide an opportunity to benchmark skills, create robotic engineers on campus and support them for training, providing resources from concept to execution. One of the objectives is to train students to participate in various robotic competitions at national and international levels.\n\nMIT AOE Robotics Club conducts workshops, seminars for beginners, provides training, industrial tours, and encourages participation in competitions like Techfest, Technovanza, MindSpark, E-Yantra, WSI, and Robocon.",
+    "image": "/assets/clubs/robotics.jpg",
+    "facultyAdvisor": {
+      "name": "Dr. Satyajit Chincholkar",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "Tanmay Dnyaneshwar Dhakate",
+      "email": "tanmay.dhakate@mitaoe.ac.in",
+      "phone": "8830938053"
+    },
+    "achievements": [
+      "AIR-10 in Robocon 2022",
+      "Won 1st Rank at WS Asia 2018, Abu Dhabi — Rohan Hanagi & OM Gourav",
+      "Won Medallion of Excellence at WSI 2019 Kazan Russia",
+      "National winner in Mobile Robotics at India Skill 2018 — ₹1,00,000 prize",
+      "Winner in Robo Race at Technovanza 2K19 VJTI Mumbai — ₹10,000 prize",
+      "Cleared 1st Round of Robocon 2020",
+      "Regional winner at Mobile Robotics East Zone Bhubaneshwar"
+    ],
+    "eventsParticipated": [
+      "Robocon 2020, 2022",
+      "WSI 2019 Kazan Russia",
+      "WS Asia 2018 Abu Dhabi",
+      "India Skill 2018 National Competition, New Delhi",
+      "Technovanza 2K19 VJTI Mumbai",
+      "Regional competitions Bangalore and Bhubaneshwar"
+    ],
+    "eventsOrganized": [
+      "Robo Race and Robo Maze at Club Mela during NAKSHTRA",
+      "Robotics workshops for beginners",
+      "Industrial tour to automation industries"
+    ],
+    "salientFeatures": [
+      "National and international competition participation",
+      "Workshops and seminars for beginners",
+      "Industrial tours to automation industries",
+      "Robo Race and Robo Maze events at annual gathering"
+    ],
+    "memberCount": 50
+  },
+  {
+    "id": "rotaract",
+    "name": "Rotaract Club",
+    "fullName": "Rotaract Club of MITAOE",
+    "slug": "rotary",
+    "category": "recreational",
+    "icon": "HandHeart",
+    "established": "2015",
+    "shortDescription": "Part of Rotary International, promoting health, peace, and prosperity through community service and leadership development.",
+    "description": "Paul Harris, founder of Rotary Club, founded it in Chicago (United States) on Feb. 23, 1905. Rotary promotes health, peace and prosperity through community service. The Rotaract Club of MITAOE carries forward this legacy through various social service activities.",
+    "image": "/assets/clubs/rotaract.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Recognized by Rotary International for outstanding community service",
+      "Successfully organized multiple blood donation drives"
+    ],
+    "eventsParticipated": [
+      "Rotary district events",
+      "Community service programs"
+    ],
+    "eventsOrganized": [
+      "Blood donation camps",
+      "Health awareness programs",
+      "Community outreach events",
+      "Leadership development workshops"
+    ],
+    "salientFeatures": [
+      "Affiliated with Rotary International",
+      "Focus on health, peace, and prosperity",
+      "Community service and social impact",
+      "Leadership development programs"
+    ],
+    "memberCount": 45
+  },
+  {
+    "id": "spark",
+    "name": "Spark",
+    "fullName": "Spark — Technical Club",
+    "slug": "spark",
+    "category": "technical",
+    "icon": "Zap",
+    "established": "2016",
+    "shortDescription": "Provides a platform for techies to work on different projects, creating technical awareness among students.",
+    "description": "This club provides a platform for all techies to work on different projects. This will create a technical awareness among students and help them gain practical knowledge beyond classroom learning.",
+    "image": "/assets/clubs/spark.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Multiple project showcases at college festivals",
+      "Students secured internships through club projects"
+    ],
+    "eventsParticipated": [
+      "Technical project exhibitions",
+      "Inter-college hackathons"
+    ],
+    "eventsOrganized": [
+      "Technical project showcases",
+      "IoT workshops",
+      "Electronics project building sessions",
+      "Technical seminars"
+    ],
+    "salientFeatures": [
+      "Hands-on project development",
+      "Technical awareness creation",
+      "Cross-disciplinary project opportunities",
+      "Industry-relevant skill building"
+    ],
+    "memberCount": 55
+  },
+  {
+    "id": "sports",
+    "name": "Sports Club",
+    "fullName": "MIT Master Blaster — Sports Club",
+    "slug": "sports",
+    "category": "recreational",
+    "icon": "Trophy",
+    "established": "2013",
+    "shortDescription": "MIT Master Blaster promotes sportsmanship and provides opportunities for students to excel in various sporting activities.",
+    "description": "\"Do you know what my favorite part of the game is? The opportunity to play.\" — Mike Singletary. The sports club's name is MIT MASTER BLASTER, and it provides students with opportunities to participate in various sports at college, inter-college, and university levels.",
+    "image": "/assets/clubs/sports.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Multiple wins at university-level sports competitions",
+      "Students represented university at national level"
+    ],
+    "eventsParticipated": [
+      "University sports tournaments",
+      "Inter-college sports meets",
+      "National-level sports events"
+    ],
+    "eventsOrganized": [
+      "Annual sports day",
+      "Cricket tournaments",
+      "Football leagues",
+      "Athletics meets"
+    ],
+    "salientFeatures": [
+      "Multi-sport training facilities",
+      "University and national level participation",
+      "Sportsmanship development",
+      "Annual sports events organization"
+    ],
+    "memberCount": 100
+  },
+  {
+    "id": "srujan",
+    "name": "Srujan Club",
+    "fullName": "Srujan Club",
+    "slug": "srujan",
+    "category": "technical",
+    "icon": "Lightbulb",
+    "established": "2019",
+    "shortDescription": "A group of talented and enthusiastic students striving to promote innovation, creativity and technical excellence.",
+    "description": "The SRUJAN Club has been established at MIT AOE in the year 2019-2020. With a group of talented and enthusiastic students, the SRUJAN Club strives to promote innovation, creativity and technical excellence among the student community.",
+    "image": "/assets/clubs/srujan.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Innovative project showcases",
+      "Student-led innovation workshops"
+    ],
+    "eventsParticipated": [
+      "Innovation challenges",
+      "Technical project exhibitions"
+    ],
+    "eventsOrganized": [
+      "Innovation workshops",
+      "Creative thinking sessions",
+      "Project showcases",
+      "Technical seminars"
+    ],
+    "salientFeatures": [
+      "Innovation-focused activities",
+      "Creative problem-solving workshops",
+      "Technical excellence promotion",
+      "Student-driven projects"
+    ],
+    "memberCount": 40
+  },
+  {
+    "id": "spiritual-minds",
+    "name": "Spiritual Minds",
+    "fullName": "Spiritual Minds Club",
+    "slug": "spiritual-minds",
+    "category": "recreational",
+    "icon": "Sparkles",
+    "established": "2018",
+    "shortDescription": "Focuses on physical and mental well-being through yoga, Pranayama, spiritual discussions, and mindfulness activities.",
+    "description": "The 'Spiritual Minds Club' focuses on physical and mental well-being through activities like yoga, Pranayama, spiritual discussions, and mindfulness practices. The club aims to create a balanced and stress-free environment for students.",
+    "image": "/assets/clubs/spiritual-minds.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Organized successful yoga and meditation sessions",
+      "Helped students manage academic stress"
+    ],
+    "eventsParticipated": [
+      "International Yoga Day celebrations",
+      "Spiritual wellness events"
+    ],
+    "eventsOrganized": [
+      "Yoga sessions",
+      "Pranayama workshops",
+      "Spiritual discussion circles",
+      "Meditation camps"
+    ],
+    "salientFeatures": [
+      "Focus on physical and mental well-being",
+      "Regular yoga and Pranayama sessions",
+      "Spiritual growth activities",
+      "Stress management programs"
+    ],
+    "memberCount": 35
+  },
+  {
+    "id": "shutterbugs",
+    "name": "Shutterbugs",
+    "fullName": "Shutterbugs — Photography Club",
+    "slug": "shutterbugs",
+    "category": "recreational",
+    "icon": "Camera",
+    "established": "2019",
+    "shortDescription": "Passionate about photography and visual storytelling, exploring the art of capturing moments through the lens.",
+    "description": "Are you passionate about photography and eager to explore the fascinating world of visual storytelling? Look no further! The Shutterbugs Club provides a platform for photography enthusiasts to learn, practice, and showcase their work.",
+    "image": "/assets/clubs/shutterbugs.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Won prizes at inter-college photography competitions",
+      "Official photography team for college events"
+    ],
+    "eventsParticipated": [
+      "Inter-college photography competitions",
+      "Photography exhibitions"
+    ],
+    "eventsOrganized": [
+      "Photography workshops",
+      "Photo walks",
+      "Photography exhibitions",
+      "Photo editing sessions"
+    ],
+    "salientFeatures": [
+      "Visual storytelling training",
+      "Professional photography techniques",
+      "Regular photo walks and shoots",
+      "Official event photography team"
+    ],
+    "memberCount": 45
+  },
+  {
+    "id": "maths",
+    "name": "The Axes",
+    "fullName": "The Axes — Maths Club",
+    "slug": "maths",
+    "category": "technical",
+    "icon": "Calculator",
+    "established": "2016",
+    "shortDescription": "Encourages and unleashes talent and skills in logical development, mathematical thinking, and problem-solving.",
+    "description": "THE AXES, Maths Club of MITAoE, aims to encourage and unleash the talent and skills of the students in the field of logical development, mathematical thinking, and creative problem-solving through engaging activities and competitions.",
+    "image": "/assets/clubs/maths.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": "Department of Mathematics"
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Students excelled in mathematical olympiads",
+      "Regular quiz competition winners"
+    ],
+    "eventsParticipated": [
+      "Mathematical olympiads",
+      "Inter-college quiz competitions"
+    ],
+    "eventsOrganized": [
+      "Mathematics quiz competitions",
+      "Guest lectures on advanced mathematics",
+      "Poster presentation competitions",
+      "Myths & Maths presentation competitions"
+    ],
+    "salientFeatures": [
+      "Logical development training",
+      "Mathematical thinking workshops",
+      "Regular quiz competitions",
+      "Guest lectures from experts"
+    ],
+    "memberCount": 40
+  },
+  {
+    "id": "yoga",
+    "name": "Yoga & Meditation",
+    "fullName": "Yoga and Meditation Club",
+    "slug": "yoga-and-meditation",
+    "category": "recreational",
+    "icon": "Flower2",
+    "established": "2017",
+    "shortDescription": "Transforms students into responsible, healthy, sharp, and spiritually elevated citizens through yoga and meditation.",
+    "description": "Our goal is to transform students into responsible citizens of the World, who are healthy, sharp and spiritually elevated through regular yoga and meditation practices. The club promotes holistic well-being and balanced living.",
+    "image": "/assets/clubs/yoga.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Organized International Yoga Day celebrations",
+      "Regular meditation sessions benefiting hundreds of students"
+    ],
+    "eventsParticipated": [
+      "International Yoga Day events",
+      "Inter-college yoga competitions"
+    ],
+    "eventsOrganized": [
+      "Daily yoga sessions",
+      "Meditation workshops",
+      "International Yoga Day celebration",
+      "Wellness awareness programs"
+    ],
+    "salientFeatures": [
+      "Daily yoga practice sessions",
+      "Meditation and mindfulness training",
+      "Holistic wellness approach",
+      "Stress management through yoga"
+    ],
+    "memberCount": 35
+  },
+  {
+    "id": "vertex",
+    "name": "Vertex",
+    "fullName": "Vertex — Game Development & Animation Club",
+    "slug": "vertex",
+    "category": "technical",
+    "icon": "Gamepad2",
+    "established": "2023",
+    "shortDescription": "Bridges mathematics, programming, and creativity through game development and animation projects.",
+    "description": "Vertex Game Development and Animation club bridges Mathematics, Programming, and Creativity. The club focuses on teaching game development fundamentals, 3D animation, and interactive media creation.",
+    "image": "/assets/clubs/vertex.jpg",
+    "facultyAdvisor": {
+      "name": "",
+      "email": "",
+      "department": ""
+    },
+    "president": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "achievements": [
+      "Student-developed games showcased at college events"
+    ],
+    "eventsParticipated": [
+      "Game development hackathons"
+    ],
+    "eventsOrganized": [
+      "Game development workshops",
+      "Animation tutorials",
+      "Game jams"
+    ],
+    "salientFeatures": [
+      "Game development training",
+      "3D animation skills",
+      "Creative technology intersection",
+      "Project-based learning"
+    ],
+    "memberCount": 30
+  }
+]

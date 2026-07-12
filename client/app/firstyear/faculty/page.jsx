@@ -73,7 +73,6 @@ export default function FacultyPage() {
         }
       }
     } catch (error) {
-      console.error("Error fetching department data:", error);
     } finally {
       setLoading(false);
     }
@@ -101,14 +100,6 @@ export default function FacultyPage() {
       });
     });
 
-    console.log("Original rows:", scheduleData.length);
-
-    console.log(
-      "Faculty rows:",
-      Object.values(facultyMap).reduce((a, b) => a + b.length, 0),
-    );
-
-    console.log("Faculty count:", Object.keys(facultyMap).length);
     return Object.keys(facultyMap).map((name) => ({
       name,
       schedule: facultyMap[name],
@@ -117,7 +108,6 @@ export default function FacultyPage() {
 
   const parseFacultySchedules = (scheduleData) => {
     const facultyList = parseFacultySchedulesAndReturn(scheduleData);
-    console.log("FACULTY LIST SAMPLE:", facultyList[0]);
     setFacultySchedules(facultyList);
     if (facultyList.length > 0) {
       setSelectedFaculty(facultyList[0]);
@@ -133,26 +123,18 @@ export default function FacultyPage() {
 
   const handleSlotClick = (slot, day, time) => {
     if (!slot) return;
-    console.log("Faculty page - Slot clicked:", slot);
-    console.log("Faculty page - Adding day/time:", day, time);
     const fullSlot = {
       ...slot,
       day,
       time,
       faculty: slot.faculty || selectedFaculty.name,
     };
-    console.log("Faculty page - Full slot:", fullSlot);
     setSelectedSlot(fullSlot);
     setShowRescheduleModal(true);
   };
 
   const handleReschedule = async (type, value, isPermanent = true) => {
     try {
-      console.log("=== RESCHEDULE DEBUG ===");
-      console.log("Selected slot:", selectedSlot);
-      console.log("Type:", type, "Value:", value);
-      console.log("Total schedule data rows:", allScheduleData.length);
-
       let matchCount = 0;
       const updatedScheduleData = allScheduleData.map((row) => {
         const rowFaculty = row.Faculty || row.faculty;
@@ -169,30 +151,10 @@ export default function FacultyPage() {
           rowCourse === selectedSlot.course;
 
         if (matchCount === 0 && row.Faculty) {
-          console.log("Sample row for comparison:", {
-            rowFaculty,
-            rowDay,
-            rowTime,
-            rowBatch,
-            rowCourse,
-            slotFaculty: selectedSlot.faculty,
-            slotDay: selectedSlot.day,
-            slotTime: selectedSlot.time,
-            slotBatch: selectedSlot.batch,
-            slotCourse: selectedSlot.course,
-          });
         }
 
         if (matchesSlot) {
           matchCount++;
-          console.log("MATCH FOUND! Row:", row);
-          console.log("Match details:", {
-            rowFaculty,
-            rowDay,
-            rowTime,
-            rowBatch,
-            rowCourse,
-          });
           if (type === "room") {
             return { ...row, Room: value, room: value };
           } else if (type === "faculty") {
@@ -209,9 +171,6 @@ export default function FacultyPage() {
         return row;
       });
 
-      console.log("Total matches found:", matchCount);
-      console.log("Sending update to API...");
-
       const response = await fetch(`/api/coordinators/get-department`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -222,10 +181,8 @@ export default function FacultyPage() {
       });
 
       const result = await response.json();
-      console.log("API Response:", result);
 
       if (result.success) {
-        console.log("Update successful, refreshing data...");
         setAllScheduleData(updatedScheduleData);
         const newFacultySchedules =
           parseFacultySchedulesAndReturn(updatedScheduleData);
@@ -252,7 +209,6 @@ export default function FacultyPage() {
         toast.error("Failed to update schedule");
       }
     } catch (error) {
-      console.error("Error rescheduling:", error);
       toast.error("Error updating schedule");
     }
   };
@@ -262,9 +218,6 @@ export default function FacultyPage() {
   }
 
   if (selectedFaculty) {
-    console.log("SELECTED FACULTY:", selectedFaculty);
-    console.log("FACULTY SCHEDULE:", selectedFaculty.schedule);
-    console.log("FACULTY ROWS:", selectedFaculty.schedule?.length);
   }
 
   return (

@@ -2,6 +2,21 @@ import facultyData from "@/data/faculty.json";
 import { Mail,User,GraduationCap, Building2, Phone, MapPin, Briefcase,FlaskConical } from "lucide-react";
 import { notFound } from "next/navigation";
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const faculty = facultyData.find((item) => String(item.id) === String(id));
+
+  if (!faculty) {
+    return { title: "Faculty Not Found" };
+  }
+
+  return {
+    title: faculty.name,
+    description: `${faculty.name}, ${faculty.designation} in ${faculty.department}. ${faculty.overview}`,
+    alternates: { canonical: `/student/facultyinfo/${id}` },
+  };
+}
+
 export default async function FacultyInfoPage({ params }) {
   const { id } = await params;
 

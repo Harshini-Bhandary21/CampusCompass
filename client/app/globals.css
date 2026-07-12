@@ -303,3 +303,57 @@ html {
 button {
   @apply cursor-pointer;
 }
+
+/* ── Landing page building blocks ────────────────────────────────────────
+   Shared button/badge treatments so every marketing section (hero, feature
+   grid, CTA banner, footer) draws from the same two-tone system: navy for
+   institutional trust (matches the MIT wordmark), teal/emerald for the
+   product itself. */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white
+    bg-gradient-to-r from-[#0f2a4a] via-[#16395e] to-[#0f2a4a] bg-[length:200%_100%]
+    shadow-lg shadow-[#0f2a4a]/30 border border-white/10
+    hover:bg-[position:100%_0] hover:shadow-xl hover:shadow-[#0f2a4a]/40 hover:-translate-y-0.5
+    transition-all duration-300;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold
+    text-slate-700 bg-white border border-slate-200 shadow-sm
+    hover:border-slate-300 hover:shadow-md hover:-translate-y-0.5
+    transition-all duration-300;
+}
+
+.eyebrow-badge {
+  @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider
+    text-teal-700 bg-teal-50 border border-teal-200;
+}
+
+/* Faint dot-grid texture for hero/CTA surfaces — mirrors the dotted canvas
+   texture behind n8n.io's hero without committing to a dark theme. */
+.bg-dot-grid {
+  background-image: radial-gradient(circle, rgba(15, 42, 74, 0.35) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.bg-dot-grid-dark {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* Continuous ambient motion — used sparingly (hero visual + a couple of
+   floating accents) so the page doesn't feel static after the entrance
+   animations finish. */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+
+.animate-float {
+  animation: floatY 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatY 7s ease-in-out infinite;
+  animation-delay: 1.2s;
+}

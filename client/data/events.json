@@ -1,0 +1,134 @@
+[
+  {
+    "id": "e1",
+    "title": "ARTISIA 2024",
+    "club": "aalekh",
+    "clubName": "Aalekh",
+    "date": "2024-04-15",
+    "description": "Annual inter-college art competition celebrating World Art Day with events in painting, sketching, sculpture, and crafts.",
+    "category": "cultural",
+    "image": "/assets/events/artisia.jpg",
+    "status": "past"
+  },
+  {
+    "id": "e2",
+    "title": "CodeSprint 2024",
+    "club": "codechef",
+    "clubName": "CodeChef MITAOE Chapter",
+    "date": "2024-03-10",
+    "description": "Competitive programming contest with problem-solving challenges across multiple difficulty levels. Serves as selection round for internships.",
+    "category": "technical",
+    "image": "/assets/events/codesprint.jpg",
+    "status": "past"
+  },
+  {
+    "id": "e3",
+    "title": "Robocon 2024",
+    "club": "robotics",
+    "clubName": "Robotics Club",
+    "date": "2024-02-15",
+    "description": "National robotics competition where teams design and build robots to complete specific tasks and challenges.",
+    "category": "technical",
+    "image": "/assets/events/robocon.jpg",
+    "status": "past"
+  },
+  {
+    "id": "e4",
+    "title": "Firodiya Karandak 2024",
+    "club": "drama",
+    "clubName": "Drama Club",
+    "date": "2024-02-01",
+    "description": "Premier inter-college drama competition at Pune. MITAOE drama club consistently ranks in top 20 with award-winning performances.",
+    "category": "cultural",
+    "image": "/assets/events/firodiya.jpg",
+    "status": "past"
+  },
+  {
+    "id": "e5",
+    "title": "Smart India Hackathon",
+    "club": "codechef",
+    "clubName": "CodeChef MITAOE Chapter",
+    "date": "2024-01-20",
+    "description": "National hackathon organized by Government of India. MITAOE students previously won at IIT Dhanbad.",
+    "category": "technical",
+    "image": "/assets/events/sih.jpg",
+    "status": "past"
+  },
+  {
+    "id": "e6",
+    "title": "NAKSHTRA — Annual Fest",
+    "club": "all",
+    "clubName": "All Clubs",
+    "date": "2025-01-15",
+    "description": "Annual gathering featuring performances and exhibitions from all student clubs. Includes Club Mela, cultural shows, and technical showcases.",
+    "category": "cultural",
+    "image": "/assets/events/nakshtra.jpg",
+    "status": "upcoming"
+  },
+  {
+    "id": "e7",
+    "title": "Code Velocity Challenge",
+    "club": "girlscript",
+    "clubName": "GirlScript",
+    "date": "2024-03-05",
+    "description": "Speed coding competition organized by GirlScript chapter, testing algorithmic problem-solving under time pressure.",
+    "category": "technical",
+    "image": "/assets/events/code-velocity.jpg",
+    "status": "past"
+  },
+  {
+    "id": "e8",
+    "title": "International Yoga Day",
+    "club": "yoga",
+    "clubName": "Yoga & Meditation Club",
+    "date": "2025-06-21",
+    "description": "Annual celebration with mass yoga sessions, meditation workshops, and wellness awareness programs.",
+    "category": "recreational",
+    "image": "/assets/events/yoga-day.jpg",
+    "status": "upcoming"
+  },
+  {
+    "id": "e9",
+    "title": "Aero Flying Demo",
+    "club": "aero",
+    "clubName": "Aero Club",
+    "date": "2024-11-20",
+    "description": "Live aeromodel flying demonstration showcasing student-built aircraft with aerodynamics explanation.",
+    "category": "technical",
+    "image": "/assets/events/aero-demo.jpg",
+    "status": "past"
+  },
+  {
+    "id": "e10",
+    "title": "Blood Donation Drive",
+    "club": "ignited-minds",
+    "clubName": "Ignited Minds",
+    "date": "2025-02-14",
+    "description": "Community blood donation camp organized in collaboration with local blood banks.",
+    "category": "recreational",
+    "image": "/assets/events/blood-donation.jpg",
+    "status": "upcoming"
+  },
+  {
+    "id": "e11",
+    "title": "Codebytes Workshop",
+    "club": "codechef",
+    "clubName": "CodeChef MITAOE Chapter",
+    "date": "2024-08-15",
+    "description": "Competitive programming workshop for 2nd year students covering data structures, algorithms, and competitive coding strategies.",
+    "category": "technical",
+    "image": "/assets/events/codebytes.jpg",
+    "status": "past"
+  },
+  {
+    "id": "e12",
+    "title": "Photography Walk",
+    "club": "shutterbugs",
+    "clubName": "Shutterbugs",
+    "date": "2025-03-01",
+    "description": "Guided photography walk exploring campus and nearby nature, learning composition and lighting techniques.",
+    "category": "recreational",
+    "image": "/assets/events/photo-walk.jpg",
+    "status": "upcoming"
+  }
+]

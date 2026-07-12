@@ -30,7 +30,6 @@ export default function Chatbot() {
         try {
           setMessages(JSON.parse(saved));
         } catch (e) {
-          console.error('Failed to load chat history:', e);
         }
       }
     }
@@ -71,11 +70,9 @@ export default function Chatbot() {
       });
 
       const data = await response.json();
-      console.log('🤖 AI Response:', data.response);
-      
+
       if (data.response === 'VALIDATE_EXCEL_NOW') {
-        console.log('✅ Validation trigger detected!');
-        const botMessage = { 
+        const botMessage = {
           role: 'assistant', 
           content: 'Validating your uploaded timetable data...',
           cached: false
@@ -112,8 +109,7 @@ export default function Chatbot() {
           }]);
         }
       } else if (data.response === 'GENERATE_TEMPLATE_NOW') {
-        console.log('✅ Template generation trigger detected!');
-        const botMessage = { 
+        const botMessage = {
           role: 'assistant', 
           content: 'Generating your Excel template...',
           cached: false 

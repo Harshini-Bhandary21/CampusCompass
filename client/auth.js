@@ -17,13 +17,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return null
           }
 
-          console.log("LOGIN EMAIL:", credentials.email)
-
           const client = await clientPromise
-          console.log("Mongo Connected")
 
           const db = client.db()
-          console.log("Database:", db.databaseName)
 
           // 1. Check admin (previously "department coordinator")
           const universityWithAdmin = await db.collection('universities').findOne({
@@ -51,16 +47,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             email: credentials.email
           })
 
-
-          console.log("Teacher Found:", teacher)
-
           if (teacher) {
             const match = await bcrypt.compare(
               credentials.password,
               teacher.passwordHash
             )
-
-            console.log("Password Match:", match)
 
             if (match) {
               return {
@@ -92,9 +83,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           return null
         } catch (error) {
-          console.error('NextAuth authorize error:', error)
-          console.error('FULL AUTH ERROR:')
-          console.error(error)
           return null
         }
       }

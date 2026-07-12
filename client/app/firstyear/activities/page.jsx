@@ -73,7 +73,6 @@ export default function ActivitiesPage() {
         setDepartment(data.department)
       }
     } catch (error) {
-      console.error('Error fetching department data:', error)
     } finally {
       setLoading(false)
     }

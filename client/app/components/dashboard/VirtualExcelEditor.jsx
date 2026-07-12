@@ -12,8 +12,6 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
 
   useEffect(() => {
     if (excelData && Object.keys(excelData).length > 0) {
-      console.log('VirtualExcelEditor received data:', Object.keys(excelData))
-      console.log('Faculty sheet data:', excelData['Faculty']?.slice(0, 5))
       setData(excelData)
       // Set Faculty as active sheet if available
       const sheets = Object.keys(excelData)

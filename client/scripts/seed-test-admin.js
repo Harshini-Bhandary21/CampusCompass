@@ -41,7 +41,6 @@ async function seed() {
           },
         }
       )
-      console.log('Updated existing test coordinator password.')
     } else {
       await db.collection('universities').insertOne({
         name: TEST_UNIVERSITY,
@@ -63,18 +62,12 @@ async function seed() {
         ],
         createdAt: new Date(),
       })
-      console.log('Inserted new test university + department + coordinator.')
     }
-
-    console.log('\nLog in with:')
-    console.log(`  Email:    ${TEST_EMAIL}`)
-    console.log(`  Password: ${TEST_PASSWORD}`)
   } finally {
     await client.close()
   }
 }
 
 seed().catch(err => {
-  console.error('Seed failed:', err)
   process.exit(1)
 })

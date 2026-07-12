@@ -128,7 +128,6 @@ export default function FileUploadSection({
                       document.body.removeChild(a);
                     }
                   } catch (error) {
-                    console.error("Download failed:", error);
                   }
                 }}
                 className="relative flex-1 bg-gradient-primary text-white px-4 py-2.5 rounded-xl font-semibold transition-all flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 overflow-hidden group"

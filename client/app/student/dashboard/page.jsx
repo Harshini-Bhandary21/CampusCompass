@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { Users, Calendar, BookOpen, ArrowRight } from "lucide-react";
 
+export const metadata = {
+  title: "Student Dashboard",
+  description: "Access faculty information, the academic calendar, and your timetable from one place.",
+  alternates: { canonical: "/student/dashboard" },
+};
+
 export default function StudentDashboard() {
   const cards = [
     {
