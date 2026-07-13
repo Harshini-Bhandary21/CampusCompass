@@ -15,11 +15,15 @@ class TheoryOrchestratorMixin:
         r1 = self._theory_rule_subject_adjacency(helpers, penalty_terms)
         r2 = self._theory_rule_room_pairing(helpers, penalty_terms)
         r3, r4 = self._theory_rule_slot_position(helpers, penalty_terms)
+        r5 = self._theory_rule_course_spread(helpers, penalty_terms)
+        r6 = self._theory_rule_entity_gap(helpers, penalty_terms)
+        r7 = self._theory_rule_faculty_gap(helpers, penalty_terms)
 
         print(
             f"  ✓ Theory soft constraints: "
             f"same-day-same-subject={r0}, "
             f"subject-adjacency={r1}, room-pairing={r2}, "
-            f"early-slot={r3}, late-slot={r4}"
+            f"early-slot={r3}, late-slot={r4}, course-spread={r5}, "
+            f"entity-gap={r6}, faculty-gap={r7}"
         )
         return penalty_terms

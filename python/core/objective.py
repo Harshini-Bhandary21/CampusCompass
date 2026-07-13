@@ -1,14 +1,15 @@
-"""Combines the placement/day-load/theory/online/Saturday terms into the
-final 4-level (+ soft-penalty) Maximize() objective.
+"""Combines the placement/day-load/theory/online/Saturday/compactness terms
+into the final 4-level (+ soft-penalty) Maximize() objective.
 
 Objective priority hierarchy:
   P1: BIG_M × weighted_placed         ← maximise sessions (dominant)
   P2: BALANCE_WEIGHT × imbalance      ← minimise max−min day spread
   P3: DEV_WEIGHT × Σdev[d]            ← minimise mean-abs deviation
   P4: SAT_PENALTY × saturday_load     ← discourage Saturday overflow
-  P5: theory soft-constraint penalties
+  P5: theory soft-constraint penalties (includes course-spread)
   P6: online-delivery penalty
   P7: per-lecture Saturday penalty
+  P8: compactness penalties (faculty/entity gaps + faculty load cap)
 
 BIG_M = len(sessions) + 1 guarantees placing one more session always
 outweighs any reduction in secondary/tertiary/quaternary penalties.
@@ -25,7 +26,9 @@ from ..config import (
 
 
 class ObjectiveMixin:
-    def _build_objective(self, state, day_load_state, theory_penalty_terms) -> None:
+    def _build_objective(
+        self, state, day_load_state, theory_penalty_terms, compactness_penalty_terms
+    ) -> None:
         objective_terms = state["objective_terms"]
         online_penalty_terms = state["online_penalty_terms"]
 
@@ -48,6 +51,8 @@ class ObjectiveMixin:
             obj = obj - sum(online_penalty_terms)
         if sat_lecture_penalty_terms:
             obj = obj - sum(sat_lecture_penalty_terms)
+        if compactness_penalty_terms:
+            obj = obj - sum(compactness_penalty_terms)
 
         self.model.Maximize(obj)
 
@@ -66,8 +71,11 @@ class ObjectiveMixin:
             if sat_lecture_penalty_terms
             else ""
         )
+        compactness_desc = (
+            " − Σ(compactness penalties)" if compactness_penalty_terms else ""
+        )
         print(
-            f"  OK Objective (v16, 4-level + theory soft constraints "
+            f"  OK Objective (v16, 4-level + theory/compactness soft constraints "
             f"+ online/Saturday penalties):\n"
             f"      Maximize  {BIG_M}xweighted_placed\n"
             f"              - {BALANCE_WEIGHT}ximbalance\n"
@@ -75,7 +83,8 @@ class ObjectiveMixin:
             f"{sat_desc}"
             f"{theory_desc}"
             f"{online_desc}"
-            f"{sat_lecture_desc}\n"
+            f"{sat_lecture_desc}"
+            f"{compactness_desc}\n"
             f"    (CT days fixed by CT_MATRIX — no CT balance term)\n"
             f"    (max_weight={total_weight * BIG_M}, "
             f"BIG_M={BIG_M}, BALANCE_WEIGHT={BALANCE_WEIGHT})"

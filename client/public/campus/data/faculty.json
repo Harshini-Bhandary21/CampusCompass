@@ -1,0 +1,14 @@
+{
+  "id": "faculty_001",
+  "name": "Dr. Puja Verma",
+  "designation": "Associate Professor",
+  "department": "Computer Science",
+  "cabinId": "room_A_fc01",
+  "buildingId": "building_A",
+  "floorId": "floor_A_1",
+  "email": "priya.sharma@college.edu",
+  "phone": "ext-1045",
+  "subjects": ["Data Structures", "Algorithms"],
+  "namePlateText": "Dr. Priya Sharma\nAssoc. Prof — CS",
+  "photoPath": "faculty/priya_sharma.jpg"
+}

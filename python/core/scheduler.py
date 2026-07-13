@@ -15,6 +15,7 @@ from collections import defaultdict
 
 from ortools.sat.python import cp_model
 
+from ..schedulers.compactness import CompactnessMixin
 from ..schedulers.ct import CTMixin
 from ..schedulers.labs import LabsMixin
 from ..schedulers.repair import RepairMixin
@@ -37,6 +38,7 @@ class TimetableScheduler(
     LabSessionParserMixin,
     LabsMixin,
     TheoryMixin,
+    CompactnessMixin,
     CTMixin,
     ValidationMixin,
     DiagnosticsMixin,
@@ -81,6 +83,10 @@ class TimetableScheduler(
         self._day_load_vars: list[cp_model.IntVar] = []
         self._imbalance_var: cp_model.IntVar | None = None
         self._dev_vars: list[cp_model.IntVar] = []
+
+        # Set by _build_day_load_balance(); reused by schedulers/compactness/
+        # and the theory course-spread rule to avoid re-deriving day membership.
+        self._on_day_bool: dict[int, dict[int, cp_model.IntVar]] = {}
 
         # CT support: fixed slot set in load_data(); allocation from CT_MATRIX
         self.ct_fixed_slot: int = -1  # local slot index for 15:10 slot (1-based)

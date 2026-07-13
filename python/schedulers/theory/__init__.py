@@ -7,6 +7,8 @@ combines the penalty terms handed to core/objective.py.
 
 from .orchestrator import TheoryOrchestratorMixin
 from .rule_adjacency import TheoryRuleAdjacencyMixin
+from .rule_course_spread import TheoryRuleCourseSpreadMixin
+from .rule_gap import TheoryRuleGapMixin
 from .rule_position import TheoryRulePositionMixin
 from .rule_same_day import TheoryRuleSameDayMixin
 from .setup import TheorySetupMixin
@@ -17,6 +19,8 @@ class TheoryMixin(
     TheoryRuleSameDayMixin,
     TheoryRuleAdjacencyMixin,
     TheoryRulePositionMixin,
+    TheoryRuleCourseSpreadMixin,
+    TheoryRuleGapMixin,
     TheoryOrchestratorMixin,
 ):
     """Theory-specific instance methods, mixed into TimetableScheduler."""

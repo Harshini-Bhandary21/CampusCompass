@@ -100,7 +100,13 @@ class ModelBuilderMixin(
         # Theory-only soft constraints (ported from final.py)
         theory_penalty_terms = self._add_theory_soft_constraints()
 
-        self._build_objective(state, day_load_state, theory_penalty_terms)
+        # Compactness soft constraints: faculty/entity gap minimisation +
+        # faculty daily-load cap (see schedulers/compactness/).
+        compactness_penalty_terms = self._add_compactness_soft_constraints()
+
+        self._build_objective(
+            state, day_load_state, theory_penalty_terms, compactness_penalty_terms
+        )
 
         print(f"  ✓ Model built in {time.time()-t0:.2f}s")
         return True

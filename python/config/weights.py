@@ -51,3 +51,22 @@ THEORY_PAIRED_SLOT_STARTS = [1, 3, 6, 8, 10]
 # Local (1-based) slot numbers treated as "early" / "late" for rules (3) / (4).
 THEORY_EARLY_SLOTS = {1, 2}
 THEORY_LATE_SLOTS = {10, 11}
+
+# ── Compactness soft-constraint penalty weights (schedulers/compactness/) ────
+#
+# Same mechanism/guarantee as the theory penalties above: layered on top of
+# the objective as small BoolVar/IntVar coefficients, always dominated by
+# BIG_M placement. These target the two most common real-world complaints
+# about generated timetables — idle gaps between classes, and lectures of
+# the same course bunched onto consecutive days.
+#
+FACULTY_GAP_PENALTY = 15  # per idle slot between a faculty's classes on a day
+ENTITY_GAP_PENALTY = 12  # per idle slot between a division/batch's classes on a day
+COURSE_SPREAD_PENALTY = 15  # same entity+course landing on two consecutive days
+
+# Soft cap on a faculty's total scheduled slots in one day — comfortably
+# below the ~8 usable slots/day (time_slots_per_day − 1 lunch slot), so a
+# faculty can still fill a full day if unavoidable, but the solver prefers
+# spreading their load out.
+FACULTY_DAILY_LOAD_CAP = 6
+FACULTY_LOAD_CAP_PENALTY = 12  # per slot over FACULTY_DAILY_LOAD_CAP

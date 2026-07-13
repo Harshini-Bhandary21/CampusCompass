@@ -3,6 +3,10 @@ mean-absolute deviation — the P2/P3 terms of the multi-level objective.
 
 Also collects the per-lecture Saturday penalty terms (P7), since they are
 derived from the same on_day_bool variables built here.
+
+self._on_day_bool[d][sid] (placed AND starts on day d) is stored on the
+instance so schedulers/compactness/ and the theory course-spread rule can
+reuse it directly instead of re-deriving day membership from scratch.
 """
 
 from ortools.sat.python import cp_model
@@ -39,6 +43,8 @@ class DayLoadMixin:
         saturday_idx = 5  # index in self.days ("Saturday") — hoisted here
         sat_lecture_penalty_terms: list = []
 
+        self._on_day_bool = {d: {} for d in range(n_days)}
+
         for d in range(n_days):
             if not day_slot_sets[d]:
                 self.model.Add(day_load[d] == 0)
@@ -70,6 +76,7 @@ class DayLoadMixin:
                     ).OnlyEnforceIf([on_day_bool.Not(), placed])
 
                 on_day_terms.append(on_day_bool)
+                self._on_day_bool[d][sid] = on_day_bool
 
                 # Medium per-lecture penalty for any session on Saturday.
                 # on_day_bool is already 1 iff placed AND starts on day d —

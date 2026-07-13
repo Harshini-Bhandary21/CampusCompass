@@ -1,0 +1,134 @@
+/* Scoped styles for the /campus 3D route — everything nests under
+   .campus-root / .campus-body-lock so it never leaks into other pages. */
+
+.campus-body-lock {
+  overflow: hidden;
+  overscroll-behavior: none;   /* kill pull-to-refresh / bounce on mobile */
+  touch-action: none;          /* let the 3D canvas own all gestures */
+  background: #070b14;
+}
+
+.campus-root {
+  font-family: 'Inter', 'SF Pro Display', -apple-system,
+               BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.campus-root * {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* Scrollbar hide */
+.campus-root ::-webkit-scrollbar { display: none; }
+
+/* ── Responsive Top Bar ──────────────────────── */
+.campus-root .top-bar {
+  position: absolute;
+  top: calc(16px + env(safe-area-inset-top));
+  left: calc(16px + env(safe-area-inset-left));
+  right: calc(16px + env(safe-area-inset-right));
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+  pointer-events: none; /* let clicks pass through gaps */
+}
+.campus-root .top-bar > * {
+  pointer-events: auto;
+}
+
+.campus-root .top-bar-search {
+  order: 1;
+  flex: 1 1 280px;
+  max-width: 420px;
+  min-width: 0;
+}
+
+.campus-root .top-bar-mode {
+  order: 2;
+  margin-left: auto;
+  flex: 0 0 auto;
+  max-width: 220px;
+}
+
+/* Tablet / small laptop */
+@media (max-width: 900px) {
+  .campus-root .top-bar-search {
+    flex-basis: 240px;
+  }
+}
+
+/* Mobile / half-screen */
+@media (max-width: 640px) {
+  .campus-root .top-bar-search {
+    order: 2;
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  .campus-root .top-bar-mode {
+    order: 1;
+    margin-bottom: 2px;
+  }
+  .campus-root .top-bar { gap: 8px; }
+}
+
+/* ── Navigation Panel popup ─────────────────── */
+.campus-root .nav-panel-popup {
+  width: 280px;
+  max-width: calc(100vw - 48px);
+}
+
+/* ── Explore bottom bar ─────────────────────── */
+.campus-root .explore-bottom-bar {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .campus-root .explore-bottom-bar {
+    justify-content: center !important;
+  }
+  .campus-root .explore-bottom-bar > div {
+    flex: 0 0 auto;
+  }
+}
+
+/* ── Nav controls width ─────────────────────── */
+.campus-root .nav-controls-box {
+  width: 190px;
+  max-width: calc(100vw - 200px);
+}
+
+/* Range input styling */
+.campus-root input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.1);
+  outline: none;
+  cursor: pointer;
+}
+.campus-root input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00e5ff;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,229,255,0.5);
+  border: 2px solid rgba(255,255,255,0.2);
+}
+.campus-root input[type='range']::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00e5ff;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,229,255,0.5);
+  border: 2px solid rgba(255,255,255,0.2);
+}

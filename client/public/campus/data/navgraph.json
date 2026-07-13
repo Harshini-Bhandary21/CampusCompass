@@ -1,0 +1,490 @@
+{
+  "nodes": [
+    {
+      "id": "main_entry",
+      "label": "Main Entry",
+      "type": "GATE",
+      "position": { "x": -11.05, "y": 0, "z": 153.05 }
+    },
+
+    {
+      "id": "main_gate",
+      "label": "Main Gate",
+      "type": "GATE",
+      "position": { "x": -9.89, "y": 0, "z": 130.35 }
+    },
+    {
+      "id": "central_junction",
+      "label": "Central Junction",
+      "type": "WAYPOINT",
+      "position": { "x": 0.0338, "y": 0, "z": -1.5 }
+    },
+     {
+      "id": "auditorium",
+      "label": "Auditorium",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "building_auditorium",
+      "position": { "x": 41.116, "y": 0, "z": -34.237 }
+    },
+       {
+      "id": "a_wing_entry",
+      "label": "A Wing Entry",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "building_A",
+      "position": { "x": 1.745, "y": 0, "z": -61.688 }
+    },
+
+    {
+      "id": "design_entry",
+      "label": "Design Front Entry",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "building_design",
+      "position": { "x": -41.319, "y": 0, "z": -20.369 }
+    },
+    {
+      "id": "e_wing_entry",
+      "label": "E Wing Entry",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "building_E",
+      "position": { "x": -40.155, "y": 0, "z": -88.458}
+    },
+       {
+      "id": "d_wing_entry1",
+      "label": "D Wing Entry 1 CRPC and labs",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "building_D",
+      "position": { "x": 29.098, "y": 0, "z": -90.786 }
+    },
+    {
+      "id": "d_wing_entry2",
+      "label": "D Wing Entry 2 Towards classrooms",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "building_D",
+      "position": { "x": 29.68, "y": 0, "z": -121.63 }
+    },
+    {
+      "id": "d_wing_entry3",
+      "label": "D Wing Entry 3 Back gate",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "building_D",
+      "position": { "x": 38.991, "y": 0, "z": -143.16 }
+    },
+ {
+      "id": "h_wing_entry",
+      "label": "H Wing Main Entry",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "building_H",
+      "position": { "x": -18.623, "y": 0, "z": -144.33 }
+    },
+    {
+      "id": "f_wing_workshop",
+      "label": "F Wing Workshop",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "building_workshop",
+      "position": { "x": -38.91, "y": 0, "z": -153.64 }
+    },
+      { 
+      "id": "ground",
+      "label": "Ground",
+      "type": "GATE",
+      "position": { "x": -64.016, "y": 0, "z": -11.05 }
+    },
+
+       {
+      "id": "basketball",
+      "label": "Basket Ball Court",
+      "type": "GATE",
+      "position": { "x": -47.139, "y": 0, "z": 150.73}
+    },
+        {
+      "id": "shreeraj_canteen",
+      "label": "Shreeraj Canteen",
+      "type": "GATE",
+      "position": { "x": -5.2377, "y": 0, "z": 61.106}
+    },
+        {
+      "id": "elitespace_canteen",
+      "label": "EliteSpace Canteen",
+      "type": "GATE",
+      "position": { "x": -66.926, "y": 0, "z": 18.041 }
+    },
+
+    {
+      "id": "back_gate",
+      "label": "Back gate",
+      "type": "BUILDING_ENTRY",
+      "buildingId": "backgate",
+      "position": { "x": 51.795, "y": 0, "z": -151.31 }
+    },
+    {
+      "id": "p_1",
+      "type": "POINT",
+      "position": { "x": -9.72, "y": 0, "z": 70.999 }
+    },
+    {
+      "id": "p_2",
+      "type": "POINT",
+      "position": { "x": -9.3114, "y": 0, "z": 62.852 }
+    },
+     {
+      "id": "p_3",
+      "type": "POINT",
+      "position": { "x": -10.457, "y": 0, "z": 45.975 }
+    },
+     {
+      "id": "p_4",
+      "type": "POINT",
+      "position": { "x": -9.893, "y": 0, "z": 20.951 }
+    },
+     {
+      "id": "p_5",
+      "type": "POINT",
+      "position": { "x": 14.549, "y": 0, "z": -6.4016 }
+    },
+     {
+      "id": "p_6",
+      "type": "POINT",
+      "position": { "x": 19.787, "y": 0, "z": -26.77 }
+    },
+     {
+      "id": "p_7",
+      "type": "POINT",
+      "position": { "x": 20.696, "y": 0, "z": -60.524 }
+    },
+     {
+      "id": "p_8",
+      "type": "POINT",
+      "position": { "x": 20.369, "y": 0, "z": -86.712 }
+    },
+      {
+      "id": "p_9",
+      "type": "POINT",
+      "position": { "x": 18.041, "y": 0, "z": -107.66}
+    },
+      {
+      "id": "p_10",
+      "type": "POINT",
+      "position": { "x": 19.205, "y": 0, "z": -122.21}
+    },
+      {
+      "id": "p_11",
+      "type": "POINT",
+      "position": { "x": 19.205, "y": 0, "z": -147.24 }
+    },
+      {
+      "id": "p_12",
+      "type": "POINT",
+      "position": { "x": 41.319, "y": 0, "z": -147.24 }
+    },
+      {
+      "id": "p_13",
+      "type": "POINT",
+      "position": { "x": -11.639, "y": 0, "z": -148.4 }
+    },
+      {
+      "id": "p_14",
+      "type": "POINT",
+      "position": { "x": -30.26, "y": 0, "z": -146.65 }
+    },
+     {
+      "id": "p_15",
+      "type": "POINT",
+      "position": { "x": -45.97, "y": 0, "z": -147.82 }
+    },
+      {
+      "id": "p_16",
+      "type": "POINT",
+      "position": { "x": -58.778, "y": 0, "z": -146.65 }
+    },
+      {
+      "id": "p_17",
+      "type": "POINT",
+      "position": { "x": -62.27, "y": 0, "z": -87.87 }
+    },
+      {
+      "id": "p_18",
+      "type": "POINT",
+      "position": { "x": -64.016, "y": 0, "z": -11.05 }
+    },
+      {
+      "id": "p_19",
+      "type": "POINT",
+      "position": { "x": -41.319, "y": 0, "z": -11.639 }
+    },
+      {
+      "id": "p_20",
+      "type": "POINT",
+      "position": { "x": -20.951, "y": 0, "z": -13.385 }
+    },
+      {
+      "id": "p_21",
+      "type": "POINT",
+      "position": { "x": -13.967, "y": 0, "z": -11.639 }
+    },
+      {
+      "id": "p_22",
+      "type": "POINT",
+      "position": { "x": -20.369, "y": 0, "z": -86.13 }
+    },
+      {
+      "id": "p_23",
+      "type": "POINT",
+      "position": { "x": -20.951, "y": 0, "z": -107.66 }
+    },
+     {
+      "id": "p_24",
+      "type": "POINT",
+      "position": { "x": -4.655, "y": 0, "z": -109.99 }
+    },
+      {
+      "id": "p_25",
+      "type": "POINT",
+      "position": { "x": -44.811, "y": 0, "z": 11.05 }
+    }
+
+       
+  ],
+  "edges": [
+     {
+      "from": "main_entry",
+      "to": "main_gate",
+      "weight": 19.9
+    },
+    {
+      "from": "main_gate",
+      "to": "p_1",
+      "weight": 19.9
+    },
+     {
+      "from": "p_1",
+      "to": "p_2",
+      "weight": 19.9
+    },
+     {
+      "from": "p_2",
+      "to": "p_3",
+      "weight": 19.9
+    },
+     {
+      "from": "p_2",
+      "to": "shreeraj_canteen",
+      "weight": 19.9
+    },
+     {
+      "from": "p_3",
+      "to": "p_4",
+      "weight": 19.9
+    },
+     {
+      "from": "p_4",
+      "to": "central_junction",
+      "weight": 19.9
+    },
+      {
+      "from": "central_junction",
+      "to": "p_5",
+      "weight": 19.9
+    },
+     {
+      "from": "central_junction",
+      "to": "p_21",
+      "weight": 19.9
+    },
+     {
+      "from": "p_5",
+      "to": "p_6",
+      "weight": 19.9
+    },
+      {
+      "from": "p_6",
+      "to": "auditorium",
+      "weight": 19.9
+    },
+    {
+      "from": "p_6",
+      "to": "p_7",
+      "weight": 19.9
+    },
+      {
+      "from": "p_7",
+      "to": "a_wing_entry",
+      "weight": 19.9
+    },
+    {
+      "from": "p_7",
+      "to": "auditorium",
+      "weight": 19.9
+    },
+      {
+      "from": "p_7",
+      "to": "p_8",
+      "weight": 19.9
+    },
+     {
+      "from": "p_8",
+      "to": "d_wing_entry1",
+      "weight": 19.9
+    },
+     {
+      "from": "p_8",
+      "to": "p_9",
+      "weight": 19.9
+    },
+      {
+      "from": "p_9",
+      "to": "p_10",
+      "weight": 19.9
+    },
+      {
+      "from": "p_9",
+      "to": "p_24",
+      "weight": 19.9
+    },
+       {
+      "from": "p_10",
+      "to": "d_wing_entry2",
+      "weight": 19.9
+    },
+      {
+      "from": "p_10",
+      "to": "p_11",
+      "weight": 19.9
+    },
+    {
+      "from": "p_11",
+      "to": "p_12",
+      "weight": 19.9
+    },
+    {
+      "from": "p_12",
+      "to": "d_wing_entry3",
+      "weight": 19.9
+    },
+      {
+      "from": "p_12",
+      "to": "back_gate",
+      "weight": 19.9
+    },
+      {
+      "from": "p_11",
+      "to": "p_13",
+      "weight": 19.9
+    },
+     {
+      "from": "p_13",
+      "to": "p_14",
+      "weight": 19.9
+    },
+    {
+      "from": "p_13",
+      "to": "h_wing_entry",
+      "weight": 19.9
+    },
+     {
+      "from": "p_14",
+      "to": "h_wing_entry",
+      "weight": 19.9
+    },
+     {
+      "from": "p_14",
+      "to": "f_wing_workshop",
+      "weight": 19.9
+    },
+     {
+      "from": "p_14",
+      "to": "p_15",
+      "weight": 19.9
+    },
+     {
+      "from": "p_15",
+      "to": "f_wing_workshop",
+      "weight": 19.9
+    },
+      {
+      "from": "p_15",
+      "to": "p_16",
+      "weight": 19.9
+    },
+      {
+      "from": "p_16",
+      "to": "p_17",
+      "weight": 19.9
+    },
+     {
+      "from": "p_17",
+      "to": "e_wing_entry",
+      "weight": 19.9
+    },
+     {
+      "from": "p_17",
+      "to": "ground",
+      "weight": 19.9
+    },
+     {
+      "from": "ground",
+      "to": "p_18",
+      "weight": 19.9
+    },
+     {
+      "from": "p_18",
+      "to": "p_19",
+      "weight": 19.9
+    },
+     {
+      "from": "p_18",
+      "to": "p_25",
+      "weight": 19.9
+    },
+    {
+      "from": "p_18",
+      "to": "elitespace_canteen",
+      "weight": 19.9
+    },
+     {
+      "from": "p_25",
+      "to": "basketball",
+      "weight": 19.9
+    },
+      {
+      "from": "p_19",
+      "to": "design_entry",
+      "weight": 19.9
+    },
+    {   
+      "from": "p_19",
+      "to": "p_20",
+      "weight": 19.9
+    },
+     {   
+      "from": "p_19",
+      "to": "p_25",
+      "weight": 19.9
+    },
+     {
+      "from": "p_20",
+      "to": "p_21",
+      "weight": 19.9
+    },
+    {
+      "from": "p_20",
+      "to": "p_22",
+      "weight": 19.9
+    },
+     {
+      "from": "p_22",
+      "to": "p_23",
+      "weight": 19.9
+    },
+     {
+      "from": "p_23",
+      "to": "p_24",
+      "weight": 19.9
+    },
+     {
+      "from": "p_22",
+      "to": "e_wing_entry",
+      "weight": 19.9
+    }
+
+  ]
+}

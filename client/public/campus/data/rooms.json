@@ -1,0 +1,90 @@
+[
+  {
+    "id": "room_A101",
+    "buildingId": "building_A",
+    "roomNumber": "A-101",
+    "type": "CLASSROOM",
+    "floor": 1,
+    "capacity": 60,
+    "position": { "x": 2, "y": 3.5, "z": 2 },
+    "amenities": ["projector", "whiteboard", "ac"],
+    "facultyId": null
+  },
+  {
+    "id": "room_A102",
+    "buildingId": "building_A",
+    "roomNumber": "A-102",
+    "type": "CLASSROOM",
+    "floor": 1,
+    "capacity": 60,
+    "position": { "x": 10, "y": 3.5, "z": 2 },
+    "amenities": ["projector", "whiteboard"],
+    "facultyId": null
+  },
+  {
+    "id": "room_A103",
+    "buildingId": "building_A",
+    "roomNumber": "A-103",
+    "type": "LAB",
+    "floor": 1,
+    "capacity": 30,
+    "position": { "x": 18, "y": 3.5, "z": 2 },
+    "amenities": ["computers", "projector", "ac"],
+    "facultyId": null
+  },
+  {
+    "id": "room_A_fc01",
+    "buildingId": "building_A",
+    "roomNumber": "A-FC01",
+    "type": "FACULTY_CABIN",
+    "floor": 1,
+    "capacity": 1,
+    "position": { "x": 26, "y": 3.5, "z": 2 },
+    "amenities": ["nameplate", "desk"],
+    "facultyId": "faculty_001"
+  },
+  {
+    "id": "room_A_fc02",
+    "buildingId": "building_A",
+    "roomNumber": "A-FC02",
+    "type": "FACULTY_CABIN",
+    "floor": 1,
+    "capacity": 1,
+    "position": { "x": 30, "y": 3.5, "z": 2 },
+    "amenities": ["nameplate", "desk"],
+    "facultyId": "faculty_002"
+  },
+  {
+    "id": "room_D101",
+    "buildingId": "building_D",
+    "roomNumber": "D-101",
+    "type": "CLASSROOM",
+    "floor": 1,
+    "capacity": 60,
+    "position": { "x": 62, "y": 3.5, "z": 2 },
+    "amenities": ["projector", "whiteboard", "ac"],
+    "facultyId": null
+  },
+  {
+    "id": "room_W101",
+    "buildingId": "building_workshop",
+    "roomNumber": "W-101",
+    "type": "LAB",
+    "floor": 1,
+    "capacity": 40,
+    "position": { "x": 82, "y": 3.5, "z": -28 },
+    "amenities": ["machines", "tools"],
+    "facultyId": null
+  },
+  {
+    "id": "room_W_fc01",
+    "buildingId": "building_workshop",
+    "roomNumber": "W-FC01",
+    "type": "FACULTY_CABIN",
+    "floor": 1,
+    "capacity": 1,
+    "position": { "x": 88, "y": 3.5, "z": -28 },
+    "amenities": ["nameplate", "desk"],
+    "facultyId": "faculty_003"
+  }
+]

@@ -64,6 +64,11 @@ class TheorySetupMixin:
         for s in theory_sessions:
             entity_sessions[s["entity"]].append(s)
 
+        # ── Group theory sessions by faculty (for gap-minimisation) ──────
+        faculty_sessions: dict[str, list[dict]] = defaultdict(list)
+        for s in theory_sessions:
+            faculty_sessions[s["faculty"]].append(s)
+
         # ── Per (entity, g): occupancy bool / course-id var / room-id var ─
         occ: dict[tuple, cp_model.BoolVar] = {}
         course_var: dict[tuple, cp_model.IntVar] = {}
@@ -98,12 +103,27 @@ class TheorySetupMixin:
                 self.model.Add(rvar == sum(y_terms))
                 roomvar_at[(entity, g)] = rvar
 
+        # ── Per (faculty, g): occupancy bool — same "sum of is_at" pattern
+        #    as occ above, just grouped by faculty instead of entity. Reuses
+        #    the existing is_at booleans, so this is a cheap aggregation, not
+        #    a new per-session variable. Used by the gap-minimisation rule.
+        occ_fac: dict[tuple, cp_model.BoolVar] = {}
+        for faculty, sess_list in faculty_sessions.items():
+            sids = [s["id"] for s in sess_list]
+            for g in self.allowed_theory_starts:
+                bvs = [is_at[sid][g] for sid in sids]
+                occ_bv = self.model.NewBoolVar(f"occfac_{faculty}_{g}")
+                self.model.Add(occ_bv == sum(bvs))
+                occ_fac[(faculty, g)] = occ_bv
+
         return {
             "theory_sessions": theory_sessions,
             "tspd": tspd,
             "is_at": is_at,
             "entity_sessions": entity_sessions,
+            "faculty_sessions": faculty_sessions,
             "occ": occ,
+            "occ_fac": occ_fac,
             "course_var": course_var,
             "roomvar_at": roomvar_at,
         }

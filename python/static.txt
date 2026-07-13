@@ -39,6 +39,11 @@ about values that affect scheduling behaviour or data structure.
 - THEORY_PAIRED_SLOT_STARTS = [1, 3, 6, 8, 10]  (1-based local slot numbers)
 - THEORY_EARLY_SLOTS = {1, 2}
 - THEORY_LATE_SLOTS = {10, 11}
+- FACULTY_GAP_PENALTY = 15   (per idle theory slot between a faculty's classes)
+- ENTITY_GAP_PENALTY = 12    (per idle theory slot between a division/batch's classes)
+- COURSE_SPREAD_PENALTY = 15 (same entity+course on two consecutive days)
+- FACULTY_DAILY_LOAD_CAP = 6       (soft max slots/day before the cap penalty kicks in)
+- FACULTY_LOAD_CAP_PENALTY = 12    (per slot over FACULTY_DAILY_LOAD_CAP)
 
 
 4. config/ct_matrix.py
@@ -197,6 +202,38 @@ about values that affect scheduling behaviour or data structure.
   lns_start_pass=3
 
 
+21. schedulers/theory/rule_gap.py
+-------------------------------------
+- Faculty/entity gap-minimisation is scoped to Theory sessions only (same
+  scope as every other rule in schedulers/theory/) — a faculty or
+  division/batch whose sessions are all Lab/Tutorial gets no gap check.
+- `if len(sess_list) < 2: continue` / `if k < 3: continue` — hardcoded
+  minimum group/slot-count thresholds below which a gap is structurally
+  impossible, purely a construction-cost skip, not a tunable.
+- IMPORTANT PERF NOTE: an earlier version of this rule (and the now-deleted
+  schedulers/compactness/rule_faculty_gap.py / rule_entity_gap.py) computed
+  gaps via AddMinEquality/AddMaxEquality over sentinel-masked "effective
+  start/end" IntVars spanning all session types. That measurably stalled
+  the solver — a real workbook that solved in under a minute without it
+  made zero branching progress in 150s with it (verified: NumBranches()
+  identical at the 60s and 150s marks). The current version reuses theory's
+  existing is_at/occ boolean grid with plain prefix/suffix OR chains
+  instead, which was verified to add negligible solver overhead (identical
+  scheduled-session count at a fixed time budget, with vs without). Do not
+  reintroduce a Min/Max/subtraction-over-big-domain-sentinels formulation
+  for a per-faculty/per-entity soft constraint without re-benchmarking
+  against a real multi-hundred-session workbook first.
+
+
+22. schedulers/compactness/
+--------------------------------
+- Only the faculty daily-load cap lives here now (rule_faculty_load_cap.py);
+  faculty/entity gap minimisation moved to schedulers/theory/rule_gap.py
+  for the performance reason above. The package name predates that move.
+- FACULTY_DAILY_LOAD_CAP applies to every session type (Theory/Lab/
+  Tutorial), unlike the Theory-only gap rules.
+
+
 NOTES
 -----
 - Items 6 vs 3 (THEORY_PAIRED_SLOT_STARTS) and items 8/12 (the "4 labs
@@ -206,3 +243,6 @@ NOTES
 - Item 20 vs 18/19: the Flask entry point's time_limit (300s) and worker
   count (8, hardcoded) silently diverge from the CLI defaults — anyone
   changing one probably needs to check the other.
+- Item 21: see that section before ever reintroducing a Min/Max/big-integer
+  sentinel-subtraction pattern for a new per-faculty/per-entity soft
+  constraint — it's a known, measured solver-stall trap in this codebase.

@@ -40,13 +40,27 @@ generator.py      generate_timetable() — the actual pipeline, called by both m
 storage.py        shared UPLOAD_DIR/OUTPUT_DIR/DATA_DIR paths
 routes/           HTTP route handlers (schedule.py, download.py)
 core/             TimetableScheduler — data loading, CP-SAT model building, solving, Excel export
-schedulers/       CT (counselling/tutorial) allocation, theory soft constraints, LNS repair
+schedulers/       CT (counselling/tutorial) allocation, theory soft constraints, compactness soft constraints, LNS repair
 config/           static config: division→batch mapping, CT day matrix, room mappings, objective weights
 utils/            small shared helpers
 storage/          runtime output — uploaded files, generated Excel files, persisted JSON per run (gitignored)
 ```
 
 `static.txt` is a hand-maintained audit of every hardcoded/static value in this package (division lists, CT day assignments, objective weights, solver parameters, etc.) — check it before assuming something is read from the Excel file when it's actually a fixed constant.
+
+## Soft constraints
+
+Beyond the hard constraints (no faculty/room/division double-booking, CT slots fixed by `CT_MATRIX`, etc.), the objective in `core/objective.py` layers in soft preferences — each a small penalty term that never overrides placing a session (see the P1–P8 priority hierarchy documented at the top of that file). All weights live in `config/weights.py`.
+
+| Constraint | Scope | Where |
+|---|---|---|
+| Same-day-same-subject, subject-adjacency, room-pairing, early/late-slot placement | Theory only | `schedulers/theory/rule_same_day.py`, `rule_adjacency.py`, `rule_position.py` |
+| Course spread — same entity+course on two consecutive days | Theory only | `schedulers/theory/rule_course_spread.py` |
+| Faculty/entity gap minimisation — idle slot sandwiched between two classes on the same day | Theory only | `schedulers/theory/rule_gap.py` |
+| Faculty daily-load cap — total scheduled duration on one day exceeding `FACULTY_DAILY_LOAD_CAP` | All session types | `schedulers/compactness/rule_faculty_load_cap.py` |
+| Online-delivery penalty, per-lecture Saturday penalty | All session types | `core/session_variables.py`, `core/day_load.py` |
+
+The gap-minimisation and course-spread rules are scoped to Theory sessions only (same scope as the pre-existing theory rules) — a faculty or division/batch whose sessions are all Lab/Tutorial gets no gap check. This is a deliberate performance tradeoff, not an oversight: an earlier implementation computed gaps generally (all session types) via `AddMinEquality`/`AddMaxEquality` over sentinel-masked IntVars, which measurably stalled the solver on a real ~800-session workbook (zero branching progress for 90+ seconds). The current version reuses the theory package's existing per-slot occupancy booleans with plain boolean prefix/suffix OR chains instead, which was benchmarked to add negligible solver overhead. See `static.txt` item 21 before reintroducing a similar sentinel/Min-Max pattern elsewhere.
 
 ## Input format
 
