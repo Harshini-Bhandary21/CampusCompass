@@ -22,7 +22,7 @@ export default function FacultyInfoPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen p-8">
       <h1 className="text-4xl font-bold mb-8">
         Faculty Information
       </h1>

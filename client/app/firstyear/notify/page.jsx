@@ -8,6 +8,7 @@ import Sidebar from '@/app/components/shared/Sidebar'
 import LoadingSpinner from '@/app/components/shared/LoadingSpinner'
 import { BellIcon } from '@heroicons/react/24/outline'
 import { getDepartmentTabs, createTabNavigator } from '@/app/components/dashboard/DepartmentSidebarConfig'
+import IconBadge from '@/app/components/dashboard/IconBadge'
 
 export default function NotifyPage() {
   const { data: session, status } = useSession()
@@ -60,7 +61,7 @@ export default function NotifyPage() {
   }
 
   return (
-    <div className="min-h-screen content-bg flex">
+    <div className="min-h-screen flex">
       <Sidebar
         activeTab="notify"
         setActiveTab={createTabNavigator(router)}
@@ -76,35 +77,35 @@ export default function NotifyPage() {
           subtitle="Notifications"
         />
         <div className="p-4">
-          <div className="bg-white rounded-xl border border-secondary p-4 mb-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <BellIcon className="h-5 w-5 text-primary" />
-              </div>
+          <div className="dashboard-panel mb-4">
+            <div className="flex items-center space-x-3">
+              <IconBadge icon={BellIcon} />
               <div>
-                <h2 className="text-lg font-bold text-gray-800">Notifications</h2>
-                <p className="text-sm text-gray-600">View notifications from admin</p>
+                <h2 className="text-lg font-bold dark-text">Notifications</h2>
+                <p className="dashboard-empty-text text-sm">View notifications from admin</p>
               </div>
             </div>
           </div>
 
           {notifications.length === 0 ? (
-            <div className="bg-white rounded-xl border border-secondary p-8 text-center">
-              <BellIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-bold text-gray-800 mb-2">No Notifications</h3>
-              <p className="text-gray-600">You don't have any notifications yet</p>
+            <div className="dashboard-empty-state">
+              <div className="flex justify-center mb-4">
+                <IconBadge icon={BellIcon} size="lg" />
+              </div>
+              <h3 className="dashboard-empty-title">No Notifications</h3>
+              <p className="dashboard-empty-text">You don't have any notifications yet</p>
             </div>
           ) : (
             <div className="space-y-3">
               {notifications.map((notification, index) => (
-                <div key={index} className="bg-white rounded-xl border border-secondary p-4 hover:border-primary/40 transition-all">
+                <div key={index} className="dashboard-list-item hover:border-primary/40 transition-all">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-bold text-gray-800">{notification.title}</h3>
-                    <span className="text-xs text-gray-500">
+                    <h3 className="font-bold dark-text">{notification.title}</h3>
+                    <span className="text-xs dashboard-empty-text">
                       {new Date(notification.sentAt).toLocaleDateString()}
                     </span>
                   </div>
-                  <p className="text-gray-600 text-sm whitespace-pre-wrap">{notification.body}</p>
+                  <p className="dashboard-empty-text text-sm whitespace-pre-wrap">{notification.body}</p>
                 </div>
               ))}
             </div>

@@ -29,12 +29,12 @@ export default async function FacultyInfoPage({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-32 pb-12">
+    <div className="min-h-screen pt-32 pb-12">
       <div className="max-w-5xl mx-auto px-6">
         <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
-          
+
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-900 to-blue-700 p-8 text-white">
+          <div className="bg-gradient-to-r from-teal-700 to-emerald-700 p-8 text-white">
             <div className="flex flex-col md:flex-row items-center gap-8">
               
               <img

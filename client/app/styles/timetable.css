@@ -1,0 +1,26 @@
+/* ── Timetable grid ───────────────────────────────────────────────────── */
+
+.timetable-grid { background-color: transparent; }
+.timetable-border { border-color: #9ca3af; }
+.timetable-text { color: #1f2937 !important; }
+.timetable-header { background-color: #f9fafb; color: #1f2937; }
+.timetable-cell { background-color: #ffffff; color: #1f2937; }
+
+/* Timetable Slot Colors */
+.slot-rose { background-color: #ffe4e6; border-color: #fda4af; color: #881337; }
+.slot-emerald { background-color: #d1fae5; border-color: #6ee7b7; color: #064e3b; }
+.slot-amber { background-color: #fef3c7; border-color: #fcd34d; color: #78350f; }
+.slot-cyan { background-color: #cffafe; border-color: #67e8f9; color: #164e63; }
+.slot-violet { background-color: #ede9fe; border-color: #c4b5fd; color: #5b21b6; }
+.slot-pink { background-color: #fce7f3; border-color: #f9a8d4; color: #831843; }
+.slot-teal { background-color: #ccfbf1; border-color: #5eead4; color: #134e4a; }
+.slot-orange { background-color: #ffedd5; border-color: #fdba74; color: #7c2d12; }
+
+.slot-tag-rose { background-color: #e11d48; color: white; }
+.slot-tag-emerald { background-color: #059669; color: white; }
+.slot-tag-amber { background-color: #d97706; color: white; }
+.slot-tag-cyan { background-color: #0891b2; color: white; }
+.slot-tag-violet { background-color: #7c3aed; color: white; }
+.slot-tag-pink { background-color: #db2777; color: white; }
+.slot-tag-teal { background-color: #0d9488; color: white; }
+.slot-tag-orange { background-color: #ea580c; color: white; }

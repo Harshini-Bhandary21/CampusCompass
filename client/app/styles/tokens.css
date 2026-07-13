@@ -1,0 +1,68 @@
+/* ── Design tokens ────────────────────────────────────────────────────────
+   The single source of truth for color across the whole app. Every page/
+   component should reach for one of the classes below (or the CSS
+   variables directly) instead of a raw Tailwind color (bg-white,
+   text-gray-800, border-gray-200, ...) so a future palette change only
+   has to happen here. */
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 249, 250, 251;
+  --background-end-rgb: 255, 255, 255;
+
+  /* Custom Color Scheme - 2 Colors Only */
+  --primary: #3c6e71;
+  --secondary: #d9d9d9;
+
+  /* RGB Values for Tailwind */
+  --primary-rgb: 60, 110, 113;
+  --secondary-rgb: 217, 217, 217;
+
+  /* Dark Theme */
+  --dark-bg: #1f2937;
+  --dark-surface: #111827;
+  --dark-card: #374151;
+  --dark-border: #4b5563;
+  --dark-text: #f9fafb;
+  --dark-text-muted: #d1d5db;
+
+  /* Lighter Content Area */
+  --content-card: #ffffff;
+  --content-border: #e5e7eb;
+}
+
+/* Custom Color Classes */
+.bg-primary { background-color: var(--primary); }
+.bg-secondary { background-color: var(--secondary); }
+.text-primary { color: var(--primary); }
+.text-secondary { color: var(--secondary); }
+.border-primary { border-color: var(--primary); }
+.border-secondary { border-color: var(--secondary); }
+
+/* Light Mode Classes (Default) */
+.dark-bg { background-color: var(--dark-bg); }
+.dark-surface { background-color: var(--dark-surface); }
+.dark-card { background-color: #ffffff; }
+.dark-border { border-color: var(--dark-border); }
+.dark-text { color: #1f2937; }
+.dark-text-muted { color: #6b7280; }
+.content-card { background-color: var(--content-card); }
+.content-border { border-color: var(--content-border); }
+
+/* Dark Mode Override */
+@media (prefers-color-scheme: dark) {
+  .dark-card { background-color: var(--dark-card); }
+  .dark-text { color: var(--dark-text); }
+  .dark-text-muted { color: var(--dark-text-muted); }
+  .content-card { background-color: var(--dark-card); }
+  .content-border { border-color: var(--dark-border); }
+}
+
+/* Gradient Classes */
+.bg-gradient-primary { background: linear-gradient(135deg, var(--primary), #2a5a5d); }
+
+/* Professional Color Variations */
+.bg-primary\/10 { background-color: rgba(var(--primary-rgb), 0.1); }
+.bg-secondary\/20 { background-color: rgba(var(--secondary-rgb), 0.2); }
+.border-primary\/30 { border-color: rgba(var(--primary-rgb), 0.3); }
+.border-secondary\/20 { border-color: rgba(var(--secondary-rgb), 0.2); }

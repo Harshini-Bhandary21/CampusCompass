@@ -193,7 +193,7 @@ export default function ActivitiesPage() {
   const timeSlots = department?.timetableData?.timeSlots || []
 
   return (
-    <div className="min-h-screen content-bg flex">
+    <div className="min-h-screen flex">
       <Sidebar
         activeTab="activities"
         setActiveTab={createTabNavigator(router)}

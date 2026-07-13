@@ -11,6 +11,8 @@ import {
   createTabNavigator,
 } from "@/app/components/dashboard/DepartmentSidebarConfig";
 import TimetableGrid from "@/app/components/dashboard/TimetableGrid";
+import IconBadge from "@/app/components/dashboard/IconBadge";
+import { Squares2X2Icon } from "@heroicons/react/24/outline";
 
 export default function DivisionPage() {
   const { data: session, status } = useSession();
@@ -128,7 +130,7 @@ export default function DivisionPage() {
   }
 
   return (
-    <div className="min-h-screen content-bg flex">
+    <div className="min-h-screen flex">
       <Sidebar
         activeTab="division"
         setActiveTab={createTabNavigator(router)}
@@ -145,31 +147,22 @@ export default function DivisionPage() {
         />
         <div className="p-4">
           {divisionSchedules.length === 0 ? (
-            <div className="content-card rounded-2xl shadow-lg border content-border p-8 text-center">
-              <svg
-                className="h-16 w-16 text-gray-600 mb-4 mx-auto"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                />
-              </svg>
-              <h3 className="text-xl font-bold dark-text mb-2">
+            <div className="dashboard-empty-state">
+              <div className="flex justify-center mb-4">
+                <IconBadge icon={Squares2X2Icon} size="lg" />
+              </div>
+              <h3 className="dashboard-empty-title">
                 No Schedule Available
               </h3>
-              <p className="dark-text-muted">
+              <p className="dashboard-empty-text">
                 Generate and select a schedule to view division timetables.
               </p>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="content-card rounded-xl shadow-lg border content-border p-4">
-                <label className="block text-sm font-medium dark-text mb-2">
+              <div className="dashboard-panel">
+                <label className="dashboard-label">
+                  <IconBadge icon={Squares2X2Icon} />
                   Select Division
                 </label>
                 <select
@@ -179,7 +172,7 @@ export default function DivisionPage() {
                       divisionSchedules.find((d) => d.name === e.target.value),
                     )
                   }
-                  className="w-full p-3 border content-border rounded-lg dark-card dark-text focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="dashboard-select focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {divisionSchedules.map((division) => (
                     <option key={division.name} value={division.name}>
@@ -190,8 +183,8 @@ export default function DivisionPage() {
               </div>
 
               {selectedDivision && (
-                <div className="content-card rounded-xl shadow-lg border content-border p-4 overflow-x-auto">
-                  <h3 className="text-lg font-bold dark-text mb-4">
+                <div className="dashboard-panel dashboard-panel-scroll">
+                  <h3 className="dashboard-panel-title">
                     {selectedDivision.name} ({selectedDivision.schedule.length}{" "}
                     classes)
                   </h3>

@@ -208,9 +208,9 @@ export default function TimetableGrid({
       return (
         <td
           key={`${day}-${index}`}
-          className="border timetable-border p-2 timetable-cell w-40"
+          className="border timetable-border p-2 timetable-cell w-44"
         >
-          <div className="text-center text-gray-500 text-xs h-full flex items-center justify-center">
+          <div className="text-center text-gray-400 text-sm h-full flex items-center justify-center">
             -
           </div>
         </td>
@@ -228,7 +228,7 @@ export default function TimetableGrid({
     return (
       <td
         key={`${day}-${index}`}
-        className="border timetable-border p-2 timetable-cell w-40"
+        className="border timetable-border p-1.5 timetable-cell w-44"
         colSpan={colSpan}
       >
         <div
@@ -245,30 +245,30 @@ export default function TimetableGrid({
               <div
                 key={idx}
                 onClick={() => onSlotClick?.(slot, day, slot.time)}
-                className={`text-xs p-1 rounded border ${colorScheme.slot} ${onSlotClick ? "cursor-pointer hover:opacity-80" : ""} transition-opacity flex flex-col justify-center`}
+                className={`text-xs p-1.5 rounded-md border ${colorScheme.slot} ${onSlotClick ? "cursor-pointer hover:shadow-md hover:-translate-y-0.5" : ""} transition-all flex flex-col justify-center gap-0.5`}
               >
                 {slot.batch && (
-                  <div className="font-semibold text-[10px]">
+                  <div className="font-semibold text-xs leading-tight">
                     {slot.batch}
                   </div>
                 )}
                 <div
                   className={
                     slot.batch
-                      ? "mt-0.5 text-[10px]"
-                      : "font-semibold text-[10px]"
+                      ? "text-[11px] leading-tight"
+                      : "font-semibold text-xs leading-tight"
                   }
                 >
                   {slot.course}
                 </div>
                 {slot.faculty && (
-                  <div className="mt-0.5 text-[9px]">{slot.faculty}</div>
+                  <div className="text-[11px] leading-tight opacity-90">{slot.faculty}</div>
                 )}
                 {slot.room && (
-                  <div className="mt-0.5 text-[9px]">{slot.room}</div>
+                  <div className="text-[11px] leading-tight opacity-90">{slot.room}</div>
                 )}
                 <span
-                  className={`px-1 py-0.5 rounded text-[8px] font-medium ${colorScheme.tag} mt-0.5`}
+                  className={`self-start px-1.5 py-0.5 rounded text-[10px] font-medium ${colorScheme.tag}`}
                 >
                   {slot.type}
                 </span>
@@ -281,24 +281,24 @@ export default function TimetableGrid({
   };
 
   return (
-    <table className="w-full border-collapse min-w-[1400px] timetable-grid">
+    <table className="w-full border-collapse min-w-[1500px] timetable-grid rounded-lg overflow-hidden">
       <thead>
         <tr className="bg-gradient-primary">
-          <th className="border timetable-border p-2 text-white font-semibold text-sm w-24">
+          <th className="border timetable-border p-3 text-white font-semibold text-sm w-24">
             Day
           </th>
           {slotIndexes.map((index) =>
             index === lunchBreakSlot && showLunchBreak ? (
               <th
                 key={index}
-                className="border timetable-border p-2 text-white font-semibold text-xs w-40 bg-amber-500"
+                className="border timetable-border p-3 text-white font-semibold text-sm w-44 bg-amber-500"
               >
                 🍽️ {slotTimes[index]}
               </th>
             ) : (
               <th
                 key={index}
-                className="border timetable-border p-2 text-white font-semibold text-xs w-40"
+                className="border timetable-border p-3 text-white font-semibold text-sm w-44"
               >
                 {slotTimes[index]}
               </th>
@@ -308,17 +308,17 @@ export default function TimetableGrid({
       </thead>
       <tbody>
         {days.map((day) => (
-          <tr key={day} className="h-16">
-            <td className="border timetable-border p-2 timetable-header font-medium text-xs timetable-text w-24">
+          <tr key={day} className="h-20">
+            <td className="border timetable-border p-3 timetable-header font-semibold text-sm timetable-text w-24">
               {day}
             </td>
             {slotIndexes.map((index) =>
               index === lunchBreakSlot && showLunchBreak ? (
                 <td
                   key={`${day}-${index}`}
-                  className="border timetable-border p-2 text-center bg-amber-50 w-40"
+                  className="border timetable-border p-2 text-center bg-amber-50 w-44"
                 >
-                  <div className="bg-gradient-to-r from-amber-100 to-orange-100 rounded-lg p-2 font-semibold text-amber-800 shadow-sm text-xs">
+                  <div className="bg-gradient-to-r from-amber-100 to-orange-100 rounded-lg p-2 font-semibold text-amber-800 shadow-sm text-sm">
                     LUNCH
                   </div>
                 </td>

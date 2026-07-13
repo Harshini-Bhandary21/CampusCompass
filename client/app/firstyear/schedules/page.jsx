@@ -49,7 +49,7 @@ export default function SchedulesPage() {
   }
 
   return (
-    <div className="min-h-screen content-bg flex">
+    <div className="min-h-screen flex">
       <Sidebar
         activeTab="schedules"
         setActiveTab={createTabNavigator(router)}

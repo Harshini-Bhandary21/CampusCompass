@@ -639,9 +639,9 @@ export default function CoordinatorDashboard() {
 
   if (!department) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-        <div className="text-center text-white">
-          <ExclamationTriangleIcon className="h-16 w-16 mx-auto mb-4 text-red-400" />
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center dark-text">
+          <ExclamationTriangleIcon className="h-16 w-16 mx-auto mb-4 text-red-500" />
           <p className="text-lg">Error loading department data</p>
         </div>
       </div>
@@ -649,7 +649,7 @@ export default function CoordinatorDashboard() {
   }
 
   return (
-    <div className="min-h-screen content-bg flex relative">
+    <div className="min-h-screen flex relative">
       {uploading && <WaitingRoom />}
       {sidebarOpen && (
         <div

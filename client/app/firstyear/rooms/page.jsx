@@ -12,6 +12,8 @@ import {
 } from "@/app/components/dashboard/DepartmentSidebarConfig";
 import RescheduleModal from "@/app/components/dashboard/RescheduleModal";
 import TimetableGrid from "@/app/components/dashboard/TimetableGrid";
+import IconBadge from "@/app/components/dashboard/IconBadge";
+import { BuildingOffice2Icon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import * as XLSX from "xlsx";
 
@@ -206,7 +208,7 @@ export default function RoomsPage() {
   }
 
   return (
-    <div className="min-h-screen content-bg flex">
+    <div className="min-h-screen flex">
       <Sidebar
         activeTab="rooms"
         setActiveTab={createTabNavigator(router)}
@@ -223,31 +225,22 @@ export default function RoomsPage() {
         />
         <div className="p-4">
           {roomSchedules.length === 0 ? (
-            <div className="content-card rounded-2xl shadow-lg border content-border p-8 text-center">
-              <svg
-                className="h-16 w-16 text-gray-600 mb-4 mx-auto"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                />
-              </svg>
-              <h3 className="text-xl font-bold dark-text mb-2">
+            <div className="dashboard-empty-state">
+              <div className="flex justify-center mb-4">
+                <IconBadge icon={BuildingOffice2Icon} size="lg" />
+              </div>
+              <h3 className="dashboard-empty-title">
                 No Schedule Available
               </h3>
-              <p className="dark-text-muted">
+              <p className="dashboard-empty-text">
                 Generate and select a schedule to view room timetables.
               </p>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="content-card rounded-xl shadow-lg border content-border p-4">
-                <label className="block text-sm font-medium dark-text mb-2">
+              <div className="dashboard-panel">
+                <label className="dashboard-label">
+                  <IconBadge icon={BuildingOffice2Icon} />
                   Select Room
                 </label>
                 <select
@@ -257,7 +250,7 @@ export default function RoomsPage() {
                       roomSchedules.find((r) => r.name === e.target.value),
                     )
                   }
-                  className="w-full p-3 border content-border rounded-lg dark-card dark-text focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="dashboard-select focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {roomSchedules.map((room) => (
                     <option key={room.name} value={room.name}>
@@ -268,8 +261,8 @@ export default function RoomsPage() {
               </div>
 
               {selectedRoom && (
-                <div className="content-card rounded-xl shadow-lg border content-border p-4 overflow-x-auto">
-                  <h3 className="text-lg font-bold dark-text mb-4">
+                <div className="dashboard-panel dashboard-panel-scroll">
+                  <h3 className="dashboard-panel-title">
                     {selectedRoom.name}
                   </h3>
                   <TimetableGrid
