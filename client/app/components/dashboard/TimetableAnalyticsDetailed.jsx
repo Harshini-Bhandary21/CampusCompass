@@ -134,25 +134,22 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
 
   if (!analytics) return null
 
-  const getColor = (index, total) => {
-    const colors = ['#10b981', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4', '#ec4899', '#14b8a6', '#f97316']
-    return colors[index % colors.length]
-  }
+  const getColorClass = (index) => `chart-color-${(index % 8) + 1}`
 
-  const getHeatmapColor = (value, max) => {
-    if (value === 0) return '#f3f4f6'
+  const getHeatmapClass = (value, max) => {
+    if (value === 0) return 'heat-0'
     const intensity = value / max
-    if (intensity < 0.2) return '#fef3c7'
-    if (intensity < 0.4) return '#fcd34d'
-    if (intensity < 0.6) return '#fbbf24'
-    if (intensity < 0.8) return '#f59e0b'
-    return '#d97706'
+    if (intensity < 0.2) return 'heat-0'
+    if (intensity < 0.4) return 'heat-1'
+    if (intensity < 0.6) return 'heat-2'
+    if (intensity < 0.8) return 'heat-3'
+    return 'heat-4'
   }
 
   return (
     <div className="space-y-4">
       {/* Tab Navigation */}
-      <div className="flex space-x-2 border-b border-gray-200">
+      <div className="flex space-x-2 border-b dashboard-border">
         <button
           onClick={() => setActiveTab('student')}
           className={`px-4 py-2 font-medium transition-colors ${
@@ -226,8 +223,7 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
                           return (
                             <td
                               key={day}
-                              className="p-2 text-center"
-                              style={{ backgroundColor: getHeatmapColor(val, maxVal) }}
+                              className={`p-2 text-center ${getHeatmapClass(val, maxVal)}`}
                             >
                               {val > 0 && <span className="font-bold">{val}</span>}
                             </td>
@@ -255,10 +251,9 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
                     <div className="w-24 font-medium">{day}</div>
                     <div className="flex-1 bg-gray-200 rounded-full h-8 relative">
                       <div
-                        className="h-8 rounded-full flex items-center justify-end pr-3 text-white font-bold"
+                        className="h-8 rounded-full flex items-center justify-end pr-3 text-white font-bold chart-gradient-2"
                         style={{
                           width: `${(total / maxTotal) * 100}%`,
-                          background: 'linear-gradient(90deg, #10b981, #059669)'
                         }}
                       >
                         {total}
@@ -286,8 +281,8 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-4">
                       <div
-                        className="h-4 rounded-full"
-                        style={{ width: `${(theory/total)*100}%`, background: 'linear-gradient(90deg, #8b5cf6, #7c3aed)' }}
+                        className="h-4 rounded-full chart-gradient-5"
+                        style={{ width: `${(theory/total)*100}%` }}
                       />
                     </div>
                     <div className="flex items-center justify-between">
@@ -296,8 +291,8 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-4">
                       <div
-                        className="h-4 rounded-full"
-                        style={{ width: `${(lab/total)*100}%`, background: 'linear-gradient(90deg, #06b6d4, #0891b2)' }}
+                        className="h-4 rounded-full chart-gradient-4"
+                        style={{ width: `${(lab/total)*100}%` }}
                       />
                     </div>
                   </div>
@@ -345,11 +340,8 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-3">
                           <div
-                            className="h-3 rounded-full"
-                            style={{
-                              width: `${(hours / maxHours) * 100}%`,
-                              backgroundColor: getColor(idx, Object.keys(analytics.facultyWorkload).length)
-                            }}
+                            className={`h-3 rounded-full ${getColorClass(idx)}`}
+                            style={{ width: `${(hours / maxHours) * 100}%` }}
                           />
                         </div>
                       </div>
@@ -394,11 +386,8 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
                       <div className="w-32 font-medium">{dept}</div>
                       <div className="flex-1 bg-gray-200 rounded-full h-10 relative">
                         <div
-                          className="h-10 rounded-full flex items-center justify-end pr-3 text-white font-bold"
-                          style={{
-                            width: `${(hours / maxHours) * 100}%`,
-                            backgroundColor: getColor(idx, Object.keys(analytics.deptWorkload).length)
-                          }}
+                          className={`h-10 rounded-full flex items-center justify-end pr-3 text-white font-bold ${getColorClass(idx)}`}
+                          style={{ width: `${(hours / maxHours) * 100}%` }}
                         >
                           {hours}
                         </div>
@@ -422,19 +411,17 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
                       <div className="font-medium">{dept}</div>
                       <div className="flex h-10 rounded-lg overflow-hidden">
                         <div
-                          className="flex items-center justify-center text-white font-bold text-sm"
+                          className="flex items-center justify-center text-white font-bold text-sm chart-gradient-5"
                           style={{
                             width: `${(load.theory / total) * 100}%`,
-                            background: 'linear-gradient(90deg, #8b5cf6, #7c3aed)'
                           }}
                         >
                           {load.theory > 0 && `Theory: ${load.theory}`}
                         </div>
                         <div
-                          className="flex items-center justify-center text-white font-bold text-sm"
+                          className="flex items-center justify-center text-white font-bold text-sm chart-gradient-4"
                           style={{
                             width: `${(load.lab / total) * 100}%`,
-                            background: 'linear-gradient(90deg, #06b6d4, #0891b2)'
                           }}
                         >
                           {load.lab > 0 && `Lab: ${load.lab}`}
@@ -455,9 +442,10 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
                 .map(([dept, hours], idx) => {
                   const total = Object.values(analytics.deptWorkload).reduce((a, b) => a + b, 0)
                   const percent = ((hours / total) * 100).toFixed(1)
+                  const chartIndex = (idx % 8) + 1
                   return (
-                    <div key={dept} className="text-center p-4 rounded-lg" style={{ backgroundColor: `${getColor(idx, Object.keys(analytics.deptWorkload).length)}20` }}>
-                      <div className="text-3xl font-bold" style={{ color: getColor(idx, Object.keys(analytics.deptWorkload).length) }}>
+                    <div key={dept} className={`text-center p-4 rounded-lg chart-tint-${chartIndex}`}>
+                      <div className={`text-3xl font-bold chart-text-${chartIndex}`}>
                         {percent}%
                       </div>
                       <div className="font-medium mt-2">{dept}</div>
@@ -486,10 +474,9 @@ export default function TimetableAnalyticsDetailed({ scheduleData }) {
                       <div className="w-32 font-medium text-sm">{slot}</div>
                       <div className="flex-1 bg-gray-200 rounded-full h-8 relative">
                         <div
-                          className="h-8 rounded-full flex items-center justify-end pr-3 text-white font-bold"
+                          className="h-8 rounded-full flex items-center justify-end pr-3 text-white font-bold chart-gradient-6"
                           style={{
                             width: `${(count / maxCount) * 100}%`,
-                            background: 'linear-gradient(90deg, #ec4899, #db2777)'
                           }}
                         >
                           {count}

@@ -19,9 +19,9 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
   const avgFacultyHours = faculty?.length ? (faculty.reduce((sum, f) => sum + parseFloat(f.hours), 0) / faculty.length).toFixed(1) : 0
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-5 shadow-sm">
+    <div className="content-card rounded-xl border dashboard-border p-5 space-y-5 shadow-sm">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-gray-900">
+        <h2 className="page-title">
           Input Data Analytics
         </h2>
         <div className="flex items-center space-x-3">
@@ -123,8 +123,8 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
-          <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center">
+        <div className="content-card rounded-xl shadow-md p-4 border dashboard-border">
+          <h3 className="section-title mb-4 flex items-center">
             <div className="w-1 h-5 bg-primary rounded mr-2"></div>
             Faculty Workload Distribution
           </h3>
@@ -146,15 +146,15 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
-          <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center">
+        <div className="content-card rounded-xl shadow-md p-4 border dashboard-border">
+          <h3 className="section-title mb-4 flex items-center">
             <div className="w-1 h-5 bg-primary rounded mr-2"></div>
             Class Type Distribution
           </h3>
           <div className="flex items-center justify-center h-48">
             <div className="relative w-40 h-40">
               <svg viewBox="0 0 100 100" className="transform -rotate-90">
-                <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" strokeWidth="20"/>
+                <circle cx="50" cy="50" r="40" fill="none" stroke="var(--content-border)" strokeWidth="20"/>
                 <circle
                   cx="50" cy="50" r="40"
                   fill="none"
@@ -166,7 +166,7 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
                 <circle
                   cx="50" cy="50" r="40"
                   fill="none"
-                  stroke="#f59e0b"
+                  stroke="var(--chart-3)"
                   strokeWidth="20"
                   strokeDasharray={`${(labCount / (theoryCount + labCount || 1)) * 251.2} 251.2`}
                   strokeDashoffset={`-${(theoryCount / (theoryCount + labCount || 1)) * 251.2}`}
@@ -189,7 +189,7 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-5 h-5 rounded bg-amber-500"></div>
+                <div className="w-5 h-5 rounded chart-color-3"></div>
                 <div>
                   <div className="text-sm text-gray-600">Lab</div>
                   <div className="text-xl font-bold text-gray-900">{labCount}</div>
@@ -199,8 +199,8 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
-          <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center">
+        <div className="content-card rounded-xl shadow-md p-4 border dashboard-border">
+          <h3 className="section-title mb-4 flex items-center">
             <div className="w-1 h-5 bg-primary rounded mr-2"></div>
             Room Allocation
           </h3>
@@ -220,11 +220,11 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
             <div>
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm text-gray-600">Lab Rooms</span>
-                <span className="text-base font-bold text-amber-600">{labRooms}</span>
+                <span className="text-base font-bold text-[var(--chart-3)]">{labRooms}</span>
               </div>
               <div className="relative w-full bg-gray-200 rounded-full h-3.5 overflow-hidden">
                 <div
-                  className="absolute h-3.5 rounded-full bg-amber-500"
+                  className="absolute h-3.5 rounded-full chart-color-3"
                   style={{ width: `${(labRooms / rooms?.length * 100)}%` }}
                 />
               </div>
@@ -232,8 +232,8 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
-          <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center">
+        <div className="content-card rounded-xl shadow-md p-4 border dashboard-border">
+          <h3 className="section-title mb-4 flex items-center">
             <div className="w-1 h-5 bg-primary rounded mr-2"></div>
             Batch Overview
           </h3>
@@ -249,7 +249,7 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
               >
                 <div className="text-sm font-bold text-gray-900 truncate">{batch.name}</div>
                 <div className={`text-xs font-semibold mt-1 ${
-                  batch.type === 'Lab' ? 'text-amber-600' : 'text-primary'
+                  batch.type === 'Lab' ? 'text-[var(--chart-3)]' : 'text-primary'
                 }`}>
                   {batch.type}
                 </div>
@@ -277,8 +277,8 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
               <p className="text-sm opacity-90">Max Hours</p>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
-            <h3 className="text-base font-bold text-gray-900 mb-4">Faculty Workload Ranking</h3>
+          <div className="content-card rounded-xl p-4 border dashboard-border">
+            <h3 className="section-title mb-4">Faculty Workload Ranking</h3>
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {facultyByHours.map((f, idx) => (
                 <div key={idx} className="flex items-center gap-3">
@@ -315,13 +315,13 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
               <div className="text-3xl font-bold">{theoryCount}</div>
               <p className="text-sm opacity-90">Theory Batches</p>
             </div>
-            <div className="bg-amber-500 rounded-xl p-4 text-white">
+            <div className="chart-color-3 rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{labCount}</div>
               <p className="text-sm opacity-90">Lab Batches</p>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
-            <h3 className="text-base font-bold text-gray-900 mb-4">All Batches</h3>
+          <div className="content-card rounded-xl p-4 border dashboard-border">
+            <h3 className="section-title mb-4">All Batches</h3>
             <div className="grid grid-cols-3 gap-3 max-h-96 overflow-y-auto">
               {batches?.map((batch, idx) => (
                 <div
@@ -334,7 +334,7 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
                 >
                   <div className="text-sm font-bold text-gray-900 truncate">{batch.name}</div>
                   <div className={`text-xs font-semibold mt-1 ${
-                    batch.type === 'Lab' ? 'text-amber-600' : 'text-primary'
+                    batch.type === 'Lab' ? 'text-[var(--chart-3)]' : 'text-primary'
                   }`}>
                     {batch.type}
                   </div>
@@ -356,14 +356,14 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
               <div className="text-3xl font-bold">{theoryRooms}</div>
               <p className="text-sm opacity-90">Theory Rooms</p>
             </div>
-            <div className="bg-amber-500 rounded-xl p-4 text-white">
+            <div className="chart-color-3 rounded-xl p-4 text-white">
               <div className="text-3xl font-bold">{labRooms}</div>
               <p className="text-sm opacity-90">Lab Rooms</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white rounded-xl p-4 border border-gray-200">
-              <h3 className="text-base font-bold text-gray-900 mb-4">Theory Rooms</h3>
+            <div className="content-card rounded-xl p-4 border dashboard-border">
+              <h3 className="section-title mb-4">Theory Rooms</h3>
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {rooms?.filter(r => r.type === 'Theory').map((room, idx) => (
                   <div key={idx} className="flex items-center justify-between p-2 bg-primary/10 border border-primary/30 rounded-lg">
@@ -373,13 +373,13 @@ export default function TimetableAnalytics({ analytics, onEditExcel }) {
                 ))}
               </div>
             </div>
-            <div className="bg-white rounded-xl p-4 border border-gray-200">
-              <h3 className="text-base font-bold text-gray-900 mb-4">Lab Rooms</h3>
+            <div className="content-card rounded-xl p-4 border dashboard-border">
+              <h3 className="section-title mb-4">Lab Rooms</h3>
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {rooms?.filter(r => r.type === 'Lab').map((room, idx) => (
                   <div key={idx} className="flex items-center justify-between p-2 bg-amber-50 border border-amber-300 rounded-lg">
                     <span className="text-gray-900 font-medium">{room.name}</span>
-                    <span className="px-2 py-1 bg-amber-500 text-white rounded text-xs font-bold">Lab</span>
+                    <span className="px-2 py-1 chart-color-3 text-white rounded text-xs font-bold">Lab</span>
                   </div>
                 ))}
               </div>

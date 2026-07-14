@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
+import Modal from '@/app/components/shared/Modal';
 
 const createImage = (url) =>
   new Promise((resolve, reject) => {
@@ -69,7 +70,13 @@ export default function ImageCropper({ imageSrc, onSave, onCancel, aspect = 1 })
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-8 bg-black/80">
+    <Modal
+      variant="bare"
+      onClose={onCancel}
+      closeOnBackdrop={false}
+      backdropClassName="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-8 bg-black/80"
+      bodyClassName="flex flex-col items-center w-full"
+    >
       <div className="relative w-full max-w-[500px] h-[60vh] bg-gray-900 rounded-lg overflow-hidden">
         <Cropper
           image={imageSrc}
@@ -99,19 +106,19 @@ export default function ImageCropper({ imageSrc, onSave, onCancel, aspect = 1 })
         </div>
         <div className="flex justify-end gap-2">
           <button
-            className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+            className="dashboard-btn-secondary"
             onClick={onCancel}
           >
             Cancel
           </button>
           <button
-            className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-primary text-white hover:shadow-lg transition-all"
+            className="dashboard-btn-primary"
             onClick={handleSave}
           >
             Crop &amp; Save
           </button>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

@@ -69,11 +69,7 @@ export default function ExpirySelector({ value, onChange }) {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         title={`Auto-delete: ${selectedOption.label}`}
-        className={`p-2 rounded-lg border transition-colors ${
-          hasExpiry
-            ? 'border-red-300 text-red-600 bg-red-50 hover:bg-red-100'
-            : 'border-gray-300 text-gray-600 bg-gray-50 hover:bg-gray-100'
-        }`}
+        className={`dashboard-chip ${hasExpiry ? 'dashboard-chip-active' : 'dashboard-chip-muted'}`}
       >
         <Clock size={16} />
       </button>

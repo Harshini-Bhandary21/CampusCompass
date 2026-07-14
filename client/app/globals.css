@@ -13,4 +13,21 @@
 @theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: var(--font-display-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Registering these as real Tailwind theme colors (not just the
+     hand-written .bg-primary/.text-primary/.border-primary classes in
+     tokens.css) means Tailwind generates the *entire* utility surface for
+     them automatically — ring-primary, divide-primary, from-primary,
+     bg-primary/37, etc. — instead of every opacity step needing its own
+     hand-rolled class. */
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
 }
+
+/* This app is light-mode only, by design (see app/styles/*.css). Tailwind's
+   `dark:` variant defaults to following the OS/browser color-scheme
+   preference, independent of our own CSS — redefine it to key off a `.dark`
+   ancestor class instead, which nothing in this app ever sets, so every
+   `dark:*` utility already written in JSX stays permanently inert rather
+   than fighting the light-only design at the OS level. */
+@custom-variant dark (&:where(.dark, .dark *));

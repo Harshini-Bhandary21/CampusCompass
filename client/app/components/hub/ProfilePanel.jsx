@@ -176,7 +176,7 @@ export default function ProfilePanel({ role }) {
             />
           </div>
           <div className="flex justify-end">
-            <button type="submit" disabled={saving} className="px-4 py-2 text-sm font-semibold text-white bg-gradient-primary rounded-lg disabled:opacity-50">
+            <button type="submit" disabled={saving} className="dashboard-btn-primary">
               {saving ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
@@ -200,7 +200,7 @@ export default function ProfilePanel({ role }) {
           onChange={e => setPwForm(f => ({ ...f, newPassword: e.target.value }))}
         />
         <div className="flex justify-end">
-          <button type="submit" disabled={pwSaving} className="px-4 py-2 text-sm font-semibold text-white bg-gradient-primary rounded-lg disabled:opacity-50">
+          <button type="submit" disabled={pwSaving} className="dashboard-btn-primary">
             {pwSaving ? 'Saving...' : 'Update Password'}
           </button>
         </div>

@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
-import { Search, Pencil, Ban, CheckCircle, Trash2, Save, X } from 'lucide-react'
+import { Search, Pencil, Ban, CheckCircle, Trash2, Save, X, UserCog } from 'lucide-react'
 import DashboardNav from '@/app/components/shared/DashboardNav'
 import Sidebar from '@/app/components/shared/Sidebar'
 import LoadingSpinner from '@/app/components/shared/LoadingSpinner'
+import IconBadge from '@/app/components/dashboard/IconBadge'
 import { getDepartmentTabs, createTabNavigator } from '@/app/components/dashboard/DepartmentSidebarConfig'
 import RoleBadge from '@/app/components/hub/RoleBadge'
 
@@ -107,13 +108,21 @@ export default function AdminUsersPage() {
         setSidebarOpen={setSidebarOpen}
         tabs={getDepartmentTabs()}
       />
-      <div className="flex-1 lg:ml-0">
+      <div className="flex-1 lg:ml-0 min-w-0">
         <DashboardNav
           onMenuClick={() => setSidebarOpen(!sidebarOpen)}
           title="First Year Department"
           subtitle="User Management"
         />
         <div className="p-4 space-y-4">
+          <div className="dashboard-panel flex items-center gap-3">
+            <IconBadge icon={UserCog} />
+            <div>
+              <h2 className="text-lg font-bold dark-text">User Management</h2>
+              <p className="dashboard-empty-text text-sm">Search, edit, block, and manage teacher and student accounts</p>
+            </div>
+          </div>
+
           <div className="dashboard-panel flex flex-wrap gap-3 items-center">
             <div className="relative flex-1 min-w-[200px]">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -155,14 +164,14 @@ export default function AdminUsersPage() {
                     const isEditing = editingKey === key
                     return (
                       <tr key={key} className="border-b border-gray-50 last:border-0">
-                        <td className="py-2 pr-3">
+                        <td className="py-2 pr-3 dark-text">
                           {isEditing ? (
                             <input className="dashboard-select !py-1" value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} />
                           ) : u.name}
                         </td>
                         <td className="py-2 pr-3"><RoleBadge role={u.role} /></td>
                         <td className="py-2 pr-3 text-gray-500">{u.email}</td>
-                        <td className="py-2 pr-3">
+                        <td className="py-2 pr-3 dark-text">
                           {isEditing ? (
                             <input className="dashboard-select !py-1" value={editForm.department} onChange={e => setEditForm(f => ({ ...f, department: e.target.value }))} />
                           ) : u.department}

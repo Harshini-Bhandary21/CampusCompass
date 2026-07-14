@@ -29,17 +29,80 @@
   /* Lighter Content Area */
   --content-card: #ffffff;
   --content-border: #e5e7eb;
+
+  /* Elevation & radius scale — every card/panel/modal should reach for one
+     of these instead of hand-writing its own box-shadow/border-radius. */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+
+  /* Decorative/non-text tier ONLY (disabled-state icons, dividers, inert
+     placeholder glyphs) — NOT for readable text like timestamps or captions,
+     use --dark-text-muted for those. --dark-text-muted (#6b7280) already
+     sits at ~4.8:1 against white, near the WCAG AA text-contrast floor
+     (4.5:1), so nothing lighter can both read as "fainter" and still pass
+     the text threshold. This value targets the looser ~3:1 threshold that
+     applies to large text / graphical UI objects instead. */
+  --dark-text-faint: #8a94a3;
+
+  /* Categorical role colors — built as tints/shades so the palette stays
+     disciplined rather than reaching for arbitrary Tailwind colors. */
+  --role-admin-bg: rgba(var(--primary-rgb), 0.14);
+  --role-admin-text: var(--primary);
+  --role-teacher-bg: #ede9fe;
+  --role-teacher-text: #6d28d9;
+  --role-student-bg: #dbeafe;
+  --role-student-text: #1d4ed8;
+  --role-clublead-bg: #fef3c7;
+  --role-clublead-text: #92400e;
+  --role-default-bg: #e5e7eb;
+  --role-default-text: #4b5563;
+
+  /* Load-bearing action colors (not decorative) for the reschedule flow —
+     room vs faculty change, permanent vs temporary. */
+  --action-room: #3b82f6;
+  --action-faculty: #8b5cf6;
+  --state-permanent: #22c55e;
+  --state-temporary: #f97316;
+
+  /* Categorical chart palette — 1:1 with the slot-tag-* solid colors already
+     established in timetable.css, reused rather than reinvented. */
+  --chart-1: #e11d48;
+  --chart-2: #059669;
+  --chart-3: #d97706;
+  --chart-4: #0891b2;
+  --chart-5: #7c3aed;
+  --chart-6: #db2777;
+  --chart-7: #0d9488;
+  --chart-8: #ea580c;
+
+  /* Sequential heatmap scale (low → high utilization/density). */
+  --heat-0: #d1fae5;
+  --heat-1: #a7f3d0;
+  --heat-2: #fde68a;
+  --heat-3: #fca5a5;
+  --heat-4: #ef4444;
+
+  /* Dashboard background canvas/WebGL layer — these feed <canvas> rendering
+     in DashboardBackground.jsx, which can't consume CSS classes, so the
+     component reads these via getComputedStyle at mount instead of
+     hardcoding hex literals as prop defaults. */
+  --bg-blob-from: #3a3e43;
+  --bg-blob-to: #ececf6;
+  --bg-glow-color: transparent;
+  --bg-dot-color: #feffff;
 }
 
-/* Custom Color Classes */
-.bg-primary { background-color: var(--primary); }
-.bg-secondary { background-color: var(--secondary); }
-.text-primary { color: var(--primary); }
-.text-secondary { color: var(--secondary); }
-.border-primary { border-color: var(--primary); }
-.border-secondary { border-color: var(--secondary); }
+/* `primary`/`secondary` are registered as real Tailwind theme colors in
+   globals.css (--color-primary/--color-secondary), so Tailwind generates
+   bg-primary, text-primary, border-primary, ring-primary, bg-primary/NN,
+   from-primary, etc. automatically — no hand-written classes needed here. */
 
-/* Light Mode Classes (Default) */
+/* App is light-mode only, by design — these classes intentionally do not
+   respond to the OS/browser color-scheme preference. */
 .dark-bg { background-color: var(--dark-bg); }
 .dark-surface { background-color: var(--dark-surface); }
 .dark-card { background-color: #ffffff; }
@@ -49,20 +112,186 @@
 .content-card { background-color: var(--content-card); }
 .content-border { border-color: var(--content-border); }
 
-/* Dark Mode Override */
-@media (prefers-color-scheme: dark) {
-  .dark-card { background-color: var(--dark-card); }
-  .dark-text { color: var(--dark-text); }
-  .dark-text-muted { color: var(--dark-text-muted); }
-  .content-card { background-color: var(--dark-card); }
-  .content-border { border-color: var(--dark-border); }
-}
-
 /* Gradient Classes */
 .bg-gradient-primary { background: linear-gradient(135deg, var(--primary), #2a5a5d); }
 
-/* Professional Color Variations */
-.bg-primary\/10 { background-color: rgba(var(--primary-rgb), 0.1); }
-.bg-secondary\/20 { background-color: rgba(var(--secondary-rgb), 0.2); }
-.border-primary\/30 { border-color: rgba(var(--primary-rgb), 0.3); }
-.border-secondary\/20 { border-color: rgba(var(--secondary-rgb), 0.2); }
+/* ── Extended text tier + generic border ─────────────────────────────────── */
+.dashboard-text-faint { color: var(--dark-text-faint); }
+.dashboard-border { border-color: var(--content-border); }
+
+/* ── Role badges ──────────────────────────────────────────────────────────
+   Centralizes the role → color mapping that RoleBadge.jsx used to hardcode
+   inline; consumed by AnnouncementsPanel, ClubsPanel, GroupsPanel, ProfilePanel. */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.role-badge-admin { background-color: var(--role-admin-bg); color: var(--role-admin-text); }
+.role-badge-teacher { background-color: var(--role-teacher-bg); color: var(--role-teacher-text); }
+.role-badge-student { background-color: var(--role-student-bg); color: var(--role-student-text); }
+.role-badge-clubLead { background-color: var(--role-clublead-bg); color: var(--role-clublead-text); }
+.role-badge-default { background-color: var(--role-default-bg); color: var(--role-default-text); }
+
+/* ── Unread count badge ───────────────────────────────────────────────────
+   Was duplicated verbatim in ClubsPanel/GroupsPanel/NotificationBell. */
+.dashboard-unread-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.375rem;
+  border-radius: 9999px;
+  background-color: #ef4444;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* ── Toggle chip ──────────────────────────────────────────────────────────
+   Generalizes ExpirySelector's boolean → red/gray ternary into a reusable
+   active/inactive small icon-button pattern. */
+.dashboard-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.dashboard-chip-muted { border-color: #d1d5db; color: #4b5563; background-color: #f9fafb; }
+.dashboard-chip-muted:hover { background-color: #f3f4f6; }
+.dashboard-chip-active { border-color: #fca5a5; color: #dc2626; background-color: #fef2f2; }
+.dashboard-chip-active:hover { background-color: #fee2e2; }
+
+/* ── Chat bubbles (GroupsPanel) ───────────────────────────────────────────
+   Replaces `mine ? 'bg-primary text-white' : 'bg-gray-100 text-gray-800'`. */
+.chat-bubble-mine { background-color: var(--primary); color: #ffffff; }
+.chat-bubble-theirs { background-color: #f3f4f6; color: #1f2937; }
+
+/* ── Buttons ──────────────────────────────────────────────────────────────
+   Replaces the ~10+ near-verbatim button className strings copy-pasted
+   across AnnouncementsPanel/GroupsPanel/ClubsPanel/PollCreator/ImageCropper
+   and several admin pages. */
+.dashboard-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary), #2a5a5d);
+  border-radius: var(--radius-sm);
+  transition: box-shadow 0.2s ease, transform 0.15s ease, opacity 0.15s ease;
+}
+.dashboard-btn-primary:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.dashboard-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.dashboard-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  background-color: transparent;
+  border: 1px solid var(--content-border);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+}
+.dashboard-btn-secondary:hover { background-color: #f9fafb; }
+.dashboard-btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.dashboard-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #dc2626;
+  background-color: transparent;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+}
+.dashboard-btn-danger:hover { background-color: #fef2f2; }
+
+.dashboard-btn-sm { padding: 0.375rem 0.75rem; font-size: 0.8125rem; }
+
+/* ── Reschedule action buttons ────────────────────────────────────────────
+   Color here is load-bearing (which field is being changed / how long the
+   change lasts), not decorative — kept vivid in both color schemes. */
+.btn-action {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #ffffff;
+  transition: filter 0.15s ease;
+}
+.btn-action:hover { filter: brightness(1.1); }
+.btn-action-room { background-color: var(--action-room); }
+.btn-action-faculty { background-color: var(--action-faculty); }
+.btn-state-permanent { background-color: var(--state-permanent); }
+.btn-state-temporary { background-color: var(--state-temporary); }
+
+/* ── Chart / heatmap color utilities ──────────────────────────────────────
+   Applied via className instead of inline style={{backgroundColor}}. */
+.chart-color-1 { background-color: var(--chart-1); }
+.chart-color-2 { background-color: var(--chart-2); }
+.chart-color-3 { background-color: var(--chart-3); }
+.chart-color-4 { background-color: var(--chart-4); }
+.chart-color-5 { background-color: var(--chart-5); }
+.chart-color-6 { background-color: var(--chart-6); }
+.chart-color-7 { background-color: var(--chart-7); }
+.chart-color-8 { background-color: var(--chart-8); }
+
+.heat-0 { background-color: var(--heat-0); }
+.heat-1 { background-color: var(--heat-1); }
+.heat-2 { background-color: var(--heat-2); }
+.heat-3 { background-color: var(--heat-3); }
+.heat-4 { background-color: var(--heat-4); }
+
+/* ── Chart text/tint variants ─────────────────────────────────────────────
+   Same 8-color categorical palette as chart-color-N, but for callers that
+   need a solid-colored label (chart-text-N) next to a light translucent
+   tile background (chart-tint-N) instead of a flat backgroundColor — e.g.
+   percentage-contribution tiles in TimetableAnalyticsDetailed. */
+.chart-text-1 { color: var(--chart-1); }
+.chart-text-2 { color: var(--chart-2); }
+.chart-text-3 { color: var(--chart-3); }
+.chart-text-4 { color: var(--chart-4); }
+.chart-text-5 { color: var(--chart-5); }
+.chart-text-6 { color: var(--chart-6); }
+.chart-text-7 { color: var(--chart-7); }
+.chart-text-8 { color: var(--chart-8); }
+
+.chart-tint-1 { background-color: color-mix(in srgb, var(--chart-1) 20%, transparent); }
+.chart-tint-2 { background-color: color-mix(in srgb, var(--chart-2) 20%, transparent); }
+.chart-tint-3 { background-color: color-mix(in srgb, var(--chart-3) 20%, transparent); }
+.chart-tint-4 { background-color: color-mix(in srgb, var(--chart-4) 20%, transparent); }
+.chart-tint-5 { background-color: color-mix(in srgb, var(--chart-5) 20%, transparent); }
+.chart-tint-6 { background-color: color-mix(in srgb, var(--chart-6) 20%, transparent); }
+.chart-tint-7 { background-color: color-mix(in srgb, var(--chart-7) 20%, transparent); }
+.chart-tint-8 { background-color: color-mix(in srgb, var(--chart-8) 20%, transparent); }
+
+/* ── Chart gradient fills ─────────────────────────────────────────────────
+   For progress/utilization bars whose WIDTH is genuinely dynamic (kept as
+   an inline style) but whose gradient FILL color is static — moves the
+   gradient definition here instead of a literal `background: 'linear-gradient(...)'`
+   in component code. */
+.chart-gradient-2 { background: linear-gradient(90deg, #10b981, var(--chart-2)); }
+.chart-gradient-4 { background: linear-gradient(90deg, #06b6d4, var(--chart-4)); }
+.chart-gradient-5 { background: linear-gradient(90deg, #8b5cf6, var(--chart-5)); }
+.chart-gradient-6 { background: linear-gradient(90deg, #ec4899, var(--chart-6)); }

@@ -147,12 +147,12 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-2">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-[95vw] h-[95vh] flex flex-col">
+      <div className="content-card rounded-2xl shadow-2xl w-full max-w-[95vw] h-[95vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 bg-primary rounded-t-2xl">
           <div>
             <h2 className="text-xl font-bold text-white">Virtual Excel Editor</h2>
-            <p className="text-xs text-purple-100 mt-1">Edit your timetable data directly</p>
+            <p className="text-xs text-white/80 mt-1">Edit your timetable data directly</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-white/20 rounded-lg transition">
             <XMarkIcon className="h-6 w-6 text-white" />
@@ -162,7 +162,7 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
         {/* Sheet Tabs */}
         <div className="flex gap-1 px-4 pt-3 pb-0 border-b-2 border-secondary overflow-x-auto bg-gradient-to-b from-gray-50 to-white" style={{minHeight: '60px'}}>
           {sheets.length === 0 && (
-            <div className="text-gray-500 py-2 text-sm">No sheets available. Please upload an Excel file first.</div>
+            <div className="dark-text-muted py-2 text-sm">No sheets available. Please upload an Excel file first.</div>
           )}
           {sheets.map(sheet => (
             <button
@@ -171,7 +171,7 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
               className={`px-8 py-3 rounded-t-xl font-bold transition-all whitespace-nowrap text-sm ${
                 activeSheet === sheet
                   ? 'bg-primary text-white shadow-lg scale-105 -mb-0.5 border-2 border-primary'
-                  : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-primary border-2 border-gray-200 border-b-0 hover:border-primary'
+                  : 'content-card dark-text-muted hover:bg-secondary/20 hover:text-primary border-2 border-secondary border-b-0 hover:border-primary'
               }`}
             >
               {sheet}
@@ -180,11 +180,11 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
         </div>
 
         {/* Table */}
-        <div className="flex-1 overflow-auto p-4 bg-gray-50">
+        <div className="flex-1 overflow-auto p-4 sidebar-header-bg">
           {currentData.length === 0 ? (
-            <div className="flex items-center justify-center h-64 text-gray-500">
+            <div className="flex items-center justify-center h-64 dark-text-muted">
               <div className="text-center">
-                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="mx-auto h-12 w-12 dashboard-text-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <p className="mt-2 text-lg font-semibold">No data in this sheet</p>
@@ -209,11 +209,11 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
                 {currentData.map((row, rowIndex) => {
                   const hasInvalidCell = columns.some(col => !validateCell(row[col], col))
                   return (
-                  <tr key={rowIndex} className={`hover:bg-gray-100 transition-colors ${
-                    hasInvalidCell ? 'bg-red-100 border-2 border-red-500' : 'bg-white'
+                  <tr key={rowIndex} className={`hover:bg-secondary/20 transition-colors ${
+                    hasInvalidCell ? 'bg-red-100 border-2 border-red-500' : 'content-card'
                   }`}>
-                    <td className={`border-2 px-3 py-2.5 text-gray-700 font-bold text-sm sticky left-0 shadow-sm ${
-                      hasInvalidCell ? 'border-red-500 bg-red-100' : 'border-gray-300 bg-gray-50'
+                    <td className={`border-2 px-3 py-2.5 dark-text font-bold text-sm sticky left-0 shadow-sm ${
+                      hasInvalidCell ? 'border-red-500 bg-red-100' : 'dashboard-border sidebar-header-bg'
                     }`}>{rowIndex + 1}</td>
                     {columns.map(col => {
                       const isEditing = editingCell?.rowIndex === rowIndex && editingCell?.column === col
@@ -224,7 +224,7 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
                         <td
                           key={col}
                           className={`border-2 px-3 py-2.5 text-sm ${
-                            !isValid ? 'border-red-500 bg-red-200' : 'border-gray-300 bg-white'
+                            !isValid ? 'border-red-500 bg-red-200' : 'dashboard-border content-card'
                           }`}
                         >
                           {isEditing ? (
@@ -250,16 +250,16 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
                           ) : (
                             <div
                               onClick={() => handleCellEdit(rowIndex, col)}
-                              className="cursor-pointer hover:bg-gray-100 px-2 py-1.5 rounded-md transition min-h-[2rem] flex items-center text-gray-800"
+                              className="cursor-pointer hover:bg-secondary/20 px-2 py-1.5 rounded-md transition min-h-[2rem] flex items-center dark-text"
                             >
-                              {cellValue || <span className="text-gray-400 italic text-xs">empty</span>}
+                              {cellValue || <span className="dashboard-text-faint italic text-xs">empty</span>}
                             </div>
                           )}
                         </td>
                       )
                     })}
                     <td className={`border-2 px-3 py-2.5 text-center sticky right-0 shadow-sm ${
-                      hasInvalidCell ? 'border-red-500 bg-red-100' : 'border-gray-300 bg-gray-50'
+                      hasInvalidCell ? 'border-red-500 bg-red-100' : 'dashboard-border sidebar-header-bg'
                     }`}>
                       <button
                         onClick={() => handleDeleteRow(rowIndex)}
@@ -300,8 +300,8 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-4 border-t-2 border-secondary bg-gray-50">
-          <div className="text-sm text-gray-600">
+        <div className="flex items-center justify-between p-4 border-t-2 border-secondary sidebar-header-bg">
+          <div className="text-sm dark-text-muted">
             {hasChanges && (
               <span className="flex items-center gap-2 text-orange-600 font-bold">
                 <span className="h-3 w-3 bg-orange-600 rounded-full animate-pulse"></span>
@@ -312,7 +312,7 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="px-6 py-2.5 border-2 border-gray-400 text-gray-700 rounded-xl hover:bg-gray-200 transition-all font-bold text-sm"
+              className="px-6 py-2.5 border-2 border-secondary dark-text rounded-xl hover:bg-secondary/20 transition-all font-bold text-sm"
             >
               Cancel
             </button>
@@ -322,7 +322,7 @@ export default function VirtualExcelEditor({ isOpen, onClose, excelData, onSave,
               className={`px-8 py-2.5 rounded-xl font-bold transition-all shadow-lg text-sm ${
                 hasChanges
                   ? 'bg-primary text-white hover:bg-primary/90 hover:shadow-xl transform hover:scale-105'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-secondary dark-text-muted cursor-not-allowed'
               }`}
             >
               💾 Save Changes

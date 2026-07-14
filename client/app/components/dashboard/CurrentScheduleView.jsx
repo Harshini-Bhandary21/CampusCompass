@@ -84,7 +84,7 @@ export default function CurrentScheduleView({ department, departmentName }) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg border p-8">
+      <div className="content-card rounded-2xl shadow-lg border p-8">
         <div className="flex flex-col items-center justify-center p-8">
           <div className="relative">
             <div className="h-12 w-12 border-4 border-secondary rounded-full"></div>
@@ -114,12 +114,12 @@ export default function CurrentScheduleView({ department, departmentName }) {
 
   if (!currentSchedule) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg border p-8 text-center">
-        <CalendarDaysIcon className="h-16 w-16 text-gray-300 mb-4 mx-auto" />
-        <h3 className="text-xl font-bold text-gray-800 mb-2">
+      <div className="content-card rounded-2xl shadow-lg border p-8 text-center">
+        <CalendarDaysIcon className="h-16 w-16 dashboard-text-faint mb-4 mx-auto" />
+        <h3 className="text-xl font-bold dark-text mb-2">
           No Schedule Selected
         </h3>
-        <p className="text-gray-600 mb-4">
+        <p className="dark-text-muted mb-4">
           Generate and select a schedule to view it here.
         </p>
       </div>
@@ -151,7 +151,7 @@ export default function CurrentScheduleView({ department, departmentName }) {
   const stats = getScheduleStats();
 
   return (
-    <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl border-2 border-primary/20 p-3 sm:p-6 relative overflow-hidden">
+    <div className="content-card rounded-xl sm:rounded-2xl shadow-2xl border-2 border-primary/20 p-3 sm:p-6 relative overflow-hidden">
       <svg
         className="absolute top-0 right-0 w-64 h-64 text-primary opacity-5"
         viewBox="0 0 200 200"
@@ -215,14 +215,14 @@ export default function CurrentScheduleView({ department, departmentName }) {
       <div className="flex items-center justify-between mb-4 sm:mb-6 relative z-10">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
-            <div className="bg-primary p-2 rounded-xl shadow-lg">
-              <CalendarDaysIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+            <div className="bg-primary p-1.5 rounded-lg shadow-lg">
+              <CalendarDaysIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
             </div>
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-primary">
+              <h3 className="text-sm sm:text-base font-bold text-primary">
                 Current Schedule
               </h3>
-              <p className="text-gray-600 text-xs sm:text-sm">
+              <p className="dark-text-muted text-xs">
                 {department?.name} Department
               </p>
             </div>
@@ -231,7 +231,7 @@ export default function CurrentScheduleView({ department, departmentName }) {
         <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
           <button
             onClick={fetchCurrentSchedule}
-            className="bg-white text-gray-600 px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm hover:bg-gray-50 transition-all shadow-md border border-gray-200 flex items-center gap-1"
+            className="content-card dark-text-muted px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm hover:bg-secondary/20 transition-all shadow-md border border-secondary flex items-center gap-1"
           >
             <svg
               className="w-3 h-3"
@@ -263,10 +263,10 @@ export default function CurrentScheduleView({ department, departmentName }) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs opacity-90">Total Sessions</p>
-                <p className="text-2xl font-bold">{stats.total}</p>
+                <p className="text-lg font-bold">{stats.total}</p>
               </div>
               <svg
-                className="w-8 h-8 opacity-80"
+                className="w-6 h-6 opacity-80"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -280,14 +280,14 @@ export default function CurrentScheduleView({ department, departmentName }) {
               </svg>
             </div>
           </div>
-          <div className="bg-cyan-600 rounded-xl p-3 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+          <div className="chart-color-2 rounded-xl p-3 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs opacity-90">Faculty</p>
-                <p className="text-2xl font-bold">{stats.faculty}</p>
+                <p className="text-lg font-bold">{stats.faculty}</p>
               </div>
               <svg
-                className="w-8 h-8 opacity-80"
+                className="w-6 h-6 opacity-80"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -301,14 +301,14 @@ export default function CurrentScheduleView({ department, departmentName }) {
               </svg>
             </div>
           </div>
-          <div className="bg-teal-600 rounded-xl p-3 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+          <div className="chart-color-3 rounded-xl p-3 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs opacity-90">Rooms</p>
-                <p className="text-2xl font-bold">{stats.rooms}</p>
+                <p className="text-lg font-bold">{stats.rooms}</p>
               </div>
               <svg
-                className="w-8 h-8 opacity-80"
+                className="w-6 h-6 opacity-80"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -322,14 +322,14 @@ export default function CurrentScheduleView({ department, departmentName }) {
               </svg>
             </div>
           </div>
-          <div className="bg-teal-700 rounded-xl p-3 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+          <div className="chart-color-4 rounded-xl p-3 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs opacity-90">Theory</p>
-                <p className="text-2xl font-bold">{stats.theory}</p>
+                <p className="text-lg font-bold">{stats.theory}</p>
               </div>
               <svg
-                className="w-8 h-8 opacity-80"
+                className="w-6 h-6 opacity-80"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -343,14 +343,14 @@ export default function CurrentScheduleView({ department, departmentName }) {
               </svg>
             </div>
           </div>
-          <div className="bg-emerald-600 rounded-xl p-3 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+          <div className="chart-color-5 rounded-xl p-3 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs opacity-90">Lab</p>
-                <p className="text-2xl font-bold">{stats.labs}</p>
+                <p className="text-lg font-bold">{stats.labs}</p>
               </div>
               <svg
-                className="w-8 h-8 opacity-80"
+                className="w-6 h-6 opacity-80"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -384,8 +384,8 @@ export default function CurrentScheduleView({ department, departmentName }) {
               />
             </svg>
             <div>
-              <span className="text-gray-500 text-xs">Filename</span>
-              <p className="font-semibold text-gray-800">
+              <span className="dark-text-muted text-xs">Filename</span>
+              <p className="font-semibold dark-text">
                 {currentSchedule.filename}
               </p>
             </div>
@@ -405,8 +405,8 @@ export default function CurrentScheduleView({ department, departmentName }) {
               />
             </svg>
             <div>
-              <span className="text-gray-500 text-xs">Selected</span>
-              <p className="font-semibold text-gray-800">
+              <span className="dark-text-muted text-xs">Selected</span>
+              <p className="font-semibold dark-text">
                 {currentSchedule.selectedAt
                   ? new Date(currentSchedule.selectedAt).toLocaleDateString()
                   : "N/A"}
@@ -481,7 +481,7 @@ export default function CurrentScheduleView({ department, departmentName }) {
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
               />
             </svg>
-            <h4 className="text-lg font-semibold text-gray-800">
+            <h4 className="text-lg font-semibold dark-text">
               Schedule Preview
             </h4>
           </div>

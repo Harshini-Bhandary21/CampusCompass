@@ -35,47 +35,47 @@ export default function WaitingRoom() {
         {/* Floating Background Elements - Many SVGs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Circles */}
-          <div className="absolute top-10 left-10 w-32 h-32 bg-[#3c6e71]/20 rounded-full animate-float"></div>
-          <div className="absolute top-40 right-20 w-24 h-24 bg-[#3c6e71]/15 rounded-full animate-float-delayed"></div>
-          <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-[#3c6e71]/10 rounded-full animate-float-slow"></div>
-          <div className="absolute bottom-40 right-1/3 w-20 h-20 bg-[#3c6e71]/20 rounded-full animate-float"></div>
-          
+          <div className="absolute top-10 left-10 w-32 h-32 bg-primary/20 rounded-full animate-float"></div>
+          <div className="absolute top-40 right-20 w-24 h-24 bg-primary/15 rounded-full animate-float-delayed"></div>
+          <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-primary/10 rounded-full animate-float-slow"></div>
+          <div className="absolute bottom-40 right-1/3 w-20 h-20 bg-primary/20 rounded-full animate-float"></div>
+
           {/* Many SVG Shapes */}
-          <svg className="absolute top-20 right-1/4 w-24 h-24 text-[#3c6e71]/30 animate-float" viewBox="0 0 100 100">
+          <svg className="absolute top-20 right-1/4 w-24 h-24 text-primary/30 animate-float" viewBox="0 0 100 100">
             <polygon points="50,10 90,90 10,90" fill="currentColor"/>
           </svg>
-          <svg className="absolute bottom-32 left-1/3 w-28 h-28 text-[#3c6e71]/25 animate-float-delayed" viewBox="0 0 100 100">
+          <svg className="absolute bottom-32 left-1/3 w-28 h-28 text-primary/25 animate-float-delayed" viewBox="0 0 100 100">
             <rect x="20" y="20" width="60" height="60" rx="10" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-1/3 left-20 w-20 h-20 text-[#3c6e71]/30 animate-float-slow" viewBox="0 0 100 100">
+          <svg className="absolute top-1/3 left-20 w-20 h-20 text-primary/30 animate-float-slow" viewBox="0 0 100 100">
             <polygon points="50,10 90,40 75,85 25,85 10,40" fill="currentColor"/>
           </svg>
-          <svg className="absolute bottom-1/4 right-20 w-32 h-32 text-[#3c6e71]/20 animate-float" viewBox="0 0 100 100">
+          <svg className="absolute bottom-1/4 right-20 w-32 h-32 text-primary/20 animate-float" viewBox="0 0 100 100">
             <polygon points="50,5 90,25 90,65 50,85 10,65 10,25" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-1/2 right-1/3 w-16 h-16 text-[#3c6e71]/35 animate-float-delayed" viewBox="0 0 100 100">
+          <svg className="absolute top-1/2 right-1/3 w-16 h-16 text-primary/35 animate-float-delayed" viewBox="0 0 100 100">
             <polygon points="50,10 61,35 88,35 66,52 77,77 50,60 23,77 34,52 12,35 39,35" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-2/3 left-1/4 w-20 h-20 text-[#3c6e71]/25 animate-float-slow" viewBox="0 0 100 100">
+          <svg className="absolute top-2/3 left-1/4 w-20 h-20 text-primary/25 animate-float-slow" viewBox="0 0 100 100">
             <circle cx="30" cy="30" r="20" fill="currentColor"/>
             <circle cx="70" cy="70" r="15" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-1/4 left-1/2 w-22 h-22 text-[#3c6e71]/30 animate-float" viewBox="0 0 100 100">
+          <svg className="absolute top-1/4 left-1/2 w-22 h-22 text-primary/30 animate-float" viewBox="0 0 100 100">
             <path d="M50,10 L90,50 L50,90 L10,50 Z" fill="currentColor"/>
           </svg>
-          <svg className="absolute bottom-1/3 right-1/4 w-26 h-26 text-[#3c6e71]/20 animate-float-delayed" viewBox="0 0 100 100">
+          <svg className="absolute bottom-1/3 right-1/4 w-26 h-26 text-primary/20 animate-float-delayed" viewBox="0 0 100 100">
             <ellipse cx="50" cy="50" rx="40" ry="25" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-1/2 left-1/3 w-18 h-18 text-[#3c6e71]/35 animate-float-slow" viewBox="0 0 100 100">
+          <svg className="absolute top-1/2 left-1/3 w-18 h-18 text-primary/35 animate-float-slow" viewBox="0 0 100 100">
             <rect x="25" y="25" width="50" height="50" rx="15" fill="currentColor" transform="rotate(45 50 50)"/>
           </svg>
-          <svg className="absolute bottom-1/2 right-1/2 w-24 h-24 text-[#3c6e71]/25 animate-float" viewBox="0 0 100 100">
+          <svg className="absolute bottom-1/2 right-1/2 w-24 h-24 text-primary/25 animate-float" viewBox="0 0 100 100">
             <path d="M50,20 Q80,50 50,80 Q20,50 50,20" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-16 left-1/4 w-20 h-20 text-[#3c6e71]/30 animate-float-delayed" viewBox="0 0 100 100">
+          <svg className="absolute top-16 left-1/4 w-20 h-20 text-primary/30 animate-float-delayed" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="8"/>
           </svg>
-          <svg className="absolute bottom-16 right-1/3 w-28 h-28 text-[#3c6e71]/20 animate-float-slow" viewBox="0 0 100 100">
+          <svg className="absolute bottom-16 right-1/3 w-28 h-28 text-primary/20 animate-float-slow" viewBox="0 0 100 100">
             <polygon points="50,15 65,40 92,40 70,58 78,85 50,67 22,85 30,58 8,40 35,40" fill="currentColor"/>
           </svg>
         </div>
@@ -84,7 +84,7 @@ export default function WaitingRoom() {
         <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-12 overflow-hidden">
           {/* Animated Border Glow */}
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cyan-400/20 via-teal-400/20 to-cyan-400/20 animate-pulse"></div>
-          
+
           {/* Content */}
           <div className="relative z-10 text-center space-y-8">
             {/* Animated Icon */}
@@ -129,9 +129,9 @@ export default function WaitingRoom() {
           </div>
 
           {/* Decorative Elements */}
-          <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#3c6e71]/20 to-transparent rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#3c6e71]/20 to-transparent rounded-full blur-3xl"></div>
-          
+          <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-primary/20 to-transparent rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-primary/20 to-transparent rounded-full blur-3xl"></div>
+
           {/* Many More SVG Decorations Inside Card */}
           <svg className="absolute top-8 right-8 w-12 h-12 text-white/10 animate-spin-slow" viewBox="0 0 100 100">
             <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="currentColor"/>
@@ -159,116 +159,45 @@ export default function WaitingRoom() {
 
         {/* Floating Particles & Many More SVGs */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-[#3c6e71] rounded-full animate-float-particle"></div>
-          <div className="absolute top-1/3 right-1/4 w-1.5 h-1.5 bg-[#3c6e71] rounded-full animate-float-particle-delayed"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-[#3c6e71] rounded-full animate-float-particle-slow"></div>
-          <div className="absolute bottom-1/4 right-1/3 w-1.5 h-1.5 bg-[#3c6e71] rounded-full animate-float-particle"></div>
-          
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary rounded-full animate-float-particle"></div>
+          <div className="absolute top-1/3 right-1/4 w-1.5 h-1.5 bg-primary rounded-full animate-float-particle-delayed"></div>
+          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-primary rounded-full animate-float-particle-slow"></div>
+          <div className="absolute bottom-1/4 right-1/3 w-1.5 h-1.5 bg-primary rounded-full animate-float-particle"></div>
+
           {/* Many Additional SVG Decorations */}
-          <svg className="absolute top-16 left-1/3 w-16 h-16 text-[#3c6e71]/25 animate-spin-slow" viewBox="0 0 100 100">
+          <svg className="absolute top-16 left-1/3 w-16 h-16 text-primary/25 animate-spin-slow" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="3"/>
             <circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" strokeWidth="2"/>
           </svg>
-          <svg className="absolute bottom-20 right-1/4 w-20 h-20 text-[#3c6e71]/30 animate-float" viewBox="0 0 100 100">
+          <svg className="absolute bottom-20 right-1/4 w-20 h-20 text-primary/30 animate-float" viewBox="0 0 100 100">
             <path d="M50,10 L60,40 L90,40 L65,60 L75,90 L50,70 L25,90 L35,60 L10,40 L40,40 Z" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-1/4 right-16 w-14 h-14 text-[#3c6e71]/25 animate-float-delayed" viewBox="0 0 100 100">
+          <svg className="absolute top-1/4 right-16 w-14 h-14 text-primary/25 animate-float-delayed" viewBox="0 0 100 100">
             <rect x="10" y="10" width="30" height="30" rx="5" fill="currentColor" transform="rotate(15 25 25)"/>
             <rect x="50" y="50" width="40" height="40" rx="5" fill="currentColor" transform="rotate(30 70 70)"/>
           </svg>
-          <svg className="absolute bottom-1/3 left-16 w-18 h-18 text-[#3c6e71]/30 animate-float-slow" viewBox="0 0 100 100">
+          <svg className="absolute bottom-1/3 left-16 w-18 h-18 text-primary/30 animate-float-slow" viewBox="0 0 100 100">
             <ellipse cx="50" cy="30" rx="30" ry="20" fill="currentColor"/>
             <ellipse cx="50" cy="70" rx="30" ry="20" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-3/4 left-1/2 w-22 h-22 text-[#3c6e71]/20 animate-float" viewBox="0 0 100 100">
+          <svg className="absolute top-3/4 left-1/2 w-22 h-22 text-primary/20 animate-float" viewBox="0 0 100 100">
             <polygon points="50,5 95,35 80,90 20,90 5,35" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-1/3 right-1/2 w-16 h-16 text-[#3c6e71]/35 animate-float-delayed" viewBox="0 0 100 100">
+          <svg className="absolute top-1/3 right-1/2 w-16 h-16 text-primary/35 animate-float-delayed" viewBox="0 0 100 100">
             <path d="M50,10 C70,10 90,30 90,50 C90,70 70,90 50,90 C30,90 10,70 10,50 C10,30 30,10 50,10 M50,30 C40,30 30,40 30,50 C30,60 40,70 50,70 C60,70 70,60 70,50 C70,40 60,30 50,30" fill="currentColor"/>
           </svg>
-          <svg className="absolute bottom-2/3 left-1/4 w-24 h-24 text-[#3c6e71]/25 animate-float-slow" viewBox="0 0 100 100">
+          <svg className="absolute bottom-2/3 left-1/4 w-24 h-24 text-primary/25 animate-float-slow" viewBox="0 0 100 100">
             <rect x="10" y="10" width="80" height="80" rx="20" fill="none" stroke="currentColor" strokeWidth="4"/>
             <circle cx="50" cy="50" r="20" fill="currentColor"/>
           </svg>
-          <svg className="absolute top-1/2 left-16 w-20 h-20 text-[#3c6e71]/30 animate-float" viewBox="0 0 100 100">
+          <svg className="absolute top-1/2 left-16 w-20 h-20 text-primary/30 animate-float" viewBox="0 0 100 100">
             <path d="M20,50 L50,20 L80,50 L50,80 Z" fill="currentColor"/>
           </svg>
-          <svg className="absolute bottom-1/4 left-1/3 w-18 h-18 text-[#3c6e71]/25 animate-float-delayed" viewBox="0 0 100 100">
+          <svg className="absolute bottom-1/4 left-1/3 w-18 h-18 text-primary/25 animate-float-delayed" viewBox="0 0 100 100">
             <polygon points="50,10 70,30 70,70 50,90 30,70 30,30" fill="currentColor"/>
           </svg>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        @keyframes float-delayed {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-30px); }
-        }
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-        }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes spin-reverse {
-          from { transform: rotate(360deg); }
-          to { transform: rotate(0deg); }
-        }
-        @keyframes orbit {
-          from { transform: rotate(0deg) translateX(64px) rotate(0deg); }
-          to { transform: rotate(360deg) translateX(64px) rotate(-360deg); }
-        }
-        @keyframes orbit-delayed {
-          from { transform: rotate(120deg) translateX(64px) rotate(-120deg); }
-          to { transform: rotate(480deg) translateX(64px) rotate(-480deg); }
-        }
-        @keyframes orbit-slow {
-          from { transform: rotate(240deg) translateX(64px) rotate(-240deg); }
-          to { transform: rotate(600deg) translateX(64px) rotate(-600deg); }
-        }
-        @keyframes progress {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-        @keyframes fade-in-out {
-          0%, 100% { opacity: 0.7; }
-          50% { opacity: 1; }
-        }
-        @keyframes float-particle {
-          0% { transform: translateY(0) translateX(0); opacity: 0; }
-          50% { opacity: 1; }
-          100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
-        }
-        @keyframes float-particle-delayed {
-          0% { transform: translateY(0) translateX(0); opacity: 0; }
-          50% { opacity: 1; }
-          100% { transform: translateY(-120px) translateX(-20px); opacity: 0; }
-        }
-        @keyframes float-particle-slow {
-          0% { transform: translateY(0) translateX(0); opacity: 0; }
-          50% { opacity: 1; }
-          100% { transform: translateY(-80px) translateX(30px); opacity: 0; }
-        }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        .animate-float-delayed { animation: float-delayed 4s ease-in-out infinite; }
-        .animate-float-slow { animation: float-slow 5s ease-in-out infinite; }
-        .animate-spin-slow { animation: spin-slow 3s linear infinite; }
-        .animate-spin-reverse { animation: spin-reverse 4s linear infinite; }
-        .animate-orbit { animation: orbit 3s linear infinite; }
-        .animate-orbit-delayed { animation: orbit-delayed 3s linear infinite; }
-        .animate-orbit-slow { animation: orbit-slow 3s linear infinite; }
-        .animate-progress { animation: progress 2s ease-in-out infinite; }
-        .animate-fade-in-out { animation: fade-in-out 3s ease-in-out infinite; }
-        .animate-float-particle { animation: float-particle 4s ease-in-out infinite; }
-        .animate-float-particle-delayed { animation: float-particle-delayed 5s ease-in-out infinite 1s; }
-        .animate-float-particle-slow { animation: float-particle-slow 6s ease-in-out infinite 2s; }
-      `}</style>
     </div>
   )
 }

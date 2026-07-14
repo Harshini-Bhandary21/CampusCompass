@@ -52,7 +52,7 @@ export default function FileUploadSection({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-secondary/20 p-4 mb-4">
+    <div className="content-card rounded-xl shadow-lg border border-secondary/20 p-4 mb-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Upload Section */}
         <div className="relative">
@@ -367,7 +367,7 @@ export default function FileUploadSection({
                         <div className="w-2 h-2 bg-primary rounded-full mr-2 animate-ping"></div>
                         Analyzing Inputs
                       </span>
-                      <span className="text-purple-600">
+                      <span className="text-primary">
                         {Math.round(uploadProgress)}%
                       </span>
                     </div>
@@ -444,43 +444,56 @@ export default function FileUploadSection({
               Excel Formatting Guidelines
             </h3>
             <div className="space-y-2 text-xs text-gray-700">
-              <div className="bg-blue-50 p-2 rounded-lg">
-                <p className="font-semibold text-blue-700 mb-1">
-                  Batch Format:
-                </p>
-                <p>
-                  <span className="font-mono bg-white px-1 rounded">
-                    YearName_UniqueQuantity
-                  </span>{" "}
-                  (e.g., FY_A)
-                </p>
-                <p className="text-gray-600">Sub-batches: FY_A1, FY_A2</p>
+              <div className="flex items-start gap-2 bg-gray-50 p-2 rounded-lg">
+                <span className="chart-color-1 w-2 h-2 rounded-full mt-1 shrink-0" />
+                <div>
+                  <p className="font-semibold text-gray-800 mb-1">
+                    Batch Format:
+                  </p>
+                  <p>
+                    <span className="font-mono bg-white px-1 rounded">
+                      YearName_UniqueQuantity
+                    </span>{" "}
+                    (e.g., FY_A)
+                  </p>
+                  <p className="text-gray-600">Sub-batches: FY_A1, FY_A2</p>
+                </div>
               </div>
-              <div className="bg-purple-50 p-2 rounded-lg">
-                <p className="font-semibold text-purple-700 mb-1">
-                  Elective Format:
-                </p>
-                <p>
-                  <span className="font-mono bg-white px-1 rounded">
-                    Year_ElectiveName_CourseName
-                  </span>
-                </p>
-                <p className="text-gray-600">e.g., TY_PEC_AIML, TY_PEC_AIML1</p>
+              <div className="flex items-start gap-2 bg-gray-50 p-2 rounded-lg">
+                <span className="chart-color-5 w-2 h-2 rounded-full mt-1 shrink-0" />
+                <div>
+                  <p className="font-semibold text-gray-800 mb-1">
+                    Elective Format:
+                  </p>
+                  <p>
+                    <span className="font-mono bg-white px-1 rounded">
+                      Year_ElectiveName_CourseName
+                    </span>
+                  </p>
+                  <p className="text-gray-600">e.g., TY_PEC_AIML, TY_PEC_AIML1</p>
+                </div>
               </div>
-              <div className="bg-green-50 p-2 rounded-lg">
-                <p className="font-semibold text-green-700 mb-1">Room Types:</p>
-                <p>Theory or Lab (exact spelling)</p>
+              <div className="flex items-start gap-2 bg-gray-50 p-2 rounded-lg">
+                <span className="chart-color-2 w-2 h-2 rounded-full mt-1 shrink-0" />
+                <div>
+                  <p className="font-semibold text-gray-800 mb-1">Room Types:</p>
+                  <p>Theory or Lab (exact spelling)</p>
+                </div>
               </div>
-              <div className="bg-amber-50 p-2 rounded-lg">
-                <p className="font-semibold text-amber-700 mb-1">
-                  Time Format:
-                </p>
-                <p>
-                  <span className="font-mono bg-white px-1 rounded">00:00</span>{" "}
-                  (24-hour clock)
-                </p>
+              <div className="flex items-start gap-2 bg-gray-50 p-2 rounded-lg">
+                <span className="chart-color-3 w-2 h-2 rounded-full mt-1 shrink-0" />
+                <div>
+                  <p className="font-semibold text-gray-800 mb-1">
+                    Time Format:
+                  </p>
+                  <p>
+                    <span className="font-mono bg-white px-1 rounded">00:00</span>{" "}
+                    (24-hour clock)
+                  </p>
+                </div>
               </div>
-              <div className="bg-pink-50 p-2 rounded-lg text-xs">
+              <div className="flex items-start gap-2 bg-gray-50 p-2 rounded-lg text-xs">
+                <span className="chart-color-6 w-2 h-2 rounded-full mt-1 shrink-0" />
                 <p className="text-gray-600">
                   Note: _ and - are treated the same
                 </p>

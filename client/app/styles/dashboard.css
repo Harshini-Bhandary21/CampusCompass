@@ -3,9 +3,28 @@
 .topbar-bg { background: linear-gradient(135deg, #2a4a5e, #1e3a4c); }
 .topbar-border { border-color: rgba(255, 255, 255, 0.2); }
 
-.sidebar-bg { background: #f9fafb; }
+.sidebar-bg { background: #ffffff; }
 .sidebar-border { border-color: #e5e7eb; }
 .sidebar-hover { background-color: #f3f4f6; }
+.sidebar-header-bg { background-color: #f9fafb; }
+
+/* ── Heading scale ─────────────────────────────────────────────────────────
+   Consistent hierarchy for page-header cards (icon + title + description)
+   and in-panel section headers, replacing ad hoc `text-lg font-bold ...`
+   repeats. */
+.page-title {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.section-title {
+  font-size: 0.9375rem;
+  line-height: 1.375rem;
+  font-weight: 600;
+  color: #1f2937;
+}
 
 /* ── Shared dashboard page patterns ────────────────────────────────────────
    The FY dashboard pages (rooms/faculty/division/notify/dashboard) all
@@ -18,9 +37,9 @@
 .dashboard-panel {
   background-color: var(--content-card);
   border: 1px solid var(--content-border);
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  padding: 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 0.875rem;
 }
 
 .dashboard-panel-scroll {
@@ -30,35 +49,36 @@
 .dashboard-list-item {
   background-color: var(--content-card);
   border: 1px solid var(--content-border);
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  padding: 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 0.875rem;
 }
 
 .dashboard-panel-title {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
   color: #1f2937;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .dashboard-label {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  gap: 0.625rem;
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
   font-weight: 500;
   color: #1f2937;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.625rem;
 }
 
 .dashboard-select {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.875rem;
   border: 1px solid var(--content-border);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-sm);
   background-color: #ffffff;
   color: #1f2937;
 }
@@ -66,44 +86,21 @@
 .dashboard-empty-state {
   background-color: var(--content-card);
   border: 1px solid var(--content-border);
-  border-radius: 1rem;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
   text-align: center;
 }
 
 .dashboard-empty-title {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
   color: #1f2937;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
 }
 
 .dashboard-empty-text {
+  font-size: 0.875rem;
   color: #6b7280;
-}
-
-@media (prefers-color-scheme: dark) {
-  .dashboard-panel,
-  .dashboard-list-item,
-  .dashboard-empty-state {
-    background-color: var(--dark-card);
-    border-color: var(--dark-border);
-  }
-
-  .dashboard-select {
-    background-color: var(--dark-card);
-    color: var(--dark-text);
-  }
-
-  .dashboard-panel-title,
-  .dashboard-label,
-  .dashboard-empty-title {
-    color: var(--dark-text);
-  }
-
-  .dashboard-empty-text {
-    color: var(--dark-text-muted);
-  }
 }

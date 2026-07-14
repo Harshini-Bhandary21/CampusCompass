@@ -8,8 +8,28 @@ import { UserPlus, Upload, CheckCircle } from 'lucide-react'
 import DashboardNav from '@/app/components/shared/DashboardNav'
 import Sidebar from '@/app/components/shared/Sidebar'
 import LoadingSpinner from '@/app/components/shared/LoadingSpinner'
+import IconBadge from '@/app/components/dashboard/IconBadge'
 import { getDepartmentTabs, createTabNavigator } from '@/app/components/dashboard/DepartmentSidebarConfig'
 import { parseCsv } from '@/lib/csv'
+
+function RoleToggle({ role, onChange }) {
+  return (
+    <div className="flex gap-2">
+      {[['student', 'Student'], ['teacher', 'Teacher']].map(([value, label]) => (
+        <button
+          key={value}
+          type="button"
+          onClick={() => onChange(value)}
+          className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-colors ${
+            role === value ? 'bg-primary text-white border-primary' : 'border-gray-300 text-gray-600 hover:border-primary'
+          }`}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 function ManualEntryForm({ onCreated }) {
   const [role, setRole] = useState('student')
@@ -41,14 +61,7 @@ function ManualEntryForm({ onCreated }) {
       <p className="dashboard-panel-title flex items-center gap-2 !mb-2">
         <UserPlus size={18} className="text-primary" /> Manual Entry
       </p>
-      <div className="flex gap-3">
-        <label className="flex items-center gap-1.5 text-sm">
-          <input type="radio" checked={role === 'student'} onChange={() => setRole('student')} /> Student
-        </label>
-        <label className="flex items-center gap-1.5 text-sm">
-          <input type="radio" checked={role === 'teacher'} onChange={() => setRole('teacher')} /> Teacher
-        </label>
-      </div>
+      <RoleToggle role={role} onChange={setRole} />
       <input className="dashboard-select" placeholder="Full name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
       <input className="dashboard-select" type="email" placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
       <input className="dashboard-select" placeholder="Department" value={form.department} onChange={e => setForm(f => ({ ...f, department: e.target.value }))} />
@@ -115,10 +128,7 @@ function BulkCsvForm() {
         Columns recognized (any order, flexible naming): name, email, department, prn, semester (students), designation (teachers).
       </p>
       <div className="flex gap-3 items-center flex-wrap">
-        <select className="dashboard-select !w-auto" value={role} onChange={e => setRole(e.target.value)}>
-          <option value="student">Students</option>
-          <option value="teacher">Teachers</option>
-        </select>
+        <RoleToggle role={role} onChange={setRole} />
         <label className="px-4 py-2 text-sm border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
           {fileName || 'Choose CSV file'}
           <input type="file" accept=".csv" hidden onChange={handleFile} />
@@ -174,13 +184,21 @@ export default function AdminBulkLoadPage() {
         setSidebarOpen={setSidebarOpen}
         tabs={getDepartmentTabs()}
       />
-      <div className="flex-1 lg:ml-0">
+      <div className="flex-1 lg:ml-0 min-w-0">
         <DashboardNav
           onMenuClick={() => setSidebarOpen(!sidebarOpen)}
           title="First Year Department"
           subtitle="Bulk Load"
         />
         <div className="p-4 space-y-4">
+          <div className="dashboard-panel flex items-center gap-3">
+            <IconBadge icon={Upload} />
+            <div>
+              <h2 className="text-lg font-bold dark-text">Bulk Load</h2>
+              <p className="dashboard-empty-text text-sm">Provision teacher and student accounts one at a time or via CSV upload</p>
+            </div>
+          </div>
+
           <ManualEntryForm onCreated={() => {}} />
           <BulkCsvForm />
         </div>

@@ -490,49 +490,9 @@ export default function CoordinatorDashboard() {
       }
 
       if (data.success) {
-        if (data.success) {
-          const selectedSchedule = {
-            filename: `Generated_${Date.now()}.xlsx`,
-            scheduleData: data.rows,
-            runId: data.run_id,
-            selectedAt: new Date().toISOString(),
-          };
-
-          const saveResponse = await fetch("/api/coordinators/get-department", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              department: actualDepartment,
-              selectedSchedule,
-            }),
-          });
-
-          const saveResult = await saveResponse.json();
-
-          if (!saveResult.success) {
-            throw new Error(saveResult.error);
-          }
-
-          setResults({
-            rows: data.rows,
-            scheduled: data.scheduled,
-            total: data.total,
-            runId: data.run_id,
-          });
-
-          await fetchDepartmentData();
-        }
-
-        const saveResult = await saveResponse.json();
-
-        if (!saveResult.success) {
-          throw new Error(
-            saveResult.error || "Failed to save generated timetable",
-          );
-        }
-
+        // Generation only — nothing is saved to the database yet. The user
+        // reviews the preview modal below and explicitly picks "Select &
+        // Deploy" (handleSelectSchedule) before anything is persisted.
         setResults({
           rows: data.rows,
           scheduled: data.scheduled,
@@ -541,10 +501,7 @@ export default function CoordinatorDashboard() {
         });
 
         setConsoleOutput(`Generated ${data.scheduled}/${data.total} sessions`);
-
         setShowAnalyticsModal(true);
-
-        await fetchDepartmentData();
       } else {
         setConsoleOutput(`Error: ${data.error || "Unknown error"}`);
       }
@@ -558,8 +515,7 @@ export default function CoordinatorDashboard() {
   };
 
   const handleDownload = async (scheduleId) => {
-    const scheduleKey = `schedule${scheduleId}`;
-    const scheduleData = results[scheduleKey];
+    const scheduleData = results?.rows;
     if (!scheduleData) return;
 
     const ws = XLSX.utils.json_to_sheet(scheduleData);
@@ -569,8 +525,7 @@ export default function CoordinatorDashboard() {
   };
 
   const handleSelectSchedule = async (scheduleId) => {
-    const scheduleKey = `schedule${scheduleId}`;
-    const scheduleData = results?.[scheduleKey];
+    const scheduleData = results?.rows;
 
     if (!scheduleData) {
       toast.error("Schedule data not found. Please regenerate.");
@@ -666,7 +621,7 @@ export default function CoordinatorDashboard() {
         tabs={getDepartmentTabs()}
       />
 
-      <div className="flex-1 lg:ml-0">
+      <div className="flex-1 lg:ml-0 min-w-0">
         <DashboardNav
           onMenuClick={() => setSidebarOpen(!sidebarOpen)}
           title={`${department.name} Department`}

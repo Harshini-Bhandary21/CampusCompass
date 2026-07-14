@@ -36,14 +36,14 @@ export default function ConfigTimeline({ currentStep, onStepClick }) {
                   ? "bg-primary border-white shadow-lg"
                   : currentStep > step.id
                     ? "bg-primary border-white shadow-md"
-                    : "bg-white border-gray-300 shadow-sm"
+                    : "bg-white border-secondary shadow-sm"
               }`}
             >
               {currentStep > step.id ? (
                 <CheckCircleIcon className="h-7 w-7 text-white" />
               ) : (
                 <span
-                  className={`text-sm font-bold ${currentStep === step.id ? "text-white" : "text-gray-400"}`}
+                  className={`text-sm font-bold ${currentStep === step.id ? "text-white" : "dashboard-text-faint"}`}
                 >
                   {step.id}
                 </span>
@@ -53,7 +53,7 @@ export default function ConfigTimeline({ currentStep, onStepClick }) {
               )}
             </button>
             <p
-              className={`text-xs font-semibold mt-2 text-center ${currentStep >= step.id ? "text-gray-800" : "text-gray-400"}`}
+              className={`text-xs font-semibold mt-2 text-center ${currentStep >= step.id ? "text-gray-800" : "dashboard-text-faint"}`}
             >
               {step.label}
             </p>
@@ -64,7 +64,7 @@ export default function ConfigTimeline({ currentStep, onStepClick }) {
               >
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
-                    currentStep > step.id ? "bg-primary" : "bg-gray-300"
+                    currentStep > step.id ? "bg-primary" : "bg-secondary"
                   }`}
                 />
               </div>

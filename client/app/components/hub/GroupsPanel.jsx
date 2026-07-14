@@ -104,8 +104,8 @@ function CreateGroupForm({ onCreated, onCancel }) {
       </div>
 
       <div className="flex justify-end gap-2 pt-1">
-        <button type="button" onClick={onCancel} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">Cancel</button>
-        <button type="submit" disabled={submitting} className="px-4 py-2 text-sm font-semibold text-white bg-gradient-primary rounded-lg disabled:opacity-50">
+        <button type="button" onClick={onCancel} className="dashboard-btn-secondary">Cancel</button>
+        <button type="submit" disabled={submitting} className="dashboard-btn-primary">
           {submitting ? 'Creating...' : 'Create Group'}
         </button>
       </div>
@@ -265,12 +265,12 @@ function GroupChat({ group, role, session, onBack, onChanged }) {
             const mine = m.sender?.id === session?.user?.id
             return (
               <div key={m._id} className={`max-w-[80%] ${mine ? 'ml-auto text-right' : ''}`}>
-                <div className="flex items-center gap-2 text-xs text-gray-400 mb-0.5" style={mine ? { justifyContent: 'flex-end' } : {}}>
+                <div className={`flex items-center gap-2 text-xs text-gray-400 mb-0.5 ${mine ? 'justify-end' : ''}`}>
                   <span>{m.sender?.name}</span>
                   <RoleBadge role={m.sender?.role} />
                   <span>{new Date(m.sentAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
-                <div className={`inline-block rounded-lg px-3 py-2 text-sm text-left ${mine ? 'bg-primary text-white' : 'bg-gray-100 text-gray-800'}`}>
+                <div className={`inline-block rounded-lg px-3 py-2 text-sm text-left ${mine ? 'chat-bubble-mine' : 'chat-bubble-theirs'}`}>
                   {m.content && <p className="whitespace-pre-wrap">{m.content}</p>}
                   {m.attachments?.length > 0 && <div className="mt-1"><AttachmentViewer attachments={m.attachments} /></div>}
                   {m.poll && (
@@ -384,7 +384,7 @@ export default function GroupsPanel({ role }) {
         {role === 'admin' && !showCreate && (
           <button
             onClick={() => setShowCreate(true)}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-white bg-gradient-primary rounded-lg hover:shadow-lg transition-all"
+            className="dashboard-btn-primary"
           >
             <Plus size={16} /> New Group
           </button>
@@ -411,7 +411,7 @@ export default function GroupsPanel({ role }) {
                   <p className="text-xs text-gray-400 mt-2">{g.members?.length || 0} members</p>
                 </div>
                 {g.unreadCount > 0 && (
-                  <span className="bg-red-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center">
+                  <span className="dashboard-unread-badge">
                     {g.unreadCount}
                   </span>
                 )}

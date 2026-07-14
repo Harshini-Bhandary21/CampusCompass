@@ -74,7 +74,7 @@ export default function NotificationBell() {
       >
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-4 h-4 px-1 flex items-center justify-center">
+          <span className="dashboard-unread-badge absolute -top-1 -right-1 !min-w-4 !h-4">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
         )}

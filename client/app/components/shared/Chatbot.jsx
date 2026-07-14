@@ -174,12 +174,11 @@ export default function Chatbot() {
         onClick={() => setIsOpen(!isOpen)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative group bg-gradient-to-br from-[#3c6e71] via-[#2a5a5d] to-[#3c6e71] text-white p-4 rounded-full shadow-2xl hover:shadow-[0_0_40px_rgba(60,110,113,0.8)] transition-all duration-300 hover:scale-110 animate-pulse"
-        style={{ boxShadow: '0 10px 40px rgba(60, 110, 113, 0.5)' }}
+        className="relative group bg-gradient-primary text-white p-4 rounded-full shadow-[0_10px_40px_rgba(var(--primary-rgb),0.5)] hover:shadow-[0_0_40px_rgba(var(--primary-rgb),0.8)] transition-all duration-300 hover:scale-110 animate-pulse"
       >
         {/* Animated rings */}
-        <div className="absolute inset-0 rounded-full border-2 border-[#3c6e71] animate-ping opacity-75"></div>
-        <div className="absolute inset-0 rounded-full border-2 border-[#3c6e71] animate-pulse"></div>
+        <div className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-75"></div>
+        <div className="absolute inset-0 rounded-full border-2 border-primary animate-pulse"></div>
         
         {/* Online indicator */}
         <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-pulse border-2 border-white shadow-lg">
@@ -204,7 +203,7 @@ export default function Chatbot() {
         )}
         {isHovered && !isOpen && (
           <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-gradient-to-r from-gray-900 to-gray-800 text-white px-5 py-3 rounded-xl text-sm whitespace-nowrap shadow-2xl border border-gray-700 animate-fade-in">
-            <span className="font-bold text-[#3c6e71]">💬</span> Chat with Eklavya
+            <span className="font-bold text-primary">💬</span> Chat with Eklavya
             <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full w-0 h-0 border-l-8 border-l-gray-900 border-y-4 border-y-transparent"></div>
           </div>
         )}
@@ -212,8 +211,8 @@ export default function Chatbot() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="absolute bottom-20 right-0 w-[380px] h-[500px] bg-gradient-to-b from-gray-50 to-white border-2 border-[#3c6e71]/20 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-in-bottom">
-          <div className="bg-gradient-to-r from-[#3c6e71] via-[#2a5a5d] to-[#3c6e71] text-white p-5 flex justify-between items-center relative overflow-hidden">
+        <div className="absolute bottom-20 right-0 w-[380px] h-[500px] bg-gradient-to-b from-gray-50 to-white border-2 border-primary/20 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-in-bottom">
+          <div className="bg-gradient-primary text-white p-5 flex justify-between items-center relative overflow-hidden">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
             <div className="flex items-center gap-3 relative z-10">
               <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-2 border-white/30">
@@ -252,7 +251,7 @@ export default function Chatbot() {
           <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-gray-50">
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-center px-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-[#3c6e71] to-[#2a5a5d] rounded-full flex items-center justify-center mb-4 shadow-lg">
+                <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mb-4 shadow-lg">
                   <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
@@ -265,7 +264,7 @@ export default function Chatbot() {
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}>
                 <div className={`max-w-[75%] p-4 rounded-2xl shadow-md ${
                   msg.role === 'user' 
-                    ? 'bg-gradient-to-br from-[#3c6e71] to-[#2a5a5d] text-white rounded-br-sm' 
+                    ? 'bg-gradient-primary text-white rounded-br-sm' 
                     : 'bg-white border-2 border-gray-200 text-gray-800 rounded-bl-sm'
                 }`}>
                   <p className="text-sm leading-relaxed">{msg.content}</p>
@@ -277,9 +276,9 @@ export default function Chatbot() {
               <div className="flex justify-start animate-fade-in">
                 <div className="bg-white border-2 border-gray-200 p-4 rounded-2xl rounded-bl-sm shadow-md flex items-center gap-2">
                   <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-[#3c6e71] rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                    <div className="w-2 h-2 bg-[#3c6e71] rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                    <div className="w-2 h-2 bg-[#3c6e71] rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                   </div>
                   <span className="text-sm text-gray-700 font-medium">Eklavya is thinking...</span>
                 </div>
@@ -346,7 +345,7 @@ export default function Chatbot() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full bg-gradient-to-br from-[#3c6e71] to-[#2a5a5d] text-white px-4 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all flex items-center justify-center"
+                  className="w-full bg-gradient-primary text-white px-4 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all flex items-center justify-center"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -368,13 +367,13 @@ export default function Chatbot() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask me anything about schedules, departments..."
-                  className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3c6e71] focus:border-transparent text-sm bg-gray-50 text-gray-900 placeholder:text-gray-500 transition-all"
+                  className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-gray-50 text-gray-900 placeholder:text-gray-500 transition-all"
                   disabled={loading}
                 />
                 <button
                   type="submit"
                   disabled={loading || !input.trim()}
-                  className="px-5 py-3 bg-gradient-to-br from-[#3c6e71] to-[#2a5a5d] text-white rounded-xl hover:shadow-lg hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 transition-all duration-200"
+                  className="px-5 py-3 bg-gradient-primary text-white rounded-xl hover:shadow-lg hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 transition-all duration-200"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

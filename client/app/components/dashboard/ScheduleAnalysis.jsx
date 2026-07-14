@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import PasswordModal from '../auth/PasswordModal'
+import Modal from '@/app/components/shared/Modal'
 import { DAYS } from '../../../lib/constants'
 
 export default function ScheduleAnalysis({ schedule, onClose, departmentName }) {
@@ -104,6 +105,8 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
     })
     return grouped
   }
+
+  const getTypeTagClass = (type) => (type === 'Lab' ? 'slot-tag-cyan' : 'slot-tag-emerald')
 
   const downloadExcel = () => {
     const wb = XLSX.utils.book_new()
@@ -291,16 +294,16 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
     return (
       <div className="space-y-4">
         {Object.entries(rooms).map(([room, sessions]) => (
-          <div key={room} className="bg-white rounded-xl border-2 border-purple-100 p-4 shadow-md hover:shadow-lg transition-all">
+          <div key={room} className="dashboard-panel hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-2 mb-3">
-              <svg className="w-5 h-5 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
               <h4 className="font-bold text-gray-800">{room} <span className="text-sm text-gray-500">({sessions.length} sessions)</span></h4>
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
-                <thead className="bg-gradient-to-r from-purple-100 to-blue-100">
+                <thead className="bg-primary/10">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold">Day</th>
                     <th className="px-3 py-2 text-left font-semibold">Time</th>
@@ -312,14 +315,14 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
                 </thead>
                 <tbody>
                   {sessions.map((s, i) => (
-                    <tr key={i} className="border-t hover:bg-purple-50 transition-colors">
+                    <tr key={i} className="border-t border-primary/10 hover:bg-primary/5 transition-colors">
                       <td className="px-3 py-2">{s.Day || s.day}</td>
                       <td className="px-3 py-2">{s.Time || s.time}</td>
                       <td className="px-3 py-2">{s.Batch || s.batch}</td>
                       <td className="px-3 py-2">{s.Course || s.course}</td>
                       <td className="px-3 py-2">{s.Faculty || s.faculty}</td>
                       <td className="px-3 py-2">
-                        <span className={`px-2 py-1 rounded text-xs font-semibold ${s.Type === 'Lab' || s.type === 'Lab' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>
+                        <span className={`px-2 py-1 rounded text-xs font-semibold ${getTypeTagClass(s.Type || s.type)}`}>
                           {s.Type || s.type}
                         </span>
                       </td>
@@ -339,16 +342,16 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
     return (
       <div className="space-y-4">
         {Object.entries(batches).map(([batch, sessions]) => (
-          <div key={batch} className="bg-white rounded-xl border-2 border-blue-100 p-4 shadow-md hover:shadow-lg transition-all">
+          <div key={batch} className="dashboard-panel hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-2 mb-3">
-              <svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
               <h4 className="font-bold text-gray-800">{batch} <span className="text-sm text-gray-500">({sessions.length} sessions)</span></h4>
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
-                <thead className="bg-gradient-to-r from-blue-100 to-cyan-100">
+                <thead className="bg-primary/10">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold">Day</th>
                     <th className="px-3 py-2 text-left font-semibold">Time</th>
@@ -360,14 +363,14 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
                 </thead>
                 <tbody>
                   {sessions.map((s, i) => (
-                    <tr key={i} className="border-t hover:bg-blue-50 transition-colors">
+                    <tr key={i} className="border-t border-primary/10 hover:bg-primary/5 transition-colors">
                       <td className="px-3 py-2">{s.Day || s.day}</td>
                       <td className="px-3 py-2">{s.Time || s.time}</td>
                       <td className="px-3 py-2">{s.Course || s.course}</td>
                       <td className="px-3 py-2">{s.Faculty || s.faculty}</td>
                       <td className="px-3 py-2">{s.Room || s.room}</td>
                       <td className="px-3 py-2">
-                        <span className={`px-2 py-1 rounded text-xs font-semibold ${s.Type === 'Lab' || s.type === 'Lab' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>
+                        <span className={`px-2 py-1 rounded text-xs font-semibold ${getTypeTagClass(s.Type || s.type)}`}>
                           {s.Type || s.type}
                         </span>
                       </td>
@@ -387,16 +390,16 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
     return (
       <div className="space-y-4">
         {Object.entries(faculty).map(([fac, sessions]) => (
-          <div key={fac} className="bg-white rounded-xl border-2 border-pink-100 p-4 shadow-md hover:shadow-lg transition-all">
+          <div key={fac} className="dashboard-panel hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-2 mb-3">
-              <svg className="w-5 h-5 text-pink-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <h4 className="font-bold text-gray-800">{fac} <span className="text-sm text-gray-500">({sessions.length} sessions)</span></h4>
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
-                <thead className="bg-gradient-to-r from-pink-100 to-purple-100">
+                <thead className="bg-primary/10">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold">Day</th>
                     <th className="px-3 py-2 text-left font-semibold">Time</th>
@@ -408,14 +411,14 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
                 </thead>
                 <tbody>
                   {sessions.map((s, i) => (
-                    <tr key={i} className="border-t hover:bg-pink-50 transition-colors">
+                    <tr key={i} className="border-t border-primary/10 hover:bg-primary/5 transition-colors">
                       <td className="px-3 py-2">{s.Day || s.day}</td>
                       <td className="px-3 py-2">{s.Time || s.time}</td>
                       <td className="px-3 py-2">{s.Batch || s.batch}</td>
                       <td className="px-3 py-2">{s.Course || s.course}</td>
                       <td className="px-3 py-2">{s.Room || s.room}</td>
                       <td className="px-3 py-2">
-                        <span className={`px-2 py-1 rounded text-xs font-semibold ${s.Type === 'Lab' || s.type === 'Lab' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>
+                        <span className={`px-2 py-1 rounded text-xs font-semibold ${getTypeTagClass(s.Type || s.type)}`}>
                           {s.Type || s.type}
                         </span>
                       </td>
@@ -431,14 +434,14 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 border-2 border-primary/20 shadow-lg relative overflow-hidden">
+    <div className="content-card rounded-2xl p-6 border-2 border-primary/20 shadow-lg relative overflow-hidden">
       <svg className="absolute top-0 right-0 w-32 h-32 text-primary opacity-5" viewBox="0 0 24 24" fill="currentColor">
         <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
       </svg>
       <svg className="absolute bottom-0 left-0 w-24 h-24 text-primary opacity-5" viewBox="0 0 24 24" fill="currentColor">
         <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" />
       </svg>
-      
+
       <div className="flex items-center justify-between mb-6 relative z-10">
         <div className="flex items-center gap-3">
           <div className="bg-primary p-2 rounded-lg shadow-lg">
@@ -451,13 +454,13 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
           </h3>
         </div>
         <div className="flex gap-2">
-          <button onClick={downloadExcel} className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:shadow-lg transition-all">
+          <button onClick={downloadExcel} className="dashboard-btn-primary">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             Excel
           </button>
-          <button onClick={() => setShowPdfModal(true)} className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:shadow-lg transition-all">
+          <button onClick={() => setShowPdfModal(true)} className="dashboard-btn-secondary">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
@@ -466,109 +469,102 @@ export default function ScheduleAnalysis({ schedule, onClose, departmentName }) 
         </div>
       </div>
 
-      {showPdfModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[200]" onClick={() => setShowPdfModal(false)}>
-          <div className="bg-white rounded-2xl p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-gray-800">Download PDF</h3>
-              <button onClick={() => setShowPdfModal(false)} className="text-gray-500 hover:text-gray-700">
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            
-            <div className="flex gap-2 mb-4 border-b">
-              <button onClick={() => setPdfTab('combined')} className={`px-4 py-2 font-semibold text-sm ${pdfTab === 'combined' ? 'border-b-2 border-red-600 text-red-600' : 'text-gray-600'}`}>
-                Combined
-              </button>
-              <button onClick={() => setPdfTab('rooms')} className={`px-4 py-2 font-semibold text-sm ${pdfTab === 'rooms' ? 'border-b-2 border-red-600 text-red-600' : 'text-gray-600'}`}>
-                Rooms
-              </button>
-              <button onClick={() => setPdfTab('faculty')} className={`px-4 py-2 font-semibold text-sm ${pdfTab === 'faculty' ? 'border-b-2 border-red-600 text-red-600' : 'text-gray-600'}`}>
-                Faculty
-              </button>
-              <button onClick={() => setPdfTab('divisions')} className={`px-4 py-2 font-semibold text-sm ${pdfTab === 'divisions' ? 'border-b-2 border-red-600 text-red-600' : 'text-gray-600'}`}>
-                Divisions
-              </button>
-            </div>
-
-            {pdfTab === 'combined' && (
-              <div className="text-center py-8">
-                <svg className="w-16 h-16 mx-auto text-red-600 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-                <p className="text-gray-600 mb-4">Download complete schedule with all rooms, faculty, and divisions</p>
-                <button onClick={handlePdfClick} className="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-all">
-                  Download Combined PDF
-                </button>
-              </div>
-            )}
-
-            {pdfTab === 'rooms' && (
-              <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
-                {Object.entries(groupByRoom()).map(([room, sessions]) => (
-                  <button key={room} onClick={() => handleIndividualPdfClick('Room', room, sessions)} className="p-3 border-2 border-gray-200 rounded-lg hover:border-red-600 hover:bg-red-50 transition-all text-left">
-                    <div className="flex items-center gap-2">
-                      <svg className="w-5 h-5 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                      </svg>
-                      <div className="font-semibold text-gray-800">{room}</div>
-                    </div>
-                    <div className="text-xs text-gray-500 ml-7">{sessions.length} sessions</div>
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {pdfTab === 'faculty' && (
-              <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
-                {Object.entries(groupByFaculty()).map(([fac, sessions]) => (
-                  <button key={fac} onClick={() => handleIndividualPdfClick('Faculty', fac, sessions)} className="p-3 border-2 border-gray-200 rounded-lg hover:border-red-600 hover:bg-red-50 transition-all text-left">
-                    <div className="flex items-center gap-2">
-                      <svg className="w-5 h-5 text-pink-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      <div className="font-semibold text-gray-800">{fac}</div>
-                    </div>
-                    <div className="text-xs text-gray-500 ml-7">{sessions.length} sessions</div>
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {pdfTab === 'divisions' && (
-              <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
-                {Object.entries(groupByParentBatch()).map(([batch, sessions]) => (
-                  <button key={batch} onClick={() => handleIndividualPdfClick('Division', batch, sessions)} className="p-3 border-2 border-gray-200 rounded-lg hover:border-red-600 hover:bg-red-50 transition-all text-left">
-                    <div className="flex items-center gap-2">
-                      <svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                      <div className="font-semibold text-gray-800">{batch}</div>
-                    </div>
-                    <div className="text-xs text-gray-500 ml-7">{sessions.length} sessions</div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+      <Modal
+        isOpen={showPdfModal}
+        onClose={() => setShowPdfModal(false)}
+        title="Download PDF"
+        icon={DocumentArrowDownIcon}
+        size="lg"
+      >
+        <div className="flex gap-2 mb-4 border-b">
+          <button onClick={() => setPdfTab('combined')} className={`px-4 py-2 font-semibold text-sm ${pdfTab === 'combined' ? 'border-b-2 border-primary text-primary' : 'text-gray-600'}`}>
+            Combined
+          </button>
+          <button onClick={() => setPdfTab('rooms')} className={`px-4 py-2 font-semibold text-sm ${pdfTab === 'rooms' ? 'border-b-2 border-primary text-primary' : 'text-gray-600'}`}>
+            Rooms
+          </button>
+          <button onClick={() => setPdfTab('faculty')} className={`px-4 py-2 font-semibold text-sm ${pdfTab === 'faculty' ? 'border-b-2 border-primary text-primary' : 'text-gray-600'}`}>
+            Faculty
+          </button>
+          <button onClick={() => setPdfTab('divisions')} className={`px-4 py-2 font-semibold text-sm ${pdfTab === 'divisions' ? 'border-b-2 border-primary text-primary' : 'text-gray-600'}`}>
+            Divisions
+          </button>
         </div>
-      )}
+
+        {pdfTab === 'combined' && (
+          <div className="text-center py-8">
+            <svg className="w-16 h-16 mx-auto text-primary mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            <p className="text-gray-600 mb-4">Download complete schedule with all rooms, faculty, and divisions</p>
+            <button onClick={handlePdfClick} className="dashboard-btn-primary">
+              Download Combined PDF
+            </button>
+          </div>
+        )}
+
+        {pdfTab === 'rooms' && (
+          <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
+            {Object.entries(groupByRoom()).map(([room, sessions]) => (
+              <button key={room} onClick={() => handleIndividualPdfClick('Room', room, sessions)} className="p-3 border-2 border-gray-200 rounded-lg hover:border-primary/40 hover:bg-primary/5 transition-all text-left">
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <div className="font-semibold text-gray-800">{room}</div>
+                </div>
+                <div className="text-xs text-gray-500 ml-7">{sessions.length} sessions</div>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {pdfTab === 'faculty' && (
+          <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
+            {Object.entries(groupByFaculty()).map(([fac, sessions]) => (
+              <button key={fac} onClick={() => handleIndividualPdfClick('Faculty', fac, sessions)} className="p-3 border-2 border-gray-200 rounded-lg hover:border-primary/40 hover:bg-primary/5 transition-all text-left">
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <div className="font-semibold text-gray-800">{fac}</div>
+                </div>
+                <div className="text-xs text-gray-500 ml-7">{sessions.length} sessions</div>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {pdfTab === 'divisions' && (
+          <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
+            {Object.entries(groupByParentBatch()).map(([batch, sessions]) => (
+              <button key={batch} onClick={() => handleIndividualPdfClick('Division', batch, sessions)} className="p-3 border-2 border-gray-200 rounded-lg hover:border-primary/40 hover:bg-primary/5 transition-all text-left">
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  <div className="font-semibold text-gray-800">{batch}</div>
+                </div>
+                <div className="text-xs text-gray-500 ml-7">{sessions.length} sessions</div>
+              </button>
+            ))}
+          </div>
+        )}
+      </Modal>
       <div className="flex gap-2 mb-4 relative z-10">
-        <button onClick={() => setActiveView('rooms')} className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${activeView === 'rooms' ? 'bg-primary text-white shadow-lg' : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'}`}>
+        <button onClick={() => setActiveView('rooms')} className={activeView === 'rooms' ? 'dashboard-btn-primary' : 'dashboard-btn-secondary'}>
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
           Room-wise
         </button>
-        <button onClick={() => setActiveView('batches')} className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${activeView === 'batches' ? 'bg-primary text-white shadow-lg' : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'}`}>
+        <button onClick={() => setActiveView('batches')} className={activeView === 'batches' ? 'dashboard-btn-primary' : 'dashboard-btn-secondary'}>
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
           Division-wise
         </button>
-        <button onClick={() => setActiveView('faculty')} className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${activeView === 'faculty' ? 'bg-primary text-white shadow-lg' : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'}`}>
+        <button onClick={() => setActiveView('faculty')} className={activeView === 'faculty' ? 'dashboard-btn-primary' : 'dashboard-btn-secondary'}>
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>

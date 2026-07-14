@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import DashboardNav from '@/app/components/shared/DashboardNav'
 import Sidebar from '@/app/components/shared/Sidebar'
 import LoadingSpinner from '@/app/components/shared/LoadingSpinner'
+import IconBadge from '@/app/components/dashboard/IconBadge'
+import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { getDepartmentTabs, createTabNavigator } from '@/app/components/dashboard/DepartmentSidebarConfig'
 import { DAYS } from '@/lib/constants'
 
@@ -202,7 +204,7 @@ export default function ActivitiesPage() {
         tabs={getDepartmentTabs()}
       />
 
-      <div className="flex-1 lg:ml-0">
+      <div className="flex-1 lg:ml-0 min-w-0">
         <DashboardNav 
           onMenuClick={() => setSidebarOpen(!sidebarOpen)} 
           title={`${department?.name || departmentName} Department`}
@@ -210,6 +212,14 @@ export default function ActivitiesPage() {
         />
         
         <div className="p-4 space-y-6">
+          <div className="dashboard-panel flex items-center gap-3">
+            <IconBadge icon={CalendarDaysIcon} />
+            <div>
+              <h2 className="page-title">Activities</h2>
+              <p className="dashboard-empty-text text-sm">Schedule guest sessions, seminars, and faculty meetings against free rooms and faculty</p>
+            </div>
+          </div>
+
           {/* Event Scheduling Section */}
           <div className="content-card rounded-xl shadow-lg border content-border p-6">
             <h2 className="text-2xl font-bold dark-text mb-6">Schedule New Activity</h2>
@@ -224,11 +234,11 @@ export default function ActivitiesPage() {
                     onClick={() => setEventType(type.value)}
                     className={`p-6 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 ${
                       eventType === type.value
-                        ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 dark:from-teal-900/30 dark:to-emerald-900/30 shadow-lg'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-teal-300 hover:shadow-md'
+                        ? 'border-primary bg-primary/10 shadow-lg'
+                        : 'border-gray-200 hover:border-primary/40 hover:shadow-md'
                     }`}
                   >
-                    <div className={eventType === type.value ? 'text-teal-600 dark:text-teal-400' : 'text-gray-400'}>
+                    <div className={eventType === type.value ? 'text-primary' : 'text-gray-400'}>
                       {type.svg}
                     </div>
                     <div className="font-semibold dark-text text-lg">{type.label}</div>
@@ -246,7 +256,7 @@ export default function ActivitiesPage() {
                   value={eventTitle}
                   onChange={(e) => setEventTitle(e.target.value)}
                   placeholder="Enter event title"
-                  className="w-full p-3 border content-border rounded-lg dark-card dark-text focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="dashboard-select focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               
@@ -255,7 +265,7 @@ export default function ActivitiesPage() {
                 <select
                   value={selectedDay}
                   onChange={(e) => setSelectedDay(e.target.value)}
-                  className="w-full p-3 border content-border rounded-lg dark-card dark-text focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="dashboard-select focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {days.map(day => (
                     <option key={day} value={day}>{day}</option>
@@ -270,7 +280,7 @@ export default function ActivitiesPage() {
                 <select
                   value={fromTime}
                   onChange={(e) => setFromTime(e.target.value)}
-                  className="w-full p-3 border content-border rounded-lg dark-card dark-text focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="dashboard-select focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="">Select start time</option>
                   {timeSlots.map(slot => (
@@ -284,7 +294,7 @@ export default function ActivitiesPage() {
                 <select
                   value={toTime}
                   onChange={(e) => setToTime(e.target.value)}
-                  className="w-full p-3 border content-border rounded-lg dark-card dark-text focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="dashboard-select focus:outline-none focus:ring-2 focus:ring-primary"
                   disabled={!fromTime}
                 >
                   <option value="">Select end time</option>
@@ -299,7 +309,7 @@ export default function ActivitiesPage() {
                 <select
                   value={selectedRoom}
                   onChange={(e) => setSelectedRoom(e.target.value)}
-                  className="w-full p-3 border content-border rounded-lg dark-card dark-text focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="dashboard-select focus:outline-none focus:ring-2 focus:ring-primary"
                   disabled={!fromTime || !toTime}
                 >
                   <option value="">Select room</option>
@@ -325,7 +335,7 @@ export default function ActivitiesPage() {
 
             <button
               onClick={handleScheduleEvent}
-              className="w-full md:w-auto px-6 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+              className="dashboard-btn-primary w-full md:w-auto px-6 py-3"
             >
               Schedule Activity
             </button>
@@ -350,8 +360,8 @@ export default function ActivitiesPage() {
                   {facultyAvailability.map((faculty, idx) => (
                     <div key={idx} className="p-4 border content-border rounded-lg hover:shadow-md transition-shadow">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900 flex items-center justify-center">
-                          <span className="text-teal-600 dark:text-teal-400 font-semibold">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                          <span className="text-primary font-semibold">
                             {faculty.name.charAt(0)}
                           </span>
                         </div>
@@ -388,14 +398,12 @@ export default function ActivitiesPage() {
                       <div className="flex items-start justify-between mb-2">
                         <div className="font-semibold dark-text text-lg">{room.name}</div>
                         <span className={`px-2 py-1 text-xs rounded-full ${
-                          room.type === 'Theory' 
-                            ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                            : 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
+                          room.type === 'Theory' ? 'role-badge-student' : 'role-badge-teacher'
                         }`}>
                           {room.type}
                         </span>
                       </div>
-                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <div className="flex items-center text-sm text-gray-600">
                         <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>

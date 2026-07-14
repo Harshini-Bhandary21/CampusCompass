@@ -168,7 +168,7 @@ export default function AnnouncementsPanel({ role, clubId, canPost }) {
         {allowedToPost && !showForm && (
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-white bg-gradient-primary rounded-lg hover:shadow-lg transition-all"
+            className="dashboard-btn-primary"
           >
             <Plus size={16} /> New Announcement
           </button>
@@ -228,10 +228,10 @@ export default function AnnouncementsPanel({ role, clubId, canPost }) {
           )}
 
           <div className="flex justify-end gap-2 pt-1">
-            <button type="button" onClick={resetForm} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
+            <button type="button" onClick={resetForm} className="dashboard-btn-secondary">
               Cancel
             </button>
-            <button type="submit" disabled={submitting} className="px-4 py-2 text-sm font-semibold text-white bg-gradient-primary rounded-lg disabled:opacity-50">
+            <button type="submit" disabled={submitting} className="dashboard-btn-primary">
               {submitting ? 'Saving...' : editingId ? 'Save Changes' : 'Post'}
             </button>
           </div>

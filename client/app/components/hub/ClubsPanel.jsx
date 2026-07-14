@@ -60,8 +60,8 @@ function CreateClubForm({ onCreated, onCancel }) {
         {students.map(s => <option key={s._id} value={s._id}>{s.name}</option>)}
       </select>
       <div className="flex justify-end gap-2 pt-1">
-        <button type="button" onClick={onCancel} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">Cancel</button>
-        <button type="submit" disabled={submitting} className="px-4 py-2 text-sm font-semibold text-white bg-gradient-primary rounded-lg disabled:opacity-50">
+        <button type="button" onClick={onCancel} className="dashboard-btn-secondary">Cancel</button>
+        <button type="submit" disabled={submitting} className="dashboard-btn-primary">
           {submitting ? 'Creating...' : 'Create Club'}
         </button>
       </div>
@@ -155,7 +155,8 @@ export default function ClubsPanel({ role }) {
     setLoading(true)
     try {
       const res = await fetch('/api/clubs')
-      setClubs(await res.json())
+      const data = await res.json()
+      setClubs(Array.isArray(data) ? data : [])
     } catch {
       toast.error('Failed to load clubs')
     } finally {
@@ -177,7 +178,7 @@ export default function ClubsPanel({ role }) {
         {role === 'admin' && !showCreate && (
           <button
             onClick={() => setShowCreate(true)}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-white bg-gradient-primary rounded-lg hover:shadow-lg transition-all"
+            className="dashboard-btn-primary"
           >
             <Plus size={16} /> New Club
           </button>
@@ -211,7 +212,7 @@ export default function ClubsPanel({ role }) {
                 {c.isLead && <RoleBadge role="clubLead" />}
               </div>
               {c.unreadCount > 0 && (
-                <span className="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center">
+                <span className="dashboard-unread-badge absolute top-3 right-3">
                   {c.unreadCount}
                 </span>
               )}

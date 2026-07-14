@@ -58,7 +58,7 @@ export default function SchedulesPage() {
         tabs={getDepartmentTabs()}
       />
 
-      <div className="flex-1 lg:ml-0">
+      <div className="flex-1 lg:ml-0 min-w-0">
         <DashboardNav 
           onMenuClick={() => setSidebarOpen(!sidebarOpen)} 
           title={`${department?.name || departmentName} Department`}

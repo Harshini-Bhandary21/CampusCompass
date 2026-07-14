@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { UserGroupIcon, ClockIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { DAYS } from '../../../lib/constants'
+import Modal from '@/app/components/shared/Modal'
 
 export default function FacultyAvailability({ extractedData, onSave, initialData = {}, timeSlots = [] }) {
   const [facultyAvailability, setFacultyAvailability] = useState(initialData)
@@ -48,25 +49,25 @@ export default function FacultyAvailability({ extractedData, onSave, initialData
   }
 
   return (
-    <div className="bg-white rounded-xl border border-secondary p-6 shadow-md">
+    <div className="content-card rounded-xl border border-secondary p-6 shadow-md">
       {/* Header */}
       <div className="flex items-center space-x-3 mb-6 pb-4 border-b border-secondary">
         <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
           <UserGroupIcon className="h-5 w-5 text-white" />
         </div>
         <div>
-          <h3 className="text-lg font-bold text-gray-800">Faculty Availability</h3>
+          <h3 className="section-title">Faculty Availability</h3>
           <p className="text-sm text-gray-600">Configure time slot availability for each faculty member</p>
         </div>
       </div>
 
       {/* Faculty Selection */}
       <div className="mb-6">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">Select Faculty Member</label>
+        <label className="dashboard-label">Select Faculty Member</label>
         <select
           value={selectedFaculty}
           onChange={(e) => setSelectedFaculty(e.target.value)}
-          className="w-full px-4 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-white"
+          className="dashboard-select focus:ring-2 focus:ring-primary focus:border-primary transition-all"
         >
           <option value="">-- Select Faculty --</option>
           {faculty.map(f => (
@@ -90,13 +91,13 @@ export default function FacultyAvailability({ extractedData, onSave, initialData
                   className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all whitespace-nowrap ${
                     selectedDay === index
                       ? 'bg-primary text-white shadow-md'
-                      : 'bg-white text-gray-700 border border-secondary hover:border-primary'
+                      : 'content-card text-gray-700 border border-secondary hover:border-primary'
                   }`}
                 >
                   {day.slice(0, 3)}
                   {unavailableCount > 0 && (
                     <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${
-                      selectedDay === index ? 'bg-white/20' : 'bg-red-100 text-red-700'
+                      selectedDay === index ? 'bg-white/20' : 'dashboard-chip-active'
                     }`}>
                       {unavailableCount}
                     </span>
@@ -115,7 +116,7 @@ export default function FacultyAvailability({ extractedData, onSave, initialData
               </div>
               <button
                 onClick={() => handleDayComplete(selectedFaculty, selectedDay)}
-                className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all flex items-center gap-2"
+                className="dashboard-btn-primary"
               >
                 <CheckIcon className="h-4 w-4" />
                 Apply to All Days
@@ -129,10 +130,8 @@ export default function FacultyAvailability({ extractedData, onSave, initialData
                   <button
                     key={slotIndex}
                     onClick={() => handleSlotToggle(selectedFaculty, selectedDay, slotIndex)}
-                    className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all ${
-                      isUnavailable
-                        ? 'bg-red-500 text-white'
-                        : 'bg-green-100 text-green-700 hover:bg-green-200 border border-green-200'
+                    className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all border ${
+                      isUnavailable ? 'dashboard-chip-active' : 'dashboard-chip-muted'
                     }`}
                   >
                     <div>{slot}</div>
@@ -155,7 +154,7 @@ export default function FacultyAvailability({ extractedData, onSave, initialData
               return (
                 <div key={name} className="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
                   <span className="font-semibold text-gray-800 text-sm">{name}</span>
-                  <span className="px-3 py-1 bg-red-100 text-red-700 rounded text-xs font-semibold">
+                  <span className="px-3 py-1 rounded text-xs font-semibold dashboard-chip-active">
                     {totalUnavailable} slots unavailable
                   </span>
                 </div>
@@ -174,45 +173,43 @@ export default function FacultyAvailability({ extractedData, onSave, initialData
       </button>
 
       {/* Apply to All Days Modal */}
-      {showApplyModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <ClockIcon className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">Apply to All Days?</h3>
-              <p className="text-sm text-gray-600">Do you want to apply this {DAYS[pendingDayConfig?.dayIndex]} configuration to all weekdays?</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4 mb-6 border border-secondary">
-              <p className="text-xs text-gray-700 font-medium mb-2">Current Configuration:</p>
-              <div className="flex flex-wrap gap-1">
-                {pendingDayConfig?.config.map((slot, idx) => (
-                  <span key={idx} className={`px-2 py-1 rounded text-xs font-bold ${
-                    slot === 1 ? 'bg-red-500 text-white' : 'bg-green-500 text-white'
-                  }`}>
-                    {slots[idx]}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={applyOnlyToThisDay}
-                className="flex-1 px-4 py-3 border border-secondary rounded-lg hover:bg-gray-50 transition-all font-semibold text-gray-700"
-              >
-                Only This Day
-              </button>
-              <button
-                onClick={applyToAllDays}
-                className="flex-1 bg-primary text-white px-4 py-3 rounded-lg hover:opacity-90 transition-all font-semibold"
-              >
-                Apply to All Days
-              </button>
-            </div>
+      <Modal
+        isOpen={showApplyModal}
+        onClose={applyOnlyToThisDay}
+        title="Apply to All Days?"
+        subtitle={`Apply this ${DAYS[pendingDayConfig?.dayIndex]} configuration to all weekdays?`}
+        icon={ClockIcon}
+        size="sm"
+        footer={
+          <>
+            <button
+              onClick={applyOnlyToThisDay}
+              className="dashboard-btn-secondary flex-1"
+            >
+              Only This Day
+            </button>
+            <button
+              onClick={applyToAllDays}
+              className="dashboard-btn-primary flex-1"
+            >
+              Apply to All Days
+            </button>
+          </>
+        }
+      >
+        <div className="bg-gray-50 rounded-lg p-4 border border-secondary">
+          <p className="text-xs text-gray-700 font-medium mb-2">Current Configuration:</p>
+          <div className="flex flex-wrap gap-1">
+            {pendingDayConfig?.config.map((slot, idx) => (
+              <span key={idx} className={`px-2 py-1 rounded text-xs font-bold border ${
+                slot === 1 ? 'dashboard-chip-active' : 'dashboard-chip-muted'
+              }`}>
+                {slots[idx]}
+              </span>
+            ))}
           </div>
         </div>
-      )}
+      </Modal>
     </div>
   )
 }
