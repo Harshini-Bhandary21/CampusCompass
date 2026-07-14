@@ -606,7 +606,7 @@ export default function CoordinatorDashboard() {
       toast.success("Schedule deployed!", { id: toastId });
       setResults(null);
       setConsoleOutput("");
-      router.push("/firstyear/schedules");
+      router.push("/admin/schedules");
     } catch (error) {
       if (error.message && !error.message.startsWith("HTTP")) {
         toast.error(`Deploy failed: ${error.message}`, { id: toastId });

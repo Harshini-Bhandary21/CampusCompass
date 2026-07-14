@@ -5,7 +5,7 @@
 // Reads MONGODB_URI from .env — never hardcode credentials in this file.
 
 require('dotenv').config()
-const { MongoClient } = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 const bcrypt = require('bcryptjs')
 
 const TEST_EMAIL = 'firstyearcrazy@gmail.com'
@@ -32,14 +32,19 @@ async function seed() {
     })
 
     if (existing) {
+      const department = existing.departments.find(d => d.coordinator.email === TEST_EMAIL)
+      const setFields = {
+        'departments.$.coordinator.passwordHash': passwordHash,
+        'departments.$.coordinator.plainPassword': TEST_PASSWORD,
+      }
+      // Backfill a stable per-coordinator _id if this document predates it
+      // (see client/auth.js — session.user.id keys off this, not the university's _id).
+      if (!department.coordinator._id) {
+        setFields['departments.$.coordinator._id'] = new ObjectId()
+      }
       await db.collection('universities').updateOne(
         { _id: existing._id, 'departments.coordinator.email': TEST_EMAIL },
-        {
-          $set: {
-            'departments.$.coordinator.passwordHash': passwordHash,
-            'departments.$.coordinator.plainPassword': TEST_PASSWORD,
-          },
-        }
+        { $set: setFields }
       )
     } else {
       await db.collection('universities').insertOne({
@@ -49,6 +54,7 @@ async function seed() {
             name: TEST_DEPARTMENT,
             code: 'FY',
             coordinator: {
+              _id: new ObjectId(),
               email: TEST_EMAIL,
               passwordHash,
               plainPassword: TEST_PASSWORD,

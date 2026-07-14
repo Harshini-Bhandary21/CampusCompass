@@ -1,7 +1,8 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { Bars3Icon, BellIcon, MagnifyingGlassIcon, Cog6ToothIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, Cog6ToothIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import NotificationBell from '../hub/NotificationBell'
 
 export default function DashboardNav({ onMenuClick, title, subtitle }) {
   const { data: session } = useSession()
@@ -48,11 +49,7 @@ export default function DashboardNav({ onMenuClick, title, subtitle }) {
             </button>
 
             {/* Notifications */}
-            <button className="relative p-2.5 text-white/90 hover:bg-white/20 rounded-xl transition-all duration-200 border border-transparent hover:border-white/30 group">
-              <BellIcon className="h-5 w-5" />
-              <span className="absolute top-1.5 right-1.5 h-2 w-2 bg-red-500 rounded-full border-2 border-primary animate-pulse"></span>
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">3</span>
-            </button>
+            <NotificationBell />
 
             {/* User Profile */}
             <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-xl hover:bg-white/20 transition-all duration-200 cursor-pointer group">

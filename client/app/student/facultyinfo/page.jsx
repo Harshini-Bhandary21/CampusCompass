@@ -1,38 +1,64 @@
 "use client";
 
-import { useState } from "react";
-import facultyData from "@/data/faculty.json";
+import { useEffect, useState } from "react";
 import FacultyCard from "@/app/components/landing/FacultyCard";
+import { initialsAvatarDataUri } from "@/lib/avatar";
 import { Search } from "lucide-react";
 
+const DEPARTMENTS = [
+  "All",
+  "Computer Engineering",
+  "Software Engineering",
+  "Information Technology",
+  "Artificial Intelligence & Machine Learning",
+  "Data Science",
+  "Electronics & Telecommunication",
+  "Mechanical Engineering",
+  "Civil Engineering",
+  "Chemical Engineering",
+  "First Year",
+];
+
 export default function FacultyInfoPage() {
+  const [faculty, setFaculty] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [department, setDepartment] = useState("All");
 
-  const filteredFaculty = facultyData.filter((faculty) => {
+  useEffect(() => {
+    fetch("/api/users?role=teacher")
+      .then((r) => r.json())
+      .then((teachers) => {
+        setFaculty(
+          teachers.map((t) => ({
+            id: t._id,
+            name: t.name,
+            designation: t.designation,
+            department: t.department,
+            contact_no: t.phone,
+            experience: t.experience,
+            image: t.profilePhoto || initialsAvatarDataUri(t.name),
+          }))
+        );
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const filteredFaculty = faculty.filter((f) => {
     const matchesSearch =
-      faculty.name.toLowerCase().includes(search.toLowerCase()) ||
-      faculty.department.toLowerCase().includes(search.toLowerCase());
-
-    const matchesDepartment =
-      department === "All" ||
-      faculty.department === department;
-
+      f.name.toLowerCase().includes(search.toLowerCase()) ||
+      f.department?.toLowerCase().includes(search.toLowerCase());
+    const matchesDepartment = department === "All" || f.department === department;
     return matchesSearch && matchesDepartment;
   });
 
   return (
     <div className="min-h-screen p-8">
-      <h1 className="text-4xl font-bold mb-8">
-        Faculty Information
-      </h1>
+      <h1 className="text-4xl font-bold mb-8">Faculty Information</h1>
 
-      {/* Search + Filter */}
       <div className="flex flex-col md:flex-row gap-4 mb-8">
-
         <div className="relative flex-1">
           <Search className="absolute left-4 top-3.5 w-5 h-5 text-slate-400" />
-
           <input
             type="text"
             placeholder="Search faculty..."
@@ -47,30 +73,23 @@ export default function FacultyInfoPage() {
           onChange={(e) => setDepartment(e.target.value)}
           className="px-4 py-3 rounded-xl border border-slate-300 bg-white"
         >
-         <option>All</option>
-<option>Computer Engineering</option>
-<option>Software Engineering</option>
-<option>Information Technology</option>
-<option>Artificial Intelligence & Machine Learning</option>
-<option>Data Science</option>
-<option>Electronics & Telecommunication</option>
-<option>Mechanical Engineering</option>
-<option>Civil Engineering</option>
-<option>Chemical Engineering</option>
+          {DEPARTMENTS.map((d) => (
+            <option key={d}>{d}</option>
+          ))}
         </select>
-
       </div>
 
-      {/* Faculty Cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredFaculty.map((faculty, index) => (
-          <FacultyCard
-            key={faculty.id}
-            faculty={faculty}
-            index={index}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <p className="text-slate-500">Loading faculty...</p>
+      ) : filteredFaculty.length === 0 ? (
+        <p className="text-slate-500">No faculty found.</p>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredFaculty.map((f, index) => (
+            <FacultyCard key={f.id} faculty={f} index={index} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

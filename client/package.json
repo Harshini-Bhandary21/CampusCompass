@@ -26,6 +26,7 @@
     "next-auth": "5.0.0-beta.31",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-easy-crop": "^6.2.2",
     "react-hot-toast": "^2.6.0",
     "react-intersection-observer": "^10.0.3",
     "three": "^0.165.0",

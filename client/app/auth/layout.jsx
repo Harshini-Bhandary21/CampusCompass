@@ -1,7 +1,13 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
+import DashboardBackground from "../components/hub/DashboardBackground";
 
 export default function AuthLayout({ children }) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider>
+      <DashboardBackground />
+      {children}
+    </SessionProvider>
+  );
 }

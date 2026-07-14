@@ -57,6 +57,54 @@ const ActivitiesSvg = () => (
   </svg>
 )
 
+const UsersSvg = () => (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+)
+
+const UploadSvg = () => (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="17 8 12 3 7 8"/>
+    <line x1="12" y1="3" x2="12" y2="15"/>
+  </svg>
+)
+
+const GroupSvg = () => (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+)
+
+const ClubSvg = () => (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </svg>
+)
+
+const MegaphoneSvg = () => (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M3 11l18-5v12L3 13v-2z"/>
+    <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+  </svg>
+)
+
+const CalendarSvg = () => (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="3" y="4" width="18" height="18" rx="2"/>
+    <line x1="16" y1="2" x2="16" y2="6"/>
+    <line x1="8" y1="2" x2="8" y2="6"/>
+    <line x1="3" y1="10" x2="21" y2="10"/>
+  </svg>
+)
+
 // Default configuration for current implementation
 const defaultTabs = [
   { id: 'dashboard', label: 'Dashboard', icon: DashboardSvg },
@@ -65,7 +113,13 @@ const defaultTabs = [
   { id: 'rooms', label: 'Rooms', icon: RoomSvg },
   { id: 'division', label: 'Division Schedule', icon: DivisionSvg },
   { id: 'activities', label: 'Activities', icon: ActivitiesSvg },
-  { id: 'notify', label: 'Notify', icon: NotifySvg }
+  { id: 'notify', label: 'Notify', icon: NotifySvg },
+  { id: 'users', label: 'User Management', icon: UsersSvg },
+  { id: 'bulk-load', label: 'Bulk Load', icon: UploadSvg },
+  { id: 'groups', label: 'Groups', icon: GroupSvg },
+  { id: 'clubs', label: 'Clubs', icon: ClubSvg },
+  { id: 'announcements', label: 'Announcements', icon: MegaphoneSvg },
+  { id: 'calendar', label: 'Calendar', icon: CalendarSvg },
 ]
 
 function getDepartmentTabs() {
@@ -78,13 +132,19 @@ export { getDepartmentTabs, departmentTabs }
 
 export const createTabNavigator = (router) => (tab) => {
   const routes = {
-    dashboard: `/firstyear/dashboard`,
-    schedules: `/firstyear/schedules`,
-    faculty: `/firstyear/faculty`,
-    rooms: `/firstyear/rooms`,
-    division: `/firstyear/division`,
-    activities: `/firstyear/activities`,
-    notify: `/firstyear/notify`
+    dashboard: `/admin/dashboard`,
+    schedules: `/admin/schedules`,
+    faculty: `/admin/faculty`,
+    rooms: `/admin/rooms`,
+    division: `/admin/division`,
+    activities: `/admin/activities`,
+    notify: `/admin/notify`,
+    users: `/admin/users`,
+    'bulk-load': `/admin/bulk-load`,
+    groups: `/admin/groups`,
+    clubs: `/admin/clubs`,
+    announcements: `/admin/announcements`,
+    calendar: `/admin/calendar`,
   }
 
   if (routes[tab]) {
